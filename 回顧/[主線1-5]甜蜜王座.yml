@@ -289,7 +289,7 @@ branches:
             item:
               type: ghast_tear
               nbt:
-                MMOITEMS_ITEM_TYPE: %MMOTYPE_調味料%
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_SAUCE
                 MMOITEMS_ITEM_ID: '蜂蜜'
       11:
         type: SERVER_CAMERA_MODE_TOGGLE
@@ -428,7 +428,7 @@ branches:
             item:
               type: ghast_tear
               nbt:
-                MMOITEMS_ITEM_TYPE: %MMOTYPE_調味料%
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_SAUCE
                 MMOITEMS_ITEM_ID: '女王蜂蜂蜜'
       18:
         type: SERVER_CAMERA_MODE_TOGGLE
