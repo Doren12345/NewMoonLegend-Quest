@@ -18,6 +18,7 @@ all_status_item:
     {controls}
 
 completion:
+  max_completions: 99999999
   notify:
     SUCCESS:
       title: '&d任務完成'
@@ -45,10 +46,9 @@ branches:
 
       1:
         type: SERVER_ACTIONS #對話/劇情
-        hide_chat: true
         objective_detail: '&a<卡納克>&f正在與你對話'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-1 &f與&a<卡納克#2>&f對話'
         goto: OBJECT 2
         actions: 
           - 'SEND_MESSAGE &a<卡納克> &f你好呀，年輕氣盛的冒險者...'
@@ -70,98 +70,82 @@ branches:
           - 'SEND_MESSAGE &a<卡納克> &f我的拐杖剛好壞了... 小伙子，可以幫我修好它嗎？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      3:
-        type: SERVER_ACTIONS #對話/劇情
-        hide_chat: true
-        objective_detail: '&a<安格斯>&f正在與你對話'
-        objective_detail_verbose:
-          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
-        goto: OBJECT 4
-        actions: 
-          - 'SEND_MESSAGE &b[1/4]&a<安格斯> &f你可以打開&b[系統水晶]&f的&a[定位系統]&f'
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[村長的要求，我使命必達!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f村長的要求，我使命必達!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[2/4]&a<安格斯> &f尋找&7&l#48 &r&a皇家禁衛軍 路巴恩&f (在第二頁)'
+          - 'SEND_MESSAGE &a<卡納克> &f那好，你去幫我蒐集一些&a[加工木材]&f吧。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[3/4]&a<安格斯> &f點擊之後，就會出現箭頭，你就跟著箭頭走'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[4/4]&a<安格斯> &f就能到達枯木沼澤了!'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-      4:
-        type: PLAYER_CITIZENS_NPC_INTERACT #尋找NPC
+      2:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
         gps:
           enabled: false
-        objective_detail: '&f與&a<路巴恩#48>&f對話'
+        npc: 2
+        objective_detail: '&f交付&a[加工木材]&f給&a<卡納克#2> &b{objective_progression:0}&f/&b{objective_goal:0}'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
-          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
-        goto: OBJECT 5
-        npc: 5
+          - '&f步驟-1 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-2 &f交付&a[加工木材]&f給&a<卡納克#2> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 3
         start_notify:
           title: '&b任務提示'
-          title_subtitle: '&b與&a<路巴恩>&f對話'
-          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<路巴恩#48>&f對話'
-      5:
-        type: SERVER_ACTIONS #對話/劇情
-        hide_chat: true
-        objective_detail: '&a<路巴恩>&f正在與你對話'
-        objective_detail_verbose:
-          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
-          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
-        goto: OBJECT 6
-        actions: 
-          - 'SEND_MESSAGE &b[1/2]&a<路巴恩> &f你是路過的冒險者嗎？'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[2/2]&a<路巴恩> &f請問您找我們皇家禁衛軍有什麼事嗎？'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-      6:
-        type: DIVERGE_CHAT
-        objective_detail: '&a<路巴恩>&f正在與你對話'
-        objective_detail_verbose: 
-          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
-          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
-        choices:
+          title_subtitle: '&b交付&a[加工木材]&f給&a<卡納克#2>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[加工木材]&f給&a<卡納克#2>'
+        goals:
           0:
-            text: '&d&l[故事劇情] 按我回答 >> &f[那個...我是幫忙運送武器給皇家禁衛軍的]'
-            goto: OBJECT 7
-      7:
+            goal: 10
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_TREE
+                MMOITEMS_ITEM_ID: '加工木材'
+      3:
         type: SERVER_ACTIONS #對話/劇情
-        hide_chat: true
-        objective_detail: '&a<路巴恩>&f正在與你對話'
+        objective_detail: '&a<卡納克>&f正在與你對話'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
-          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
+          - '&f步驟-1 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-2 &f交付&a[加工木材]&f給&a<卡納克#2> &b10&f/&b10'
+          - '&f步驟-3 &f與&a<卡納克#2>&f對話'
         goto: QUEST_SUCCESS
         actions: 
-          - 'SEND_MESSAGE &b[1/1]&a<路巴恩> &f原來如此，難怪看到你背著一堆武器'
+          - 'SEND_MESSAGE &a<卡納克> &f謝謝你啊，小伙子。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[2/3]&a<路巴恩> &f那麼...辛苦你了!'
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[不客氣，話說，村長有聽說過&6[女王蜂]&f嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不客氣，話說，村長有聽說過&6[女王蜂]&f嗎？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[3/3]&a<路巴恩> &f這些小費你拿著吧，畢竟過來這裏也要走一段路程'
+          - 'SEND_MESSAGE &a<卡納克> &f女王蜂嗎？這一切要講述到為何這片土地會那麼豐饒，豐饒的不可思議...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[故事劇情](路巴恩從口袋拿出了幾個錢袋)'
-          - SEND_SOUND BLOCK_WOOL_PLACE
-          - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[1/1]&a<路巴恩> &f兄弟們，有新的武器能用了!'
+          - 'SEND_MESSAGE &a<卡納克> &f修女們認為有一種神祕的神靈在滋潤著這片大地。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          
+          - 'SEND_MESSAGE &a<卡納克> &f他們每當在夜中看見閃亮的光點，都會認為是豐饒的神靈正在用&a[春天的腳步]&f，讓這片平原充滿了所有植被花草與果樹!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<卡納克> &f所謂春天的腳步，指的是阿姆斯平原每隔幾年就會成群散落在平原各地的豐饒果。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f沒有人知道這種帶來豐饒的果子是從何而來，於是我們就與那夜晚中閃閃發亮的光點與那神靈聯繫了起來。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f而女王蜂，就是數百年中獲得神靈豐饒力量的蜜蜂蜂后，帶領蜂群將平原的花草們授粉以維持這片大地的生生不息。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &5據說，女王蜂王座位於通往巨石之谷的路上。 &7(獲得線索：&b位置)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f我知道的就那麼多了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[原來如此，謝謝村長]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f原來如此，謝謝村長。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
 
-end_objects:
-  success:
-    a:
-      type: SERVER_COMMANDS_PERFORM
-      commands:
-        - eco give {player} 200
-        - mmocore admin exp give {player} main 1200
 
 
 

@@ -74,6 +74,7 @@ branches:
 
       2:
         type: SERVER_ACTIONS
+        hide_chat: true
         objective_detail: '&a<炎鎮>&f正在與你對話'
         objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
         goto: OBJECT 3
@@ -94,6 +95,7 @@ branches:
             
       4:
         type: SERVER_ACTIONS
+        hide_chat: true
         objective_detail: '&a<炎鎮>&f正在與你對話'
         objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
         goto: OBJECT 5
@@ -117,6 +119,7 @@ branches:
           
       6:
         type: SERVER_ACTIONS
+        hide_chat: true
         objective_detail: '&a<炎鎮>&f正在與你對話'
         objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
         goto: OBJECT 7
@@ -137,6 +140,7 @@ branches:
 
       8:
         type: SERVER_ACTIONS
+        hide_chat: true
         objective_detail: '&a<炎鎮>&f正在與你對話'
         objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
         goto: OBJECT 9

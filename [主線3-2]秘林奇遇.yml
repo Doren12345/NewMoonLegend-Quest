@@ -77,6 +77,7 @@ branches:
         toggle: true
       2:
         type: SERVER_ACTIONS
+        hide_chat: true
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<羅德#42>&f對話'

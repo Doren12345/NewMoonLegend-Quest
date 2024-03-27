@@ -1,0 +1,237 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(赫克郎)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc599]
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<赫克郎#14>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<赫克郎> &f酒!我要喝酒!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[真是沒禮貌!]'
+            goto: OBJECT 3A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[好...好的!]'
+            goto: OBJECT 3B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[這位先生想要什麼樣的酒呢？]'
+            goto: OBJECT 3C
+      3A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<赫克郎#14>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f真是沒禮貌!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f菜鳥就是菜鳥!什麼禮貌不禮貌，溫蒂，再給我溫兩碗酒，再要一碟茴香豆!(醉醺醺)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<赫克郎#14>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好...好的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你拿了一杯酒給&a[赫克郎]&b)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f墨墨跡跡的，這酒的沉澱物都飄起來了! 什麼爛貨？全世界能喝的酒只有那一碗！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3C:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<赫克郎#14>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f這位先生想要什麼樣的酒呢？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f當然是公會的美酒啦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想：公會的美酒？去找溫蒂問問看吧。)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<溫蒂#17>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+          - '&f步驟-2 &f與&a<溫蒂#17>&f對話'
+        goto: OBJECT 5
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 598
+        npc: 598
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<溫蒂#17>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<溫蒂#17>&f對話'
+      5:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<溫蒂#17>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+          - '&f步驟-2 &f與&a<溫蒂#17>&f對話'
+        goto: OBJECT 6
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你將赫克郎的事告訴了溫蒂)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<溫蒂> &f赫克郎要酒嗎？ 好的...馬上來！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](溫蒂遞給了你兩碗酒)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[妳怎麼知道他要兩碗？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f妳怎麼知道他要兩碗？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<溫蒂> &f他是我們的常客，我當然知道啦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[妳免費請他喝酒？ 不和他收錢嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f妳免費請他喝酒？ 不和他收錢嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<溫蒂> &f如果真的要算帳，那他還欠我$1900呢!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<溫蒂> &f但看在他幫忙卡坦村很多的份上，他要喝多少，我就請他喝多少。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      6:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<赫克郎#14>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+          - '&f步驟-2 &f與&a<溫蒂#17>&f對話'
+          - '&f步驟-3 &f與&a<赫克郎#14>&f對話'
+        goto: OBJECT 7
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 599
+        npc: 599
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<赫克郎#14>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<赫克郎#14>&f對話'
+      7:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<赫克郎#14>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<赫克郎#14>&f對話'
+          - '&f步驟-2 &f與&a<溫蒂#17>&f對話'
+          - '&f步驟-3 &f與&a<赫克郎#14>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &a<赫克郎> &f菜鳥! 來來來，我教你寫幾行字...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[大佬，您知道女王蜂是什麼嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f妳免費請他喝酒？ 不和他收錢嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &fzzZ...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f你問這個做什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[是這樣的，我接了夏佐的委託，要調查女王蜂]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f是這樣的，我接了夏佐的委託，要調查女王蜂。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &fzzZ...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f是這樣的，女王蜂，是真實存在的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f香甜的蜂蜜讓全世界頂尖的廚師瘋狂'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f而女王蜂，是平原上統領所有蜜蜂的蜂后，牠產出的蜂蜜，堪稱世上最甜。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &5女王蜂只有在&a[太陽快下山的前半個時辰]&5才會出巢接受群蜂的哺育，而牠最重要的職責是繁衍和守護整座蜂巢的蜜蜂群。 &7(獲得線索：&a時間[17:00]&7)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &f女王蜂非常的危險，依照你現在的實力，你會需要治療手段的！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你知道&6[女王蜂]&f在哪裡嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你知道&6[女王蜂]&f在哪裡嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<赫克郎> &fzzZ...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+
+
+
+
