@@ -67,20 +67,9 @@ branches:
           - 'SEND_MESSAGE &a<卡納克> &f年輕小夥子，你來的正好!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<卡納克> &f你可以幫我去蒐集'
+          - 'SEND_MESSAGE &a<卡納克> &f我的拐杖剛好壞了... 小伙子，可以幫我修好它嗎？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      2:
-        type: DIVERGE_CHAT
-        objective_detail: '&a<安格斯>&f正在與你對話'
-        objective_detail_verbose: '&f步驟-1 &f與&a<安格斯#6>&f對話'
-        choices:
-          0:
-            text: '&d&l[故事劇情] 按我回答 >> &f[沒問題]'
-            goto: OBJECT 4
-          1:
-            text: '&d&l[故事劇情] 按我回答 >> &f[枯木沼澤要怎麼去... &7(疑惑)&f]'
-            goto: OBJECT 3
       3:
         type: SERVER_ACTIONS #對話/劇情
         hide_chat: true

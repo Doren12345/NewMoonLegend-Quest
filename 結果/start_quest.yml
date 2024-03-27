@@ -1,0 +1,349 @@
+# -------------------- Display settings --------------------
+display_name: '[序章]新手教學'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &f- &e新手禮包&fx1
+    &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
+    &#32027d&m                                   
+    &r&f{controls}
+
+display_priority: 1
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  max_completions: 1
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      bossbar: >
+        {quest} &a任務完成!
+      bossbar_color: GREEN  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務失敗!
+      bossbar_color: RED  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務取消!
+      bossbar_color: PINK  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_
+    2:
+      type: LOGIC
+      logic: '%mmocore_level% >= '
+
+# -------------------- Activator settings --------------------
+activators: [cnpc244]
+
+activators_dialog:
+  - '&a<娜娜明> &f新來的玩家！你好！感謝你選擇&b【新月傳說】&f遊玩！ &d(右鍵點擊NPC來接取任務)'
+  - ''
+
+activators_dialog_auto_start_distance: 10
+
+activators_dialog_reset:
+  reset_delay: 5 SECOND
+  reset_distance: 15.0
+
+# -------------------- Main Quest Object --------------------
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS
+        objective_detail: '&f&f---&6[&b劇情進行中,請細心欣賞&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<娜娜明#11>&f對話'
+        goto: OBJECT 2
+        actions:
+          - 'SEND_MESSAGE &a<娜娜明> &f你是新來的冒險者，對吧？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情]&f請使用&a[滑鼠]&f按下聊天欄中的&a[是的，你好]&f來繼續任務。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[是的，你好]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f是的，你好'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f我是娜娜明，是一名冒險者教官。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f這裡是&a[柏拉迪斯大陸]&f，你可以在這裡認識到不同的人和故事。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f歡迎你來到這裡探險，希望能讓你玩得開心'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f我會教你如何成為一名出色的&a[冒險者]&f!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[好的，沒問題(｀^´)]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好的，沒問題(｀^´)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f我先帶你去了解這個世界的&a[地圖資源]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND tppos {player} 104 65 211 180 0 world_tw'
+          - 'SEND_MESSAGE &a<娜娜明> &a[地圖資源]&f是伺服器中，一個非常重要的系統。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f最主要用途是提供&a[各種資源]&f給冒險者，如木材、漁獲、礦物等。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f這裡有各種不同的&a[工具]&f'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f新來的冒險者，嘗試去收集各種資源吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND mi give RPG_TOOL 十字鎬 {player} 1'
+          - 'PERFORM_COMMAND mi give RPG_TOOL 鐮刀 {player} 1'
+          - 'PERFORM_COMMAND mi give RPG_TOOL 魚竿 {player} 1'
+          - 'PERFORM_COMMAND mi give RPG_TOOL 斧頭 {player} 1'
+
+      2:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        npc: 33
+        gps:
+          enabled: false
+        objective_detail: '&f交付&a[5種資源]&f給&a<娜娜明>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-2 &f交付&a[蘋果]&f給&a<娜娜明> &b{objective_progression:A}&f/&b{objective_goal:A}'
+          - '&f        &f交付&a[魚]&f給&a<娜娜明> &b{objective_progression:B}&f/&b{objective_goal:B}'
+          - '&f        &f交付&a[橡木]&f給&a<娜娜明> &b{objective_progression:C}&f/&b{objective_goal:C}'
+          - '&f        &f交付&a[煤炭]&f給&a<娜娜明> &b{objective_progression:D}&f/&b{objective_goal:D}'
+          - '&f        &f交付&a[啤酒]&f給&a<娜娜明> &b{objective_progression:E}&f/&b{objective_goal:E}'
+        goto: OBJECT 3
+        goals:
+          A:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_FOOD_FRUIT
+                MMOITEMS_ITEM_ID: '蘋果'
+          B:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_FOOD_FISH
+                MMOITEMS_ITEM_ID: '魚'
+          C:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_TREE
+                MMOITEMS_ITEM_ID: '橡木'
+          D:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
+                MMOITEMS_ITEM_ID: '煤炭'
+          E:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_FOOD_MAIN
+                MMOITEMS_ITEM_ID: '啤酒'
+
+
+      3:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<娜娜明>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-2 &f交付&a[地圖資源]&f給&a<娜娜明>'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 4
+        actions:
+          - 'SEND_MESSAGE &a<娜娜明> &f你的學習能力很強嘛 (*≧▽≦)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[謝謝你的誇獎 (*≧▽≦)]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f謝謝你的誇獎 (*≧▽≦)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f那接下來到下一個部分，&b「戰鬥環節」&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND ci {player}'
+          - 'PERFORM_COMMAND tppos {player} 100 67 275 0 0 world_tw'
+          - 'SEND_MESSAGE &a<娜娜明> &f在&6[新月傳說]&f裡，大部份&b[技能]&f都是透過&e[武器]&f釋放。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &b[技能]&f可在&e[任務]&f/&a[野外寶箱]&f等不同的渠道來學習。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f現在我就把基礎冒險者能學習的&b[技能書]&f送給你，讓你學會這個技能，當作禮物!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f使用&b[技能筆記]&f後就可以使用該武器技能了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND mi give CONSUMABLE 技能筆記冒險者技能 {player} 1'
+          - 'PERFORM_COMMAND mi give RPG_WEAPON_SWORD 測試用大劍•連擊(新手教學) {player} 1'
+          - 'PERFORM_COMMAND mi give RPG_WEAPON_BOW 射手•魔箭LV1 {player} 1'
+          - 'PERFORM_COMMAND mi give RPG_WEAPON_HAMMER 戰錘•巨人LV1 {player} 1'
+          - 'PERFORM_COMMAND mi give RPG_WEAPON_SPEAR 長矛•飛躍LV1 {player} 1'
+
+      4:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        gps:
+          enabled: false
+        objective_detail: '&f擊殺&a【Lv1】狼 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-2 &f交付&a[地圖資源]&f給&a<娜娜明>'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f擊殺&a【Lv1】狼 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 5
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b擊殺&a【Lv1】狼'
+          message: '&b[任務提示]&f擊殺&a【Lv1】狼'
+        goals:
+          0:
+            mobs: GG狼
+            goal: 10
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<娜娜明>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-2 &f交付&a[地圖資源]&f給&a<娜娜明>'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f擊殺&a【Lv1】狼 &b10&f/&b10'
+          - '&f步驟-5 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &a<娜娜明> &f看來你已經學會使用武器了，這樣我就安心了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f在&6[新月傳說]&f裡，大部份&b[技能]&f都是透過&e[武器]&f釋放。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f你可在&a[鐵匠]&f的鍛造商店看到各種不同的武器合成方法。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f恭喜你，你已經完成所有的新手教學，希望你能在&a[柏拉迪斯大陸]&f玩的開心!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<娜娜明> &f請按下面的&a[我已準備好踏入冒險者的旅程!]&f來正式開始遊玩'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[我已準備好踏入冒險者的旅程!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我已準備好踏入冒險者的旅程!'
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND tppos {player} 32 91 1261 0 0 world'
+          - 'PERFORM_COMMAND ci {player}'
+          - 'SEND_MESSAGE &a<娜娜明> &f這裡是&e[新月圖書館5樓]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f這裡用&a[書本]&f的方式介紹了&6[新月傳說]&f大部份的系統。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f看完書後，可以到樓下找&a<奧斯卡>&f開始你的冒險者旅程!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 10
+
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<娜娜明>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-2 &f交付&a[地圖資源]&f給&a<娜娜明>'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f擊殺&a【Lv1】狼 &b10&f/&b10'
+          - '&f步驟-5 &f與&a<娜娜明#10>&f對話'
+        goto: QUEST_SUCCESS
+        actions:
+          - WAIT_TICKS 10
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - lp user {player} parent add member
+        - eco give {player} 1000
+        - mmocore admin exp give {player} main 1000
+        - mmocore admin class-points give {player} 1
+        - cti server {player}
+        - mi give RPG_ARMOR 初心者頭盔 {player} 1 0 100 0 s
+        - mi give RPG_ARMOR 初心者上衣 {player} 1 0 100 0 s
+        - mi give RPG_ARMOR 初心者護腿 {player} 1 0 100 0 s
+        - mi give RPG_ARMOR 初心者靴子 {player} 1 0 100 0 s
+        - mi give VIP_ARMOR 冒險者頭盔 {player} 1 0 100 100 s
+        - mi give VIP_ARMOR 冒險者護甲 {player} 1 0 100 100 s
+        - mi give VIP_ARMOR 冒險者護腿 {player} 1 0 100 100 s
+        - mi give VIP_ARMOR 冒險者靴子 {player} 1 0 100 100 s
+        - mi give RPG_ITEM_TREE 加工木材 {player} 5 0 100 0 s
+        - mi give RPG_FOOD_MAIN 麵包 {player} 128 0 100 0 s
+        - mi give CONSUMABLE 回復藥水 {player} 10 0 100 0 s
+        - mi give CONSUMABLE 修復石錘 {player} 10 0 100 0 s
+        - mi give RPG_ITEM_MINERAL 煤炭 {player} 10 0 100 0 s
+        - mi give RPG_ITEM_KEY WOODEN_KEY {player} 10 0 100 0 s
+        - mmocore admin attr-realloc-points give {player} 3
+        - mi give RPG_TOOL 鐮刀 {player} 1
+        - mi give RPG_TOOL 十字鎬 {player} 1
+        - mi give RPG_TOOL 魚竿 {player} 1
+        - mi give RPG_TOOL 斧頭 {player} 1
+        - mi give RPG_WEAPON_SWORD 大劍•連擊LV1 {player} 1
+        - mi give RPG_WEAPON_BOW 射手•魔箭LV1 {player} 1
+        - mi give RPG_WEAPON_HAMMER 戰錘•巨人LV1 {player} 1
+        - mi give RPG_WEAPON_SPEAR 長矛•飛躍LV1 {player} 1
