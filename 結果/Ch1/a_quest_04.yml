@@ -495,7 +495,7 @@ end_objects:
         - eco give {player} 400
         - mmocore admin exp give {player} main 8100
         - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
-        - lp user {player} permission set %回復音符%
+        - lp user {player} permission set rpgsupsword.6
   cancel:
     1:
       type: SERVER_COMMANDS_PERFORM

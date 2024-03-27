@@ -8,31 +8,13 @@ all_status_item:
 
 branches:
   main:
-    starts_at: DETECT_PLAYER_DIED
+    starts_at: 0
     objects:
-      DETECT_PLAYER_DIED:
-        type: PLAYER_DIE
-        goal: 1
-        goto: OBJECT DIED_MESSAGE
-      DIED_MESSAGE:
+      0:
         type: SERVER_ACTIONS
         actions: 
-          - 'SEND_MESSAGE &b[故事劇情](你死亡了... 在試一次吧!)'
-          - 'SEND_MESSAGE &b[故事劇情](升級裝備或許是一個好選擇)'
-          - 'SEND_MESSAGE &b[故事劇情](欲重新開始任務，請再次拿起書本)'
+          - 'SEND_MESSAGE &b[故事劇情](你現在可以向卡坦村村民打聽女王蜂的訊息了)'
         goto: QUEST_SUCCESS
-      
-end_objects:
-  success:
-    a:
-      type: SERVER_COMMANDS_PERFORM
-      commands: 
-        - questcreator stop a_quest_09_book {player} -silent
-        - questcreator reset a_quest_09_book {player} -silent
-        - minecraft:execute in minecraft:world run tp {player} -452.5 21 651.5
-  cancel:
-    1:
-      type: SERVER_COMMANDS_PERFORM
-      commands: ['questcreator start a_quest_09_book_detect {player} -silent']
+
         
           

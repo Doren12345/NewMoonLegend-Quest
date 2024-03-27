@@ -1,0 +1,179 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(卡納克)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc2]
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<卡納克>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<卡納克> &f你好呀，年輕氣盛的冒險者...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f我的拐杖剛剛斷掉了! 真是氣死老夫了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f唉... 如果有個年輕的軀體，就不需要這根拐杖了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[拐杖？辛苦村長了，又壞掉了]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f拐杖？辛苦村長了，又壞掉了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f年輕小夥子，你來的正好!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f你可以幫我去蒐集'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[沒問題]'
+            goto: OBJECT 4
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[枯木沼澤要怎麼去... &7(疑惑)&f]'
+            goto: OBJECT 3
+      3:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &b[1/4]&a<安格斯> &f你可以打開&b[系統水晶]&f的&a[定位系統]&f'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/4]&a<安格斯> &f尋找&7&l#48 &r&a皇家禁衛軍 路巴恩&f (在第二頁)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/4]&a<安格斯> &f點擊之後，就會出現箭頭，你就跟著箭頭走'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[4/4]&a<安格斯> &f就能到達枯木沼澤了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4:
+        type: PLAYER_CITIZENS_NPC_INTERACT #尋找NPC
+        gps:
+          enabled: false
+        objective_detail: '&f與&a<路巴恩#48>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
+        goto: OBJECT 5
+        npc: 5
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<路巴恩>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<路巴恩#48>&f對話'
+      5:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<路巴恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
+        goto: OBJECT 6
+        actions: 
+          - 'SEND_MESSAGE &b[1/2]&a<路巴恩> &f你是路過的冒險者嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/2]&a<路巴恩> &f請問您找我們皇家禁衛軍有什麼事嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      6:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<路巴恩>&f正在與你對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[那個...我是幫忙運送武器給皇家禁衛軍的]'
+            goto: OBJECT 7
+      7:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<路巴恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-2 &f與&a<路巴恩#48>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &b[1/1]&a<路巴恩> &f原來如此，難怪看到你背著一堆武器'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/3]&a<路巴恩> &f那麼...辛苦你了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/3]&a<路巴恩> &f這些小費你拿著吧，畢竟過來這裏也要走一段路程'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](路巴恩從口袋拿出了幾個錢袋)'
+          - SEND_SOUND BLOCK_WOOL_PLACE
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[1/1]&a<路巴恩> &f兄弟們，有新的武器能用了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 200
+        - mmocore admin exp give {player} main 1200
+
+
+
+
