@@ -1,0 +1,228 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]龍的存在'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx57800
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]龍的誕生'
+        - '&f可在&a[博多斯村莊]&f向&a<薩彌爾#99>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv30'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc294]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 29'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_28
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<薩彌爾>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<薩彌爾> &f對你來說,黑龍是一個怎樣的存在?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<薩彌爾>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [應該是邪惡吧]'
+            goto: OBJECT 4
+            
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<薩彌爾>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<薩彌爾> &f我想大部份人都是這樣想吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<薩彌爾> &f但這不是事實的全部'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<薩彌爾> &f沒錯,黑龍出現時的確會令世界變得混沌'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<薩彌爾> &f但這是「龍」出現時所帶來的效果'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<薩彌爾>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [甚麼意思?]'
+            goto: OBJECT 6
+
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<薩彌爾>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<薩彌爾> &f其實在這個世界中'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<薩彌爾> &f「龍」也只是一種生物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<薩彌爾> &f只是這種生物每次出現的時候'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<薩彌爾> &f都會帶來一些天災'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<薩彌爾> &f例如「火龍」出現時會帶來火災'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      7:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<薩彌爾>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [還有火龍這種東西!?]'
+            goto: OBJECT 8
+
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<薩彌爾>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<薩彌爾> &f當然了,不止是火龍和黑龍'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<薩彌爾> &f這個世界上還有很多不少的生物是未知的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      9:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<薩彌爾>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你怎麼知道這麼多?]'
+            goto: OBJECT 10
+
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<薩彌爾>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<薩彌爾> &f我在這個世界上已經生存500多年了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      11:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<薩彌爾>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [這怎麼可能?]'
+            goto: OBJECT 12
+          
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<薩彌爾>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<薩彌爾#99>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<薩彌爾> &f關於這部份我之後有機會再跟你說吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      13:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+          
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 57800
+        - mmocore admin exp give {player} fishing 57800
+        - mmocore admin exp give {player} food 57800
+        - mmocore admin exp give {player} handicraft 57800
+        - mmocore admin exp give {player} main 57800
+        - mmocore admin exp give {player} mining 57800
+        - mmocore admin exp give {player} alchemy 57800
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

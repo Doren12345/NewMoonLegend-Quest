@@ -1,0 +1,84 @@
+# -------------------- Display settings --------------------
+display_name: '&e'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
+    &#32027d&m                                   
+    &r&f{controls}
+
+display_priority: 1
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  max_completions: 1
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      bossbar: >
+        {quest} &a任務完成!
+      bossbar_color: GREEN  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務失敗!
+      bossbar_color: RED  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務取消!
+      bossbar_color: PINK  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_
+    2:
+      type: LOGIC
+      logic: '%mmocore_level% >= '
+
+# -------------------- Activator settings --------------------
+activators: [cnpc]
+
+activators_dialog:
+  - '&a<> &f &d(右鍵點擊NPC來接取任務)'
+  - ''
+
+activators_dialog_auto_start_distance: 4
+
+activators_dialog_reset:
+  reset_delay: 5 SECOND
+  reset_distance: 6.0
+  reset_notify:
+    message: '&a<奧斯卡> &f'
+
+# -------------------- Main Quest Object --------------------

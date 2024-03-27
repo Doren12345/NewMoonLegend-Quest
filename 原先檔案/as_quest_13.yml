@@ -1,0 +1,468 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]保護部落(3)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx32400
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]維修船隻'
+        - '&f可在&a[枯木內沼]&f向&a<達哥>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv14'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc18]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 13'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_12
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<陳>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<陳>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<陳> &f現在請你去強化我們的圍欄吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&e[去強化圍欄]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b[去強化圍欄]'
+
+      4:
+        type: PLAYER_POSITION
+        objective_detail: '&a[去強化圍欄]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+        goto: OBJECT 5
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,153,96,-512
+          
+      5:
+        type: PLAYER_POSITION
+        objective_detail: '&a[去強化圍欄]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+        goto: OBJECT 6
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,120,92,-522
+          
+      6:
+        type: PLAYER_POSITION
+        objective_detail: '&a[去強化圍欄]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+        goto: OBJECT 7
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-4,95,-596
+          
+      7:
+        type: PLAYER_POSITION
+        objective_detail: '&a[去強化圍欄]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(52,100,-581)'
+        goto: OBJECT 8
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,52,100,-581
+
+      8:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 9
+        npc: 18
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&f與&a<陳>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<陳>&f對話'
+          
+      9:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 10
+        position:
+          type: SINGLE
+          location: world,66,101,-583,90,0
+          
+      10:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 18
+        goto: OBJECT 11
+        position:
+          type: SINGLE
+          location: world,64,101,-582,90,0
+        
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &e[1/15]&a<陳> &f應該是可以了,希望能阻止到草原蠻牛的攻擊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - WAIT_TICKS 10
+          
+      12:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 13
+        commands:
+          - 'mm m spawn test13 1 world,46,101,-588,270,0'
+          - 'mm m spawn test13 1 world,47,101,-584,270,0'
+          - 'mm m spawn test13 1 world,47,100,-579,270,0'
+          
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 14
+        actions:
+          - 'SEND_MESSAGE &e[2/15]&a<村民> &f看到前面有一大堆的草原蠻牛正在衝過來!!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - 'SEND_MESSAGE &e[3/15]&a<村民> &f等等!牠們調頭了!應該是因為毒液的氣味,令牠們不敢衝進來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - SEND_SOUND ENTITY_RAVAGER_AMBIENT
+          - 'SEND_MESSAGE &e[4/15]&a<陳> &f那就太好了…'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/15]&a<女巫> &f想不到你們在這麼短時間想到對應方法呀~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/15]&a<陳> &f你到底在哪裡?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/15]&a<陳> &f為什麼一定要搶走我們的東西?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/15]&a<女巫> &f一切都是為了那位大人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/15]&a<女巫> &f圖騰是活化幻影塔的必要道具...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      14:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 15
+        position:
+          type: SINGLE
+          location: world,85,95,-579,90,0
+          
+      15:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 18
+        goto: OBJECT 16
+        position:
+          type: SINGLE
+          location: world,84,95,-581,90,0
+
+      16:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<陳>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 17
+        actions:
+          - 'SEND_MESSAGE &e[10/15]&a<陳> &f該不會!?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 80
+          - 'SEND_MESSAGE &e[11/15]&a<陳> &f你到底在哪裡!?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 80
+          
+      17:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 19
+        goto: OBJECT 18
+        position:
+          type: SINGLE
+          location: world,82,97,-583,0,90
+          
+      18:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 19
+        commands:
+          - 'particle minecraft:large_smoke 81 97 -583 1 1 1 0.1 1000'
+          
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<陳>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 20
+        actions:
+          - 'SEND_MESSAGE &e[12/15]&a<女巫> &f哈哈…太晚了…'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 80
+          - 'SEND_MESSAGE &b(砰!)'
+          - SEND_SOUND BLOCK_END_GATEWAY_SPAWN
+          
+      20:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 21
+        commands:
+          - 'particle minecraft:large_smoke 81 97 -583 1 1 1 0.1 1000'
+
+      21:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 19
+        goto: OBJECT 22
+        position:
+          type: SINGLE
+          location: world,81,38,-583,0,0
+          
+      22:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<陳>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: OBJECT 23
+        actions:
+          - 'SEND_MESSAGE &e[13/15]&a<陳> &f圖騰不見了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[14/15]&a<陳> &f可惡!你別跑'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[15/15]&a<女巫> &f再見了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      23:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<陳>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [怎麼辦...]'
+            goto: OBJECT 24
+
+      24:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<陳>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<陳>&f對話'
+          - '&f步驟-2 &f[去強化圍欄(1)]&e(153,96,-512)'
+          - '&f步驟-3 &f[去強化圍欄(2)]&e(120,92,-522)'
+          - '&f步驟-4 &f[去強化圍欄(3)]&e(-4,95,-596)'
+          - '&f步驟-5 &f[去強化圍欄(4)]&e(50,100,-581)'
+          - '&f步驟-6 &f與&a<陳>&f對話'
+        goto: QUEST_SUCCESS
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<陳> &f圖騰是我們數百年來一直守護的寶物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<陳> &f雖然不知道有甚麼用'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<陳> &f但我們的祖先一直都守護下來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<陳> &f不能就這樣被她搶走的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<陳> &f我們趕快幫你維修船隻,讓你追上她'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 32400
+        - mmocore admin exp give {player} fishing 32400
+        - mmocore admin exp give {player} food 32400
+        - mmocore admin exp give {player} handicraft 32400
+        - mmocore admin exp give {player} main 32400
+        - mmocore admin exp give {player} mining 32400
+        - mmocore admin exp give {player} alchemy 32400
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

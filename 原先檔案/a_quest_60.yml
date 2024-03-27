@@ -1,0 +1,261 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]中級冒險者考試'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx217000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&a目前主線只到這裡,敬請期待接下來的發展'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc153]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 60'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_59
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 3
+        actions: 
+          - 'SEND_MESSAGE &b[1/2]&a<莎莉> &f你確定已經做好準備了嗎?冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/2]&a<莎莉> &f參加的考試費用為$10000,不設退款'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: DIVERGE_CHAT #回應NPC/說話
+        objective_detail: '&f回應&a<莎莉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [交出 10000 金錢]'
+            goto: OBJECT 4
+            conditions:
+              conditions:
+                - type: LOGIC_MONEY
+                  currency: VAULT  # the currency to use
+                  logic: '{money} >= 10000'
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> [暫時不做任務...]'
+            goto: QUEST_CANCEL
+
+
+      4:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 5
+        commands: 
+          - 'eco take {player} 10000'
+          - 'lp user {player} permission set quest60 true'
+            
+      5:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 6
+        actions: 
+          - 'SEND_MESSAGE &b[1/2]&a<莎莉> &f好的,那這裡已經收到你的$10000'
+          - 'SEND_MESSAGE &b[事件](&d召喚卡片-清除者&b合成解鎖)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/2]&a<莎莉> &f剛好現在有個最合適的任務讓你去做'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 7
+        toggle: false
+          
+      7:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL #擊殺生物
+        gps:
+          enabled: false
+        objective_detail: '&f擊殺&a【Lv59】亡靈軍團•巨劍骷髏 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv59】亡靈軍團•巨劍骷髏 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 8
+        goals:
+          0:
+            mobs: '【Lv59】亡靈軍團•巨劍骷髏'
+            goal: 5
+            
+      8:
+        type: PLAYER_CITIZENS_NPC_INTERACT #尋找NPC
+        gps:
+          enabled: false
+        objective_detail: '&f與&a<莎莉@59>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv59】亡靈軍團•巨劍骷髏 &b5&f/&b5'
+          - '&f步驟-3 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 10
+        npc: 153
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<莎莉@59>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<莎莉@59>&f對話'
+          
+      10:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv59】亡靈軍團•巨劍骷髏 &b5&f/&b5'
+          - '&f步驟-3 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 11
+        actions: 
+          - 'SEND_MESSAGE &b[1/5]&a<莎莉> &f做得很好,接下來就是最後的考試'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/5]&a<莎莉> &f考試內容是擊殺傑斯的【Lv60】機甲計劃MaRk-50•清除者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/5]&a<莎莉> &f這個考試是考驗你的個人實力/團隊合作'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[4/5]&a<莎莉> &f你可以找其他冒險者幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[5/5]&a<莎莉> &f來看看你的能耐吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      11:
+        type: PLAYER_MYTHICMOBS_MOBS_DEATH_NEARBY
+        gps:
+          enabled: false
+        objective_detail: '&f擊殺&a【Lv60】機甲計劃MaRk-50•清除者 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv59】亡靈軍團•巨劍骷髏 &b5&f/&b5'
+          - '&f步驟-3 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-4 &f合作擊殺&a【Lv60】機甲計劃MaRk-50•清除者 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 12
+        max_distance: 50.0
+        goals:
+          0:
+            mobs: 【Lv60】機甲計劃MaRk-50•清除者
+            goal: 1
+            
+      12:
+        type: PLAYER_CITIZENS_NPC_INTERACT #尋找NPC
+        gps:
+          enabled: false
+        objective_detail: '&f與&a<莎莉@59>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv59】亡靈軍團•巨劍骷髏 &b5&f/&b5'
+          - '&f步驟-3 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-4 &f合作擊殺&a【Lv60】機甲計劃MaRk-50•清除者 &b1&f/&b1'
+          - '&f步驟-5 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 13
+        npc: 153
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<莎莉@59>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<莎莉@59>&f對話'
+          
+      13:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv59】亡靈軍團•巨劍骷髏 &b5&f/&b5'
+          - '&f步驟-3 &f與&a<莎莉@59>&f對話'
+          - '&f步驟-4 &f合作擊殺&a【Lv60】機甲計劃MaRk-50•清除者 &b1&f/&b1'
+          - '&f步驟-5 &f與&a<莎莉@59>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &b[1/1]&a<莎莉> &f合格!太強了,現在的你已經是&9[中級冒險者]&f了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[事件]恭喜你成功晉級成為&a[中級冒險者]&f!'
+          - SEND_SOUND ENTITY_PLAYER_LEVELUP
+          - 'SEND_MESSAGE &b[事件]已經解鎖[稱號]&9中級冒險者'
+          - SEND_SOUND ENTITY_PLAYER_LEVELUP
+          - 'SEND_MESSAGE &b[事件]([技能]亢奮已經解鎖)'
+          - WAIT_TICKS 40
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - mmocore admin exp give {player} farm 217000
+        - mmocore admin exp give {player} fishing 217000
+        - mmocore admin exp give {player} food 217000
+        - mmocore admin exp give {player} handicraft 217000
+        - mmocore admin exp give {player} main 217000
+        - mmocore admin exp give {player} mining 217000
+        - mmocore admin exp give {player} alchemy 217000
+        - eco give {player} 1000
+        - lp user {player} permission set hero03 true
+        - lp user {player} permission set rpgweaponsword.134 true

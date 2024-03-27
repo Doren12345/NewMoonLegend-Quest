@@ -1,0 +1,283 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]食人魚來襲'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &f普通秘寶代幣&fx5
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx22500
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]保護部落(1)'
+        - '&f可在&a[枯木內沼]&f向&a<達哥>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv11'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc51]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 10'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_09
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 17
+        goto: OBJECT 3
+        position:
+          type: SINGLE
+          location: world,-433,64,315,0,0
+
+      3:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<波普>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<波普#33>&f對話'
+        goto: OBJECT 4
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<波普> &f這位是達哥,他會送你到内湖營地的了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      4:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<波普>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [沒問題]'
+            goto: OBJECT 5
+            
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<波普#33>&f對話'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<達哥> &f好吧,我們出發吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 7
+        toggle: false
+
+      7:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 8
+        position:
+          type: SINGLE
+          location: world,160,65,-648,270,0
+
+      8:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 17
+        goto: OBJECT 9
+        position:
+          type: SINGLE
+          location: world,163,64,-648,0,0
+          
+      9:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<達哥>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+        goto: OBJECT 10
+        npc: 17
+          
+      10:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 11
+        toggle: true
+          
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<達哥> &f想不到你這麼年輕就做冒險者了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<達哥> &f當年我也想過當冒險者,但我果然比較喜歡坐船的感覺'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      12:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+        goto: OBJECT 13
+        commands:
+          - 'particle minecraft:large_smoke 168 62 -650 1 1 1 0.1 1000'
+          
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+        goto: OBJECT 14
+        actions:
+          - 'SEND_MESSAGE &b(砰!)'
+          - SEND_SOUND BLOCK_END_GATEWAY_SPAWN
+          
+      14:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<達哥>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [怎麼了?]'
+            goto: OBJECT 15
+            
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<達哥> &f不好了!我們被食人魚襲擊了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<達哥> &f請你先幫忙處理一下吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      16:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+        goto: OBJECT 17
+        commands:
+          - 'mm m spawn 【Lv11】食人魚 10 world,168,62,-650,0,0'
+
+      17:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 18
+        toggle: false
+
+      18:
+        type: PLAYER_MYTHICMOBS_MOBS_DEATH_NEARBY
+        objective_detail: '&f擊殺&a【Lv11】食人魚&e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+          - '&f步驟-3 &f擊殺&a【Lv11】食人魚 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 19
+        max_distance: 50.0
+        goals:
+          0:
+            mobs: '【Lv11】食人魚'
+            goal: 10
+            
+      19:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<達哥>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+          - '&f步驟-3 &f擊殺&a【Lv11】食人魚 &e10&f/&e10'
+        goto: OBJECT 20
+        npc: 17
+        
+      20:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<波普#33>&f對話'
+          - '&f步驟-2 &f與&a<達哥>&f對話'
+          - '&f步驟-3 &f擊殺&a【Lv11】食人魚 &e10&f/&e10'
+          - '&f步驟-4 &f與&a<達哥>&f對話'
+        goto: QUEST_SUCCESS
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<達哥> &f我們要緊急在這裡維修船隻'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<達哥> &f可能要你先等一下'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - excellentcrates key give {player} 普通秘寶系列代幣 5
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 22500
+        - mmocore admin exp give {player} fishing 22500
+        - mmocore admin exp give {player} food 22500
+        - mmocore admin exp give {player} handicraft 22500
+        - mmocore admin exp give {player} main 22500
+        - mmocore admin exp give {player} mining 22500
+        - mmocore admin exp give {player} alchemy 22500
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 17

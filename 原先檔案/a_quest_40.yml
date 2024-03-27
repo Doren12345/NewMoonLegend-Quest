@@ -1,0 +1,326 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]赤紅沙漠的求救信號'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx210000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]黑暗軍團'
+        - '&f可在&a[赤紅沙漠]&f向&a<受重傷的皇家禁衛軍>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv41'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc92]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 40'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_30
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅柏>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<羅柏> &f食人魚亞種的事我已經回報給總部了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<羅柏> &f但現在有一件緊急的事需要你去做...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅柏>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅柏#97>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [甚麼事?]'
+            goto: OBJECT 4
+
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅柏>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<羅柏#97>&f對話']
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<羅柏> &f剛剛赤紅沙漠那邊發出了皇家禁衛軍的求救信號'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<羅柏> &f那個求救信號是紅色的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<羅柏> &f代表有很嚴重的事發生,甚至有人員的傷亡'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<羅柏> &f所以請你趕快過去幫忙吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        start_notify:
+          message: '&e[任務提示]&f前往&a[赤紅沙漠]'
+          title: '&e任務提示'
+          title_subtitle: '&e前往&a[赤紅沙漠]'
+        goto: OBJECT 6
+        toggle: false
+        
+      6:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 3
+        goto: OBJECT 7
+        position:
+          type: SINGLE
+          location: world,-3329,105,-2043,0,0
+
+      7:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[赤紅沙漠]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠]&e(-3264,97,-1967)'
+        goto: OBJECT 8
+        position:
+          type: SPHERE_INSIDE
+          center: world,-3264,97,-1967
+          radius: 10
+
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[赤紅沙漠]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &&f前往&a[赤紅沙漠]&e(-3264,97,-1967)'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](怎麼整個地下都是血液)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](受傷的人好像向這邊走了)'
+          - WAIT_TICKS 40
+
+
+      9:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f尋找受傷的人'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠]&e(-3264,97,-1967)'
+          - '&f步驟-3 &f尋找受傷的人&e(-3329,105,-2043)'
+        goto: OBJECT 10
+        npc: 3
+
+      10:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 11
+        toggle: true
+
+      11:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 12
+        position:
+          type: SINGLE
+          location: world,-3329,105,-2040,180,0
+
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠](-3264,97,-1967)'
+          - '&f步驟-3 &f尋找受傷的人&e(-3329,105,-2043)'
+          - '&f步驟-4 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<受重傷的皇家禁衛軍> &f呀...你是...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      13:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅柏>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅柏#97>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你沒事吧?我是冒險者,是收到求救信號來這裡的]'
+            goto: OBJECT 14
+
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠](-3264,97,-1967)'
+          - '&f步驟-3 &f尋找受傷的人&e(-3329,105,-2043)'
+          - '&f步驟-4 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 15
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受重傷的皇家禁衛軍> &f那就太好了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受重傷的皇家禁衛軍> &f我....嘶...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      15:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅柏>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠](-3264,97,-1967)'
+          - '&f步驟-3 &f尋找受傷的人&e(-3329,105,-2043)'
+          - '&f步驟-4 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [不行,你流太多血了!你先等我一下,我找一些回復藥水給你]'
+            goto: OBJECT 16
+
+      16:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠](-3264,97,-1967)'
+          - '&f步驟-3 &f尋找受傷的人&e(-3329,105,-2043)'
+          - '&f步驟-4 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 17
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<受重傷的皇家禁衛軍> &f好的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      17:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 18
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍>'
+          message: '&e[任務提示]&f交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍>'
+
+      18:
+        type: PLAYER_GCORE_NPC_DELIVER_ITEMS
+        npc: 3
+        objective_detail: '&f交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍>&e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠](-3264,97,-1967)'
+          - '&f步驟-3 &f尋找受傷的人&e(-3329,105,-2043)'
+          - '&f步驟-4 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-5 &f交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍>'
+          - '           &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 19
+        goals:
+          0:
+            goal: 10
+            take: true
+            check: SameBase
+            item:
+              type: MAGMA_CREAM
+              nbt:
+                MMOITEMS_ITEM_TYPE: CONSUMABLE
+                MMOITEMS_ITEM_ID: '回復藥水'
+
+      19:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 20
+        toggle: true
+
+      20:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠](-3264,97,-1967)'
+          - '&f步驟-3 &f尋找受傷的人&e(-3329,105,-2043)'
+          - '&f步驟-4 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-5 &f交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍>'
+          - '           &e10&f/&e10'
+          - '&f步驟-6 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 21
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<受重傷的皇家禁衛軍> &f(咕噜~咕噜)我好多了,謝謝你...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      21:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 210000
+        - mmocore admin exp give {player} fishing 210000
+        - mmocore admin exp give {player} food 210000
+        - mmocore admin exp give {player} handicraft 210000
+        - mmocore admin exp give {player} main 210000
+        - mmocore admin exp give {player} mining 210000
+        - mmocore admin exp give {player} alchemy 210000
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']
+    2:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 3

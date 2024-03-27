@@ -1,0 +1,240 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]龍之後裔'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &a飛行器&fx1
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx84100
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]博多斯危機'
+        - '&f可在&a[博多斯村莊]&f向&a<公會接待員>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv25'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc60]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 24'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_23
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<炎鎮> &f少年,這幾天辛苦你了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<炎鎮> &f你體力好一些了嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<炎鎮>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [好多了,謝謝]'
+            goto: OBJECT 4
+            
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &b[1/2]&a<炎鎮> &f關於前幾天你暈倒的事...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/2]&a<炎鎮> &f弟兄們聽到你說一些奇怪的話...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<炎鎮>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [我說了奇怪的話?]'
+            goto: OBJECT 6
+            
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &b[1/1]&a<炎鎮> &f有弟兄聽到你說要保護「龍之後裔」'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<炎鎮>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [龍之後裔?這是甚麼?]'
+            goto: OBJECT 8
+            
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &b[1/12]&a<炎鎮> &f根據歷史記載...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/12]&a<炎鎮> &f龍之後裔是一種古老血統'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/12]&a<炎鎮> &f傳聞龍之後裔是受到龍的祝福的人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[4/12]&a<炎鎮> &f能夠使用和龍一樣的能力'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[5/12]&a<炎鎮> &f但是過了幾千年'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[6/12]&a<炎鎮> &f現在已經沒有再出現有血統的人了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[7/12]&a<炎鎮> &f有可能是沒覺醒,但也有機會已經滅絕了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[8/12]&a<炎鎮> &f聽到你在夢裏說出口...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[9/12]&a<炎鎮> &f難道現在重新出現...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[10/12]&a<炎鎮> &f不過事情先告一段落吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[11/12]&a<炎鎮> &f因為剛剛有冒險者公會的人來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[12/12]&a<炎鎮> &f希望找些冒險者前往幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      9:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<炎鎮>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [好的,那我現在就去看看!]'
+            goto: OBJECT 10
+            
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &b[1/4]&a<炎鎮> &f我會繼續留意你的活動的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/4]&a<炎鎮> &f希望能看到你幫助更多的人!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/4]&a<炎鎮> &f有空就再來我這裡訓練吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[4/4]&a<炎鎮> &f時間不早了!快去吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 84100
+        - mmocore admin exp give {player} fishing 84100
+        - mmocore admin exp give {player} food 84100
+        - mmocore admin exp give {player} handicraft 84100
+        - mmocore admin exp give {player} main 84100
+        - mmocore admin exp give {player} mining 84100
+        - mmocore admin exp give {player} alchemy 84100
+        - mi give VIP_FLY 飛行器 {player} 1 0 100 100
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

@@ -1,0 +1,108 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[第三章]地城迷蹤'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a經驗值&fx22500
+    &f- &b物品-時裝布料&fx1
+    &f--------------------{detailed_progression}
+    {controls}
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc437] #達哥(GNPC)
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_11
+    2:
+      type: LOGIC
+      logic: '%mmocore_level% >= 12'
+
+completion:
+  max_completions: 1
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: #與陳對話(GNPC)
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<陳>&f對話'
+        goto: OBJECT 1
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<陳>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<陳>&f對話'
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+        goto: OBJECT 3
+        actions: 
+          - 'SEND_MESSAGE &a<陳> &f阿帕奇很棒對吧，好山，好水...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[好無聊!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好無聊!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<陳> &f別這樣嘛，麻雀雖小'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      10:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f與&a<東日漁村工匠>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[武器精隨（五臟俱全）]'
+            goto: OBJECT 11A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[你更雖小!]'
+            goto: OBJECT 11B
+      

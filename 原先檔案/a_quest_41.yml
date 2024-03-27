@@ -1,0 +1,694 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]黑暗軍團'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx105800
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]調查幻影塔'
+        - '&f可在&a[巴里特礦石場]&f向&a<依夫>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv42'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc03]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 41'
+
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_40
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<受重傷的皇家禁衛軍> &f謝謝你救了我...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [不用謝,發生甚麼事了?]'
+            goto: OBJECT 4
+
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話']
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<受重傷的皇家禁衛軍> &f我們剛剛在進行例行巡視'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<受重傷的皇家禁衛軍> &f黑暗軍團的人來襲擊我們...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<受重傷的皇家禁衛軍> &f很多成員都...可惡...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](看來發生了不好的事...)'
+          - WAIT_TICKS 40
+          
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [抱歉...我不知道要說什麼才好...]'
+            goto: OBJECT 6
+            
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話']
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<受重傷的皇家禁衛軍> &f沒事...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<受重傷的皇家禁衛軍> &f對了,你要小心他們...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<受重傷的皇家禁衛軍> &f他們的裝備釋放出黑色的煙霧...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<受重傷的皇家禁衛軍> &f可能是用來強化他們的攻擊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<受重傷的皇家禁衛軍> &f一刀下來就我們的裝備都快爛了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [黑色的煙霧?難道跟黑龍有關?]'
+            goto: OBJECT 8
+            
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話']
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受重傷的皇家禁衛軍> &f對喔...我們也有收到關於黑龍的消息'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受重傷的皇家禁衛軍> &f但我不清楚,因為一切都發生得太突然了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      9:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你知道他們在哪?]'
+            goto: OBJECT 10
+            
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話']
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<受重傷的皇家禁衛軍> &f我們是在赤紅沙漠的北邊看到他們的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<受重傷的皇家禁衛軍> &f然後就一直被追殺到這裡'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<受重傷的皇家禁衛軍> &f可能他們又回去了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      11:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [好的,請你休息一下,我找人帶你走]'
+            goto: OBJECT 12
+            
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話']
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受重傷的皇家禁衛軍> &f不行,你只是冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受重傷的皇家禁衛軍> &f這些事情應該交給我們皇家禁衛軍做的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      13:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose: '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [但你受了重傷,先休息一下吧]'
+            goto: OBJECT 14
+            
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話']
+        goto: OBJECT 15
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受重傷的皇家禁衛軍> &f沒事,這點傷小意思,來吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受重傷的皇家禁衛軍> &f我們一起去赤紅沙漠的北邊看看吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      15:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        start_notify:
+          message: '&e[任務提示]&f跟著&a<受重傷的皇家禁衛軍>&f走'
+          title: '&e任務提示'
+          title_subtitle: '&e跟著&a<受重傷的皇家禁衛軍>&f走'
+        goto: OBJECT 16
+        toggle: false
+
+      16:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f前往&a[赤紅沙漠的北邊]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+        goto: OBJECT 17
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3115,70,-2296
+        wait_for_player_radius: 10
+        npc: 3
+        
+      17:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[赤紅沙漠的北邊]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+        goto: OBJECT 18
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<受重傷的皇家禁衛軍> &f我看到他們了!快跟我來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      18:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 3
+        goto: OBJECT 19
+        position:
+          type: SINGLE
+          location: world_story,-3128,67,-2312
+          
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[赤紅沙漠的北邊]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+        goto: OBJECT 20
+        actions:
+          - WAIT_TICKS 10
+
+      20:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 21
+        position:
+          type: SINGLE
+          location: world_story,-3133,67,-2312,270,0
+          
+      21:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<受重傷的皇家禁衛軍>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 22
+        npc: 3
+
+      22:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 23
+        toggle: true
+
+      23:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 24
+        position:
+          type: SINGLE
+          location: world_story,-3129,67,-2311,180,0
+
+      24:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 25
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<受重傷的皇家禁衛軍> &f他們就在前面!有看到嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<黑暗軍團> &f是甚麼人?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<受重傷的皇家禁衛軍> &f被發現了!看來只好正面跟他們打了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      25:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 3
+        goto: OBJECT 26
+        position:
+          type: SINGLE
+          location: world_story,-3129,64,-2320,180,0
+          
+      26:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 27
+        position:
+          type: SINGLE
+          location: world_story,-3129,64,-2322,180,0
+          
+      27:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 28
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e擊殺&a黑暗軍團'
+          message: '&e[任務提示]&f擊殺&a黑暗軍團'
+
+      28:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a黑暗軍團 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 29
+        goals:
+          0:
+            mobs: 'test16'
+            goal: 5
+            
+      29:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<雷恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+        goto: OBJECT 30
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<受重傷的皇家禁衛軍> &f有個要逃走了,快跟我來!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+        
+      30:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 3
+        goto: OBJECT 31
+        position:
+          type: SINGLE
+          location: world_story,-3125,65,-2387,90,0
+          
+      31:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 4
+        goto: OBJECT 32
+        position:
+          type: SINGLE
+          location: world_story,-3131,65,-2387,270,0
+          
+      32:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<雷恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+        goto: OBJECT 33
+        actions:
+          - WAIT_TICKS 4
+        
+      33:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 34
+        position:
+          type: SINGLE
+          location: world_story,-3128,66,-2380,180,0
+          
+      34:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在說話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        goto: OBJECT 35
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<受重傷的皇家禁衛軍> &f前面是死路了!你沒地方跑了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<受重傷的皇家禁衛軍> &f你們到底是誰?你們的裝備是不是和黑龍有關?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<黑暗軍團> &f哼,我就告訴你吧...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<黑暗軍團> &f黑龍很快就會重新降臨...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<黑暗軍團> &f你們等著瞧,我們黑暗軍團才是被神祝福的軍團'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<黑暗軍團> &f哈哈哈哈...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      35:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 36
+        npc: 4
+        status: ELYTRA
+        
+      36:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在說話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        goto: OBJECT 37
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](黑暗軍團突然倒下身亡,看來是服藥自殺了)'
+          - WAIT_TICKS 60
+          
+      37:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在說話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        goto: OBJECT 38
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<受重傷的皇家禁衛軍> &f可惡...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<受重傷的皇家禁衛軍> &f這傢伙說黑龍很快就會重新降臨...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<受重傷的皇家禁衛軍> &f看來黑龍復活和這群黑暗軍團的人有重大的關系'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<受重傷的皇家禁衛軍> &f你快回去跟我的隊長依夫回報這件事吧...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      38:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [哪你呢?]'
+            goto: OBJECT 39
+            
+      39:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在說話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        goto: OBJECT 40
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受重傷的皇家禁衛軍> &f我想我應該不太行了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+            
+      40:
+        type: SERVER_GCORE_NPC_SET_SKIN
+        goto: OBJECT 41
+        npc: 3
+        skin_data: ewogICJ0aW1lc3RhbXAiIDogMTYxNDQ3NTI2MDY1MSwKICAicHJvZmlsZUlkIiA6ICI2MWVhMDkyM2FhNDQ0OTEwYmNlZjViZmQ2ZDNjMGQ1NyIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVEYXJ0aEZhdGhlciIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9lMmY1MzQ2NGZhODE5ZTQ5ZDQwMGZmODc5NDQ0MGUzNzE1NmYyN2ZjOGQyMmY4NmQxMmQ2MjY1ZmEwNzM2NWYxIgogICAgfQogIH0KfQ==
+        skin_signature: YWnjYBHITTY3H636zTXz7X2KmO1x22ifXR1MOl43Dg7Wr9G9XKaTsAPnb+OdwwTOt04JP9tvbTMrm33QN7jJ7LjwJahEn/aYLqC4gTY/y4NtAwxTNf1lZGphMSKfqRzwAjhRwYqQcmcWYJWu7UliQV44upgcKwIloCqBvPrL3RasFJQ4TLUDE60rw5389dtbEZQQvYJwHd0MWytdUFnNkmF80nsF3BwzfHNbTIhSbcHVfoYkIKiJ5qcKWyskjW/wrJWlewsiSNuUizsRNzA3wZp6439fz03uWERB8UnkiVYvd+w4aYtlN/QHFOwg/LQX7oCV5bCnOftbgW8YrapP64lUG/xuTwFUs3rVjmPPMOTEjoFrdPnfs5P19icBPF8vApn5xP8T+4t5AXPRLh9BbVeU6eeHEV4XlrjxACtGV5f8t9fiiYPjFnzqUY/TkSQ+rdC2Dp8aus42VVFLLjmWksaDzw6KM0iRKsulnvWUxOl8zUYwjU3LHdMvPRsuerXf+F7q3hjJEEr89sagq3ZfB1Ah3ahfpkvbauaTWjpoGTHvTWG+qFdjU6GETrsPx4Yc7GQUjmPM+GZvJmMQ5PK7IKmFDgYyKCGIsJHB5rtllyeGSCVp/fAiSmrWTi3FRoG1cez2FlKWSCIqJtdXq3T9nkFTWktCLhsEuoB07L4Deu4=
+           
+      41:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在說話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        goto: OBJECT 42
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](皇家禁衛軍的流血的面積越來越大了)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受重傷的皇家禁衛軍> &f你先回去吧...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      42:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受重傷的皇家禁衛軍>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [不行!我這裡還有很多回復藥水,我可以給你用!]'
+            goto: OBJECT 43
+            
+      43:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在說話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        goto: OBJECT 44
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<受重傷的皇家禁衛軍> &f沒關系的,你就...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<受重傷的皇家禁衛軍> &f你快去把這重要的情報...回報...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<受重傷的皇家禁衛軍> &f不要讓我白白犧牲就可以了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      44:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 45
+        npc: 3
+        status: ELYTRA
+          
+      45:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<受重傷的皇家禁衛軍>&f正在說話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+        goto: OBJECT 46
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](看來已經不行了....)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](快回去告知依夫隊長吧)'
+          - WAIT_TICKS 40
+          
+      46:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 47
+        position:
+          type: SINGLE
+          location: world,-3115,70,-2296,0,0
+          
+      47:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 48
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<依夫#156>&f對話'
+          message: '&e[任務提示]&f與&a<依夫#156>&f對話'
+          
+      48:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<依夫#156>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+          - '&f步驟-6 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 49
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 162
+        npc: 162
+        
+      49:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 50
+        toggle: true
+                
+      50:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<依夫>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f前往&a[赤紅沙漠的北邊]'
+          - '&f步驟-3 &f與&a<受重傷的皇家禁衛軍>&f對話'
+          - '&f步驟-4 &f擊殺&a黑暗軍團 &e5&f/&e5'
+          - '&f步驟-5 &f觀看劇情'
+          - '&f步驟-6 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 51
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<依夫> &f......'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<依夫> &f好的,我明白了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<依夫> &f謝謝你的回報...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      51:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 105800
+        - mmocore admin exp give {player} fishing 105800
+        - mmocore admin exp give {player} food 105800
+        - mmocore admin exp give {player} handicraft 105800
+        - mmocore admin exp give {player} main 105800
+        - mmocore admin exp give {player} mining 105800
+        - mmocore admin exp give {player} alchemy 105800
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 3
+    2:
+      type: SERVER_GCORE_NPC_TELEPORT
+      position:
+        type: SINGLE
+        location: world,-3329,105,-2043,0,0
+      npc: 3

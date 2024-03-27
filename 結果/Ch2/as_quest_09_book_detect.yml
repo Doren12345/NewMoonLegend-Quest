@@ -1,0 +1,38 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[第二章]逃脫! 潛藏迷宮的陰謀&a(偵測器)'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+
+branches:
+  main:
+    starts_at: DETECT_PLAYER_DIED
+    objects:
+      DETECT_PLAYER_DIED:
+        type: PLAYER_DIE
+        goal: 1
+        goto: OBJECT DIED_MESSAGE
+      DIED_MESSAGE:
+        type: SERVER_ACTIONS
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你死亡了... 在試一次吧!)'
+          - 'SEND_MESSAGE &b[故事劇情](升級裝備或許是一個好選擇)'
+          - 'SEND_MESSAGE &b[故事劇情](欲重新開始任務，請再次接取任務)'
+        goto: QUEST_SUCCESS
+      
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - questcreator stop as_quest_09_book {player} -silent
+        - questcreator reset as_quest_09_book {player} -silent
+        - minecraft:execute in minecraft:world run tp {player} -452.5 21 651.5
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['questcreator start as_quest_09_book_detect {player} -silent']
+        
+          

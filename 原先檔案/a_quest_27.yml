@@ -1,0 +1,216 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]變異的食人魚(下)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx51200
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]神祕的外來人'
+        - '&f可在&a[博多斯村莊]&f向&a<羅柏>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv28'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc92]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 27'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_26
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅柏>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<羅柏> &f公會已收到你報告'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<羅柏> &f目前為止,我們還未清楚掌握食人魚亞種情況'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<羅柏> &f但博多斯村民安全要緊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<羅柏> &f請你加緊巡邏吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+          
+      4:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[博多斯村莊海域]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[博多斯村莊海域]'
+        goto: OBJECT 5
+        position:
+          type: SPHERE_INSIDE
+          radius: 10
+          center: world,-2053,63,-1408
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e前往&a[博多斯村莊海域]'
+          message: '&e[任務提示]&f前往&a[博多斯村莊海域]'
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[博多斯村莊海域]'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](看來這裏一切正常,嘗試去另一邊查看吧...)'
+          - WAIT_TICKS 40
+
+      6:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[博多斯村莊海域]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[博多斯村莊海域]'
+        goto: OBJECT 7
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-1752,63,-1605
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e前往&a[博多斯村莊海域]'
+          message: '&e[任務提示]&f前往&a[博多斯村莊海域]'
+          
+      7:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[博多斯村莊海域]'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](為什麼這裏會有這麼多魚的屍體)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](趕快回去向羅柏交代情況)'
+          - WAIT_TICKS 40
+
+      8:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅柏#97>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[博多斯村莊海域]'
+          - '&f步驟-3 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 9
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 92
+        npc: 92
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅柏#97>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅柏#97>&f對話'
+
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: true
+
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅柏>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f前往&a[博多斯村莊海域]'
+          - '&f步驟-3 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<羅柏> &f相信這麼多魚的屍體'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<羅柏> &f應該和食人魚亞種有關連'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<羅柏> &f我會讓附近的冒險者加緊留意'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 51200
+        - mmocore admin exp give {player} fishing 51200
+        - mmocore admin exp give {player} food 51200
+        - mmocore admin exp give {player} handicraft 51200
+        - mmocore admin exp give {player} main 51200
+        - mmocore admin exp give {player} mining 51200
+        - mmocore admin exp give {player} alchemy 51200
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

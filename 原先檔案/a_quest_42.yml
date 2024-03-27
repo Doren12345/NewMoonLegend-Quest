@@ -1,0 +1,263 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]調查幻影塔'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx110540
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]支援信號'
+        - '&f可在&a[巴里特礦石場]&f向&a<依夫>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv43'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc162]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 42'
+
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_41
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<依夫>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<依夫> &f抱歉冒險者,上次還沒好好的感謝你'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<依夫>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [沒事,我明白的]'
+            goto: OBJECT 4
+
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<依夫>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/9]&a<依夫> &f先跟你自我介紹一下'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/9]&a<依夫> &f我是依夫,是駐守巴里特礦石場的皇家禁衛軍隊長'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/9]&a<依夫> &f關於上次黑暗軍團的事,我已經向總部回報了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/9]&a<依夫> &f總部認為最近出現在各地的黑塔有關'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/9]&a<依夫> &f目前總部把黑塔名命為幻影塔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/9]&a<依夫> &f總部覺得黑暗軍團和幻影塔的出現的時間點太巧合了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/9]&a<依夫> &f所以目前發出通知,要和冒險者公會聯手'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/9]&a<依夫> &f希望冒險者們和皇家禁衛軍交流相關情報'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/9]&a<依夫> &f查出黑暗軍團的目的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<依夫>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [沒問題,現在有需要我幫忙的地方嗎?]'
+            goto: OBJECT 6
+            
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<依夫>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<依夫> &f謝謝你,我想請你幫忙去調查一下附近的幻影塔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<依夫> &f看看能不能找到和黑暗軍團有關的情報'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e前往&a[幻影•卍]'
+          message: '&e[任務提示]&f前往&a[幻影•卍]'
+
+      8:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[幻影•卍]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•卍]'
+        goto: OBJECT 9
+        position:
+          type: SPHERE_INSIDE
+          radius: 10
+          center: world,-3632,63,-1338
+          
+      9:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a幻影•卍 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•卍]'
+          - '&f步驟-3 &f擊殺&a【Lv40】幻影•卍 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 10
+        goals:
+          0:
+            mobs: '幻影卍'
+            goal: 15
+            
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•卍]'
+          - '&f步驟-3 &f擊殺&a【Lv40】幻影•卍x15'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](這裡好像沒有甚麼特別的,還是先回去吧)'
+          - WAIT_TICKS 40
+          
+      11:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<依夫#156>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•卍]'
+          - '&f步驟-3 &f擊殺&a【Lv40】幻影•卍 &e15&f/&e15'
+          - '&f步驟-4 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 12
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 162
+        npc: 162
+
+      12:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 13
+        toggle: true
+        
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<依夫>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•卍]'
+          - '&f步驟-3 &f擊殺&a【Lv40】幻影•卍 &e15&f/&e15'
+          - '&f步驟-4 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 14
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<依夫> &f調查不是一次就找到答案的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<依夫> &f就跟我們平常做事一樣'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<依夫> &f不一定事事順利'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<依夫> &f但只要繼續努力做下去'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<依夫> &f就一定可以成功的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      14:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 110450
+        - mmocore admin exp give {player} fishing 110450
+        - mmocore admin exp give {player} food 110450
+        - mmocore admin exp give {player} handicraft 110450
+        - mmocore admin exp give {player} main 110450
+        - mmocore admin exp give {player} mining 110450
+        - mmocore admin exp give {player} alchemy 110450

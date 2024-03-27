@@ -1,0 +1,241 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]神秘組織'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx9800
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]食人魚來襲'
+        - '&f可在&a[東日漁村]&f向&a<波普>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv10'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc437]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 9'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_08
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+        
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<羅德> &f那些人不懷好意...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<羅德> &f有必要提醒居民們出現狀況'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<波普#33>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<波普#33>&f對話'
+
+      4:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<波普#33>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f與&a<波普#33>&f對話'
+        goto: OBJECT 5
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 51
+        npc: 51
+        
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 6
+        toggle: true
+        
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<波普>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f與&a<波普#33>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<波普> &f怎樣?有查到什麼嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b(你把事情告訴了波普)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[1/5]&a<波普> &f最近的怪事真的很多'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<波普> &f上次我出海的時候'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<波普> &f看到了岸上有一大群人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<波普> &f但由於在晚上時候'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<波普> &f所以完全看不清楚是什麼人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<波普>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f與&a<波普#33>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [可能和洞穴那些人有關]'
+            goto: OBJECT 8
+            
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<波普>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f與&a<波普#33>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<波普> &f現在的情況真讓人擔心...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<波普> &f真的有必要提醒各位'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<里德#35>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<里德#35>&f對話'
+
+      10:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<里德#35>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f與&a<波普#33>&f對話'
+          - '&f步驟-3 &f與&a<里德#35>&f對話'
+        goto: OBJECT 11
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 49
+        npc: 49
+
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: true
+        
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<里德>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f與&a<波普#33>&f對話'
+          - '&f步驟-3 &f與&a<里德#35>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<里德> &f我也發現最近海洋生物出現很多問題'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<里德> &f當世界出現大事件前'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<里德> &f生物是最快感知到反應的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<里德> &f像是100年前的黑龍事件'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<里德> &f我想我們這一代都要準備經歷大事件了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      13:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 9800
+        - mmocore admin exp give {player} fishing 9800
+        - mmocore admin exp give {player} food 9800
+        - mmocore admin exp give {player} handicraft 9800
+        - mmocore admin exp give {player} main 9800
+        - mmocore admin exp give {player} mining 9800
+        - mmocore admin exp give {player} alchemy 9800
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

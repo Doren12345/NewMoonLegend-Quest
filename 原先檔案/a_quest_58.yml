@@ -1,0 +1,386 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]傳說中的勇者'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx205000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]未知生物的存在'
+        - '&f可在&a[新月城]&f向&a<莎莉@59>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv59'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc39]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 58'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_57
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<巴羅> &f應該沒有嚇到你吧,你的事我聽說很多了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [是這樣嗎?]'
+            goto: OBJECT 4B
+          
+      4B:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 4A
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<巴羅> &f當然了,所有冒險者的資訊都有人整理給我看的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      4A:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [有我幫得上忙的地方嗎?]'
+            goto: OBJECT 5
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<巴羅> &f[炎鎮]和[威廉]都有在我面前提過你的名字'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<巴羅> &f我來告訴你一些有關黑龍的秘密吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<巴羅> &f其實在100年前的&4[黑龍事件]&f中'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<巴羅> &f歷史的真相並不止這麼少的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      6:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [難道我們一直得知的&4[黑龍事件]&d是假的?]'
+            goto: OBJECT 7
+            
+      7:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<巴羅> &f你的直覺得準,但歷史不是假的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<巴羅> &f100年前的&4[黑龍事件]&f中'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<巴羅> &f還有一名叫做&a[日向]&f的冒險者,也可以叫做冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<巴羅> &f他也是在那場的事件中重要的人物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      8:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> 怎麼都沒有人說這件事情'
+            goto: OBJECT 9
+            
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &e[1/20]&a<巴羅> &f放心吧,我會跟你詳細說明原因的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/20]&a<巴羅> &f你們常常聽說的&e[6位勇者]&f,其實要算上&a[日向]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/20]&a<巴羅> &f我們才是直正的隊伍,我們也被人稱為&a[7人小隊]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/20]&a<巴羅> &f一開始我們也只是普通的年輕人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/20]&a<巴羅> &f也是機緣巧合才認識到,一起去冒險'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/20]&a<巴羅> &f有一次在&a[殺戮之地]&f中,我們7人在做委托時'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/20]&a<巴羅> &f路上遇到&a[黑暗軍團]&f的人,當時我們發現他們偷偷摸摸的在樹下走'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/20]&a<巴羅> &f上前攔截才發現他們在計劃復活黑龍'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/20]&a<巴羅> &f所以我們就馬上打起來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[10/20]&a<巴羅> &f一名&a[黑暗軍團]&f把一瓶黑色的液體拋向我們'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[11/20]&a<巴羅> &f&a[日向]&f靠本能反應擋下了那瓶黑色的液體'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[12/20]&a<巴羅> &f但是他慢慢的開始失控,我們當時都在他的身邊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[13/20]&a<巴羅> &f幫助他冷靜下來,但是,事情就接著發生了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[14/20]&a<巴羅> &f最後,他握住我的手跟我說要好好照顧大家'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[15/20]&a<巴羅> &f特別是他的女友&a[佩兒]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[16/20]&a<巴羅> &f然後他變成黑龍失控爆走'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[17/20]&a<巴羅> &f最後導致世界逐步滅亡...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[18/20]&a<巴羅> &f所以我們當時除了解放我們的好朋友&a[日向]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[19/20]&a<巴羅> &f也算大家想照顧好&a[佩兒]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[20/20]&a<巴羅> &f所以才一起去討伐黑龍,我們的好朋友&a[日向]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+            
+      10:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> 原來如此'
+            goto: OBJECT 11
+            
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<巴羅> &f所以這件事,你也要好好保密'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<巴羅> &f這是我們冒險者對冒險者&a[日向]&f的尊重'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      12:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> 巴羅大人,那我們現在應該做甚麼?'
+            goto: OBJECT 13
+
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 14
+        actions:
+          - 'SEND_MESSAGE &e[1/10]&a<巴羅> &f因為&4[黑龍]&f其實就是&4[黑暗軍團]&f幹的事'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/10]&a<巴羅> &f只要阻止他們用那瓶&4[黑色液體]&f做出&4[黑龍]就可以了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/10]&a<巴羅> &f我們也有秘密的冒險者進行調查'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/10]&a<巴羅> &f發現&4[黑色液體]&f是用&6[龍之後裔之血]&f和&4[黑龍蛋]&f製做的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/10]&a<巴羅> &f他們現在有了&6[龍之後裔]&a[蓓拉]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/10]&a<巴羅> &f下一個目標就是&4[黑龍蛋]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/10]&a<巴羅> &f幸運的是&a[蓓拉]&f我們確保她是安全的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/10]&a<巴羅> &f看來對方在獲得&4[黑龍蛋]&f不會對&a[蓓拉]&f做甚麼'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/10]&a<巴羅> &f那我們就先去找&4[黑龍蛋]&f吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[10/10]&a<巴羅> &f他們用&4[黑魔法]&f建立&d[幻影塔]&f也是為了找&4[黑龍蛋]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+  
+      14:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> 那我們要怎樣找&4[黑龍蛋]&d?'
+            goto: OBJECT 15
+  
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<巴羅> &f目前與&4[黑龍蛋]&f相關的情報都在最前線的&a[伯萊利村莊]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<巴羅> &f但這地區還需要我到處去擊殺這些被&5[未知生物]&f感染的生物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<巴羅> &f所以在你去&a[伯萊利村莊]&f之前'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<巴羅> &f你把這封信交給&a[莎莉]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<巴羅> &f然後好好準備&9[中級冒險者]&f考試吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      16:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<巴羅>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> 好的!謝謝你!巴羅師傅'
+            goto: OBJECT 17
+        
+      17:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<巴羅>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<巴羅>&f對話'
+        goto: OBJECT 18
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<巴羅> &f可不要輕敵喔,機會難得'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      18:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 205000
+        - mmocore admin exp give {player} fishing 205000
+        - mmocore admin exp give {player} food 205000
+        - mmocore admin exp give {player} handicraft 205000
+        - mmocore admin exp give {player} main 205000
+        - mmocore admin exp give {player} mining 205000
+        - mmocore admin exp give {player} alchemy 205000

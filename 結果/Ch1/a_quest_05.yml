@@ -1,0 +1,599 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[第一章]甜蜜王座'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &f- &e金幣&fx500
+    &f- &a經驗值&fx10000
+    &f- &b物品-時裝布料&fx1
+    &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
+    &#32027d&m                                   
+    &r&f{controls}}
+
+display_priority: 1
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  max_completions: 1
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      bossbar: >
+        {quest} &a任務完成!
+      bossbar_color: GREEN  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務失敗!
+      bossbar_color: RED  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務取消!
+      bossbar_color: PINK  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_04
+    2:
+      type: LOGIC
+      logic: '%mmocore_level% >= 5'
+
+# -------------------- Activator settings --------------------
+activators: [cnpc1]
+
+activators_dialog:
+  - '&a<艾比> &f冒險者，你看起來有問題要問我？ &d(右鍵點擊NPC來接取任務)'
+  - ''
+
+activators_dialog_auto_start_distance: 4
+
+activators_dialog_reset:
+  reset_delay: 5 SECOND
+  reset_distance: 6.0
+  reset_notify:
+    message: '&a<艾比> &f&f冒險者，不要有壓力，隨時都能來問喔!'
+
+# -------------------- Main Quest Object --------------------
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比#4>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比#4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比#4>&f對話'
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[艾比先生，我想去東日漁村接更多委託!]'
+            goto: OBJECT 3A
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[艾比先生，我想去東日漁村認識更多妹子!]'
+            goto: OBJECT 3B
+      3A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f艾比先生，我想去東日漁村接更多委託!'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f很有上進心! 很好!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f不過，現在的你，可能無法與&a[東日漁村]&f的怪物抗衡。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f艾比先生，我想去東日漁村認識更多妹子!'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f呃... 你這個動機有點...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f算了，如果你想要去&a[東日漁村]&f，我個人認為現在不是時候。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &a[東日漁村]&f怪物又比卡坦村高上一個層次，以你現在的強度，可能無法與之抗衡。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[不不不! 我現在應該可以殺死&a[東日漁村]&f的怪物!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不不不! 我現在應該可以殺死&a[東日漁村]&f的怪物!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f不然這樣吧，我準備一個測驗給你，看看你是否具備了能闖蕩&a[東日漁村]&f的程度!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[測驗？什麼測驗？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f測驗？什麼測驗？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f測驗內容就是夏佐的這份委託。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &f==============================='
+          - 'SEND_MESSAGE                 &a甜蜜王座'
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &a區域: 卡坦村'
+          - 'SEND_MESSAGE &b分類: 交付物品'
+          - 'SEND_MESSAGE &e委託者: 夏佐'
+          - 'SEND_MESSAGE &c等階: 初級冒險者'
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &f任務內容:'
+          - 'SEND_MESSAGE 為了創造新的食譜'
+          - 'SEND_MESSAGE 需要一種非常甜的物質'
+          - 'SEND_MESSAGE 最好是給我蜂蜜比較好啦...'
+          - 'SEND_MESSAGE ==============================='
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 100
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[這個等級是否有點不太對勁... 初級冒險者？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f這個等級是否有點不太對勁... 初級冒險者？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f沒錯，這個委託就是給初級冒險者挑戰的。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f為了讓你證明你有足夠的實力，所以我故意挑選一個&a[比你現在冒險等階還高]&f的委託給你做。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f去找夏佐吧，我期待你的表現!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 6
+        toggle: false
+      6:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<夏佐#7>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+        goto: OBJECT 7
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 303
+        npc: 303
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<夏佐#7>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<夏佐#7>&f對話'
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8
+        toggle: true
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+        goto: OBJECT 9
+        actions: 
+          - 'SEND_MESSAGE &a<夏佐> &f人生似一盤料理，細細品味，才能賞出其中的奧妙♪♪(o*゜∇゜)o～♪♪'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &fBonjour~(你好~)，我是夏佐!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40 
+          - 'SEND_MESSAGE &a<夏佐> &ftu as accepté ma commande? &7(你剛剛接了我的委託？)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &fMa commande de guilde &mCoin Master&f? &7(我的&mCoinMaster&r&7公會委託？)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[呃... 應該是吧？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f呃... 應該是吧？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f哈哈哈，那就照委託上寫的，請你幫我蒐集&a[非常甜]&f的物質啦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想：非常甜？蜂蜜應該可以！)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f唯有完美調配的辛香料，才能突顯食材的美!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: false
+      10:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 303
+        objective_detail: '&f交付&a[蜂蜜]&f給&a<夏佐#7>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 11
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[蜂蜜]&b給&a<夏佐#7>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[蜂蜜]&f給&a<夏佐#7>'
+        goals:
+          0:
+            goal: 15
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: %MMOTYPE_調味料%
+                MMOITEMS_ITEM_ID: '蜂蜜'
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: true
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+        goto: OBJECT 9
+        actions: 
+          - 'SEND_MESSAGE &a<夏佐> &fCommon!(普通!)，我要的蜂蜜不是這種!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f你有聽說過&6[女王蜂蜂蜜]&f嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[&6[女王蜂蜂蜜]&f？ 沒聽說過...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &6[女王蜂蜂蜜]&f？ 沒聽說過...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      13:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[&6[女王蜂蜂蜜]&f？ 沒聽說過...]'
+            goto: OBJECT 14A
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[to bee or not to bee? That a questions!]'
+            goto: OBJECT 14B
+      14A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+        goto: OBJECT 15
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &6[女王蜂蜂蜜]&f？ 沒聽說過...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      14B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+        goto: OBJECT 15
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &fto bee or not to bee? That a questions!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+        goto: OBJECT 16
+        actions: 
+          - 'SEND_MESSAGE &a<夏佐> &f卡坦村有些流傳已久的傳說，除了豐饒神話以外，更廣為人知的莫過於&6[女王蜂的傳說]&f了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f統治整座阿姆斯草原的女王蜂，女王蜂的蜂蜜是最甜蜜的調味料，而據說那也是獲得女王蜂認可的象徵!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f每隔數百年就會誕生一隻新的女王蜂接任前代女王的王座，女王蜂是守護整座阿姆斯草原的神祕生物!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f我這裡有一塊現成的! 非常Perfect(完美)!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你聞了一下...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[這塊好像特別的甜？還有豐富的花香！]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f這塊好像特別的甜？還有豐富的花香！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &fGood!(很好!)，看來你已經知道我想要什麼了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f那就請你去幫我蒐集食材的精髓—調味料!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[但是... 我不知道女王蜂在哪裡呀？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f但是... 我不知道女王蜂在哪裡呀？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f我也不知道，這是村莊內口耳相傳的傳說，不如冒險者去問問看村莊裡的一些村民吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      16:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 17
+        toggle: false
+      17:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 303
+        objective_detail: '&f交付&a[蜂蜜]&f給&a<夏佐#7>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-5 &f向&a[村民]&f打探&6[女王蜂]&f的消息&6(非必要)'
+          - '&f步驟-6 &f交付&6[女王蜂蜂蜜]&f給&a<夏佐#7> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 18
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[蜂蜜]&b給&a<夏佐#7>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[蜂蜜]&f給&a<夏佐#7>'
+        goals:
+          0:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: %MMOTYPE_調味料%
+                MMOITEMS_ITEM_ID: '女王蜂蜂蜜'
+      18:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 19
+        toggle: true
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-5 &f向&a[村民]&f打探&6[女王蜂]&f的消息&6(非必要)'
+          - '&f步驟-6 &f交付&6[女王蜂蜂蜜]&f給&a<夏佐#7> &b1&f/&b1'
+          - '&f步驟-7 &f與&a<夏佐#7>&f對話'
+        goto: OBJECT 20
+        actions: 
+          - 'SEND_MESSAGE &a<夏佐> &f你回來啦! 你身上怎麼都是aiguillon d'abeille(蜂螫)?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[都是女王蜂的鍋...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f都是女王蜂的鍋...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &fAmusant!(有趣!)，你找到女王蜂了？！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[當然...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f當然...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &fSympa!(酷!)，女王蜂的傳說是真實的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[不過女王蜂就只是一隻很比較大的蜜蜂而已，沒有傳說那麼誇張]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不過女王蜂就只是一隻很比較大的蜜蜂而已，沒有傳說那麼誇張。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f原來是這樣啊...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f只要是légende(傳說)難免會被加油添醋...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f感謝你給我這塊蜂蜜，別稱—料理的精髓。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &f下周的比賽有Plats(菜單)了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<夏佐> &fThis is 冒險者's récompense!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      20:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 21
+        toggle: false
+      21:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比#4>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-5 &f向&a[村民]&f打探&6[女王蜂]&f的消息&6(非必要)'
+          - '&f步驟-6 &f交付&6[女王蜂蜂蜜]&f給&a<夏佐#7> &b1&f/&b1'
+          - '&f步驟-7 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-8 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 22
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比#4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比#4>&f對話'
+      22:
+          type: SERVER_CAMERA_MODE_TOGGLE
+          goto: OBJECT 23
+          toggle: true
+      23:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-5 &f向&a[村民]&f打探&6[女王蜂]&f的消息&6(非必要)'
+          - '&f步驟-6 &f交付&6[女王蜂蜂蜜]&f給&a<夏佐#7> &b1&f/&b1'
+          - '&f步驟-7 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-8 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 24
+        actions: 
+          - 'SEND_MESSAGE &a<艾比> &f我都聽夏佐說了，你完成了他的委託!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f恭喜你，通過了&7[初級冒險者]&f的考試!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[&7[初級冒險者]&f的考試？ 不是你給我的測驗嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &7[初級冒險者]&f的考試？ 不是你給我的測驗嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f哈哈，我給你的測驗就是&7[初級冒險者]&f的考試啦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f你已經證明了你的實力，可以前往&a[東日漁村]&f了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[東日漁村要怎麼去？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f東日漁村要怎麼去？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f我幫你在系統水晶裡定位好了，跟著定位就行了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &f&m--------------------'
+          - 'SEND_MESSAGE &#E1F5FE冒&#D3EEFC險&#C5E7FB等&#B7E0FA階&#A9D9F9升&#9BD2F8級 &#8DCBF7- &#7ED5F6初&#70D0F5級&#62CAF4冒&#54C4F3險&#46BDF2者
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &f恭喜你!'
+          - 'SEND_MESSAGE &f&m--------------------'
+      24:
+          type: SERVER_CAMERA_MODE_TOGGLE
+          goto: OBJECT 25
+          toggle: false
+      25:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[東日漁村]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
+          - '&f步驟-4 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-5 &f向&a[村民]&f打探&6[女王蜂]&f的消息&6(非必要)'
+          - '&f步驟-6 &f交付&6[女王蜂蜂蜜]&f給&a<夏佐#7> &b1&f/&b1'
+          - '&f步驟-7 &f與&a<夏佐#7>&f對話'
+          - '&f步驟-8 &f與&a<艾比#4>&f對話'
+          - '&f步驟-9 &f前往&a[東日漁村]&e(-406,66,389)'
+        goto: QUEST_SUCCESS_THEN_START a_quest_06
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-406,66,389
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往&a[東日漁村]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f前往&a[東日漁村]&e(-406,66,389)'
+        
+
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+        - eco give {player} 500
+        - mmocore admin exp give {player} main 10000
+        - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
+        - lp user {player} permission set hero01
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

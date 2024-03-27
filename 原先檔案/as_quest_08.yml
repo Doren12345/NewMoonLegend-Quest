@@ -1,0 +1,374 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]舊不死族洞穴'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx8450
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]神秘組織'
+        - '&f可在&a[東日漁村]&f向&a<東日漁村公會接待員>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv9'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc437]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 8'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_07
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅德>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 437
+        npc: 437
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅德@42>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅德@42>&f對話'
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<羅德> &f 嗨,兄弟,你知道附近有一個&a洞穴&f嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅德>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[怎麼了嗎?]'
+            goto: OBJECT 4
+            
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<羅德> &f那邊其實之前是屬於其中一個&a[骷髏地下城]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<羅德> &f由&e<炎鎮>&f帶領的&a[皇家禁衛軍]&f殲滅了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<羅德> &f現在裡面已經沒有任何的不死族了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<羅德> &f只是今天有村民路過的時候聽到裡面有聲音'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<羅德> &f所以想看有沒有勇敢的冒險者可以進去看看是甚麼'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅德>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[怎麼感覺好可怕]'
+            goto: OBJECT 6
+            
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<羅德> &f安啦,安啦,我是覺得不會有事啦'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<羅德> &f應該只是動物之類的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<羅德> &f附近也有很多不同的動物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往&a[舊不死族洞穴]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f前往&a[舊不死族洞穴]'
+
+      8:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 9
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-476,65,466
+          
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你心想:你發現這個洞穴也挺大的)'
+          - WAIT_TICKS 20
+
+      10:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 11
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-541,65,680
+
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你心想:可以再繼續向前看看)'
+          - WAIT_TICKS 20
+
+      12:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 13
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-461,24,662
+          
+      13:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 14
+        toggle: false
+        
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 15
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你心想:這個不死族洞穴可真大,累死我了)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[1/1]&a<男子聲音> &f你是什麼人? 你為甚麼進來了?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      15:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<男子聲音>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[是誰在這?]'
+            goto: OBJECT 16
+            
+      16:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 17
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<女子聲音> &f糟糕!要被發現了!快點用&a[催眠粉]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      17:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 18
+        commands:
+        - effect give {player} minecraft:poison 1 300
+        - effect give {player} minecraft:nausea 1 300
+        
+      18:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 19
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](怎麼...回事....)'
+          - WAIT_TICKS 40
+
+      19:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 20
+        commands: ['tppos {player} -478 65 465 0 0 world']
+        
+      20:
+        type: SERVER_ACTIONS
+        objective_detail: '&f前往&a[舊不死族洞穴]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+        goto: OBJECT 21
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](到底為什麼看不到那兩個人?)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](先把這件事告訴公會的人吧)'
+          - WAIT_TICKS 40
+          
+      21:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 22
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅德@42>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅德@42>&f對話'
+
+      22:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅德@42>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+          - '&f步驟-3 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 23
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 437
+        npc: 437
+        
+      23:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 24
+        toggle: true
+        
+      24:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德@42>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f前往&a[舊不死族洞穴]&e(-476,65,466)'
+          - '&f步驟-3 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 25
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<羅德> &f好的,我會把這件事情回報到總部的了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      25:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 8450
+        - mmocore admin exp give {player} fishing 8450
+        - mmocore admin exp give {player} food 8450
+        - mmocore admin exp give {player} handicraft 8450
+        - mmocore admin exp give {player} main 8450
+        - mmocore admin exp give {player} mining 8450
+        - mmocore admin exp give {player} alchemy 8450
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

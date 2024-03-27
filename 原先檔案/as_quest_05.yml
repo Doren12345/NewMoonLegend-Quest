@@ -1,0 +1,172 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]&f我也要戰鬥!&a(回顧)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f不會有任務獎勵
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc103]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_05
+
+completion:
+  max_completions: 99999999
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<娜娜明>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<娜娜明@10>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 631
+        npc: 631
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<娜娜明@10>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<娜娜明@10>&f對話'
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<娜娜明>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<娜娜明@10>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你把事情的來龍去脈告訴了他)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[1/5]&a<娜娜明> &f升級至&9[中級任務]&f!?那可不是開玩笑的吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<娜娜明> &f那可不是開玩笑的吧...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<娜娜明> &f雖然目前&a[卡坦村]&f強的冒險者也是有很多'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<娜娜明> &f但如果在&a[卡坦村]&f出現&9[中級任務]&f'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<娜娜明> &f會大大影響日後的出口貿易,這影響可以很大'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<娜娜明>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明@10>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[&9[中級]&f的戰鬥嗎...我也想參與!]'
+            goto: OBJECT 4
+            
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<娜娜明>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<娜娜明@10>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<娜娜明> &f那你現在要做的就是讓自己變強owo'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<娜娜明> &f你現在能用的&6[技能]&f還不多,要多運用&a[藥水]&f來進行戰鬥'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<娜娜明> &f我教你用一個&6[技能石]&f,是關於&a[回復血量]&f的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<娜娜明> &f緊急的情況下能救你一命'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<娜娜明>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明@10>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[太好了!謝謝你~&a娜娜明&f]'
+            goto: OBJECT 6
+            
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<娜娜明>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<娜娜明@10>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<娜娜明> &f還有,如果你想快點升等參與&9[中級]&f的戰鬥'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<娜娜明> &f那我建議你去&a[東日漁村],現在那邊的冒險者人數不多'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<娜娜明> &f你可以有多一點做任務的機會,就能快點升到下級了owob'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

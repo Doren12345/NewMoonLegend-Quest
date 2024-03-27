@@ -1,0 +1,342 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]保護部落(1)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx25600
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]保護部落(2)'
+        - '&f可在&a[枯木內沼]&f向&a<陳>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv12'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc17]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 11'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_10
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+        
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<達哥> &f不行,船隻需要其他人手幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<達哥> &f請你上岸看看有沒有人可以幫忙吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b[去找尋幫忙]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b[去找尋幫忙]'
+
+      4:
+        type: PLAYER_POSITION
+        objective_detail: '&a[去找尋幫忙]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+        goto: OBJECT 5
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,83,95,-576
+          
+      5:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        goto: OBJECT 6
+        npc: 18
+
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 7
+        toggle: true
+        
+      7:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<陳> &f你是誰?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      8:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<陳>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你好,我是路過的冒險者,我想請你們幫忙]'
+            goto: OBJECT 9
+
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<陳> &f也不是不行,但我們正在面臨危險'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      10:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<陳>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [發生甚麼事了?]'
+            goto: OBJECT 11
+
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<陳> &f我們部落之前來了一個女巫'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<陳> &f當時她到來時醫治了幾個村民'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<陳> &f我們非常感謝她,因此很相信她'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<陳> &f但原來她背後的目的是為了得到我們的圖騰'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<陳> &f圖騰是部落重要的寶物…'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      12:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<陳>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [那我怎樣可以幫到你們?]'
+            goto: OBJECT 13
+
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        goto: OBJECT 14
+        actions:
+          - 'SEND_MESSAGE &e[1/8]&a<陳> &f當時我們發現了她的行蹤'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/8]&a<陳> &f因此阻止了她'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/8]&a<陳> &f但她離開前說會帶大量的草原蠻牛襲擊我們'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/8]&a<陳> &f真是太糟糕了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/8]&a<陳> &f現在我們想到的方法就是在附近的圍欄上'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/8]&a<陳> &f增加毒液和加固圍欄的堅固度'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/8]&a<陳> &f但是要獲得這兩樣東西'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/8]&a<陳> &f都需要有戰力幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      14:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<陳>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [交給我吧,我們互相合作]'
+            goto: OBJECT 15
+            
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<陳> &f那就太好了,那請你先收集毒液吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      16:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 17
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[蟾蜍毒液]&f給&a<陳>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[蟾蜍毒液]&f給&a<陳>'
+          
+      17:
+        type: PLAYER_GCORE_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 18
+        objective_detail: '&f交付&a[蟾蜍毒液]&f給&a<陳> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+          - '&f步驟-4 &f交付&a[蟾蜍毒液]&f給&a<陳> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 18
+        goals:
+          0:
+            goal: 10
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_MOB
+                MMOITEMS_ITEM_ID: '蟾蜍毒液'
+
+      18:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 19
+        toggle: true
+        
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a[去找尋幫忙]&e(83,95,-576)'
+          - '&f步驟-3 &f與&a<陳>&f對話'
+          - '&f步驟-4 &f交付&a[蟾蜍毒液]&f給&a<陳> &b10&f/&b10'
+          - '&f步驟-5 &f與&a<陳>&f對話'
+        goto: OBJECT 20
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<陳> &f辛苦你了,這樣的數量應該足夠了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      20:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 25600
+        - mmocore admin exp give {player} fishing 25600
+        - mmocore admin exp give {player} food 25600
+        - mmocore admin exp give {player} handicraft 25600
+        - mmocore admin exp give {player} main 25600
+        - mmocore admin exp give {player} mining 25600
+        - mmocore admin exp give {player} alchemy 25600
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

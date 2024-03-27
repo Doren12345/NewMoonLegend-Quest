@@ -1,0 +1,247 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]製作防具&a(回顧)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f不會有任務獎勵
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc103]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_07
+
+completion:
+  max_completions: 99999999
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅德>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 437
+        npc: 437
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅德@42>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅德@42>&f對話'
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<羅德> &f你終於來了嗎?我的直男好兄弟~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<羅德> &f你來得正好,我剛留了一個重要但簡單的委托給你做'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅德>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[對我這麼好的嗎?]'
+            goto: OBJECT 4
+            
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<羅德> &f當然了,看在你有趣的份上留給你的,哈'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<羅德> &f委托內容是交付做3件&a[冒險者上衣]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<羅德> &f你可以去找&a[鐵匠]&f就能找到製做配方'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅德>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[沒問題,但為甚麼是&a[冒險者上衣]&f?]'
+            goto: OBJECT 6
+            
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<羅德> &f這裡附近的攻擊性生物也挺多的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<羅德> &f所以這裡的村民出入有時候會受到不同的生物襲擊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<羅德> &f像是熊就還好,如果是不死族就麻煩了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<羅德> &f所以村民出入都會保險一點,穿個裝備'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅德>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[那為甚麼還要住在這裡?]'
+            goto: OBJECT 8
+
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<羅德> &f因為這裡作為一個小小的避風塘'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<羅德> &f除了有地利優秀保護船隻'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<羅德> &f附近的水域還有豐富的漁獲'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<羅德> &f又不會被像是&a[新月城]&f觀光,商業用船影響工作'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<羅德> &f反而令這裡别有一番風味'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[冒險者上衣]&f給&a<羅德@42>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[冒險者上衣]&f給&a<羅德@42>'
+          
+      10:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 437
+        objective_detail: '&f交付&a[冒險者上衣]&f給&a<羅德@42> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f交付&a[冒險者上衣]&f給&a<羅德@42> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 11
+        goals:
+          0:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: iron_chestplate
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ARMOR
+                MMOITEMS_ITEM_ID: '冒險者上衣'
+
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: true
+
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德@42>&f對話'
+          - '&f步驟-2 &f交付&a[冒險者上衣]&f給&a<羅德@42> &b1&f/&b1'
+          - '&f步驟-3 &f與&a<羅德@42>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<羅德> &f動作很快嘛,謝謝你'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<羅德> &f你自己也記得要做裝備穿喔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<羅德> &f不然很容易被怪打死'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      13:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

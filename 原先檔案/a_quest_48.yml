@@ -1,0 +1,827 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]找回項鍊'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx140000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]歷史記錄'
+        - '&f可在&a[帝貝鎮]&f向&a<蘭>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv49'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc172]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 48'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_47
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<賽斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<賽斯> &f你好,有甚麼事嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 4
+        position:
+          type: SINGLE
+          location: world,-3456,69,988,270,0
+
+      4:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<賽斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你好,聽說皇家禁衛軍隊長威廉回來了,我有事要找他一下]'
+            goto: OBJECT 5
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<賽斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<賽斯> &f是的,隊長已經在裡面等你了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<賽斯> &f進去右轉就能看到了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 7
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<威廉>&f對話'
+          message: '&e[任務提示]&f與&a<威廉>&f對話'
+          
+      7:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<威廉>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+        goto: OBJECT 8
+        npc: 10
+        
+      8:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 9
+        toggle: true
+        
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<威廉> &f我聽過你的名字,你是之前在雪山之戰表現出色的冒險者對吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<威廉> &f聽說你在找我,有甚麼事?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你把來龍去脈都告訴了威廉)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<威廉> &f放心了,有我們皇家禁衛軍08小隊在'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<威廉> &f沒有人能傷害到這城鎮裡的人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      10:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<威廉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [也對,感覺有威廉大哥在,大家都能安全]'
+            goto: OBJECT 11
+            
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<威廉> &f我會多派人在城內巡邏的了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<威廉> &f辛苦你了,你先在城裡休息一下吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<威廉> &f我們這裡的海鮮可是很美味的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](既然是這樣,那我也找一下那個女孩吧)'
+          - WAIT_TICKS 40
+
+      12:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 13
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e在城裡走走'
+          message: '&e[任務提示]&f在城裡走走'
+
+      13:
+        type: PLAYER_POSITION
+        objective_detail: '&f在城裡走走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+        goto: OBJECT 14
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-3419,68,898
+          
+      14:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 11
+        goto: OBJECT 15
+        position:
+          type: SINGLE
+          location: world,-3419,68,898,270,0
+          
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&f突然出現了女孩子在市集裡'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](突然出現了女孩子在市集裡)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](走過去看看吧)'
+          - WAIT_TICKS 40
+          
+      16:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<辛西亞>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 17
+        npc: 11
+          
+      17:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 18
+        toggle: true
+          
+      18:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 19
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你仔細地打量這個女孩...)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[1/1]&a<辛西亞> &f你是誰!你在看哪?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      19:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [沒有,抱歉]'
+            goto: OBJECT 20
+            
+      20:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 21
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<辛西亞> &f你是神經病還是變態?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<辛西亞> &f一直在看我的樣子做甚麼?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      21:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [不是啦,你聽我解釋...]'
+            goto: OBJECT 22
+            
+      22:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 23
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<辛西亞> &f不用解釋了,快給我10萬元賠償!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      23:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [我哪有這麼多錢!更何況我甚麼都沒有做]'
+            goto: OBJECT 24
+            
+      24:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 25
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<辛西亞> &f來人呀來人呀,這裡有個變態想非禮我!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      25:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你不要亂說!好啦好啦!你想怎樣?]'
+            goto: OBJECT 26
+            
+      26:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 27
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<辛西亞> &f既然你沒有錢,那你就幫我找回我的物品!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      27:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [甚麼物品?]'
+            goto: OBJECT 28
+            
+      28:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 29
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<辛西亞> &f就是我的項鍊,上次在封印沙漠裡弄不見了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      29:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [好吧好吧]'
+            goto: OBJECT 30
+            
+      30:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 31
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<辛西亞> &f是一條銀色的項鍊,上面是一個用純銀製的龍標誌的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<辛西亞> &f快點幫我找回來!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      31:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 32
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e尋找&a[辛西亞的項鍊]'
+          message: '&e[任務提示]&f尋找&a[辛西亞的項鍊]'
+          
+      32:
+        type: PLAYER_POSITION
+        objective_detail: '&f尋找&a[辛西亞的項鍊]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+        goto: OBJECT 33
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-3384,73,732
+          
+      33:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+        goto: OBJECT 34
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](這裡好像沒有,下去看看吧)'
+          - WAIT_TICKS 40
+          
+      34:
+        type: PLAYER_POSITION
+        objective_detail: '&f尋找&a[辛西亞的項鍊]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+        goto: OBJECT 35
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-3113,25,674
+          
+      35:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+        goto: OBJECT 36
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](這裡這麼大,怎麼可能找到...)'
+          - WAIT_TICKS 40
+          
+      36:
+        type: PLAYER_POSITION
+        objective_detail: '&f尋找&a[辛西亞的項鍊]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+        goto: OBJECT 37
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-3005,20,490
+          
+      37:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+        goto: OBJECT 38
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你看到有銀龍標誌的項鍊,看來是這個了)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](快點拿回去給&a<辛西亞>&f吧)'
+          - WAIT_TICKS 40
+          
+      38:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<辛西亞>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 39
+        npc: 11
+          
+      39:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 40
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<辛西亞> &f太好了,你真的找回來了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<辛西亞> &f謝謝你了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      40:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [請你不要再到處說我壞話了]'
+            goto: OBJECT 41
+            
+      41:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 42
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<辛西亞> &f你在也知道你做了壞事嗎?小哥哥?<3'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      42:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [怎麼看都是你比我大吧]'
+            goto: OBJECT 43
+            
+      43:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 44
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<辛西亞> &f你也太沒禮貌了吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      44:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 12
+        goto: OBJECT 45
+        position:
+          type: SINGLE
+          location: world,-3408,68,898,90,0
+          
+      45:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 46
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3418,68,898,180,0
+        npc: 12
+          
+      46:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 47
+        actions:
+          - 'SEND_MESSAGE &e[2/6]&a<辛西亞> &f我才剛18歲...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<蓓拉> &f辛西亞,你又跑去哪了?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<辛西亞> &f姐姐你看!我找回我的項鍊了~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<蓓拉> &f你是怎麼找到的?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<辛西亞> &f這個變態剛剛....'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      47:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 9
+        goto: OBJECT 48
+        position:
+          type: SINGLE
+          location: world,-3376,67,899,0,0
+          
+      48:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [喔喔唉,你說甚麼?]'
+            goto: OBJECT 49
+            
+      49:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 50
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<辛西亞> &f哈哈,就是這個冒險者幫我忙找回來的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<蓓拉> &f謝謝你冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<蓓拉> &f這是我爸留給我們的遺物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<蓓拉> &f謝謝你幫我們找回來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      50:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<辛西亞>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [沒事沒事,只是舉手之勞]'
+            goto: OBJECT 51
+            
+      51:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<辛西亞>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: OBJECT 52
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<蓓拉> &f那我們就先走了,有緣再見'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<辛西亞> &f有緣再見吧~變態先生!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      52:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 11
+        goto: OBJECT 53
+        position:
+          type: SINGLE
+          location: world,-3362,68,894,90,0
+          
+      53:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 12
+        goto: OBJECT 54
+        position:
+          type: SINGLE
+          location: world,-3362,68,896,90,0
+          
+      54:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 9
+        goto: OBJECT 55
+        position:
+          type: SINGLE
+          location: world,-3376,68,899,0,0
+          
+      55:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你的系統水晶響了'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f與&a<威廉>&f對話'
+          - '&f步驟-3 &f在城裡走走'
+          - '&f步驟-4 &f與&a<辛西亞>&f對話'
+          - '&f步驟-5 &f尋找&a[辛西亞的項鍊]'
+          - '&f步驟-6 &f與&a<辛西亞>&f對話'
+        goto: QUEST_SUCCESS
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你的系統書本收到信息)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](信息:)&a<蘭>&f嗨,冒險者,你來找我一下,我發現了一些你也許感興趣的事...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 140000
+        - mmocore admin exp give {player} fishing 140000
+        - mmocore admin exp give {player} food 140000
+        - mmocore admin exp give {player} handicraft 140000
+        - mmocore admin exp give {player} main 140000
+        - mmocore admin exp give {player} mining 140000
+        - mmocore admin exp give {player} alchemy 140000
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 10
+        - gcore npcreset {player} 11
+        - gcore npcreset {player} 12

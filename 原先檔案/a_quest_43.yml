@@ -1,0 +1,262 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]支援信號'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx115200
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]運送物品'
+        - '&f可在&a[動物橫町]&f向&a<湯馬士>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv44'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc162]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 43'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_42
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<依夫>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<依夫> &f剛剛我們收到來自動物橫町的支援信號'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<依夫> &f但那邊應該沒有我們的軍隊才對'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<依夫> &f請你去看看發生甚麼事吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e前往&a[發出信號的地點]'
+          message: '&e[任務提示]&f前往&a[發出信號的地點]'
+
+      4:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[發出信號的地點]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+        goto: OBJECT 5
+        position:
+          type: SPHERE_INSIDE
+          radius: 10
+          center: world,-3426,85,-374
+          
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你發現...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你發現一個牧師在這裡,去問問他甚麼事吧)'
+          - WAIT_TICKS 40
+          
+      6:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<湯馬士>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+        goto: OBJECT 7
+        npc: 5
+
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8
+        toggle: true
+        
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<湯馬士>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<湯馬士> &f媽的,終於有冒險者來了嗎'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<湯馬士> &f你們動作也太慢了吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      9:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<湯馬士>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [抱歉,請問是你發出信號的嗎?]'
+            goto: OBJECT 10
+
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<湯馬士>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<湯馬士> &f這裡除了我還有誰?你用腦子好好想一下行嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<湯馬士> &f快點,前面有很多哥布林,你不殺掉他們我怎麼走?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<湯馬士> &f我現在身上有一個重要的物品!快點護送我到伯萊利村莊!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e擊殺&a【Lv43】哥布林薩滿'
+          message: '&e[任務提示]&f擊殺&a【Lv43】哥布林薩滿'
+
+      12:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a【Lv43】哥布林薩滿 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+          - '&f步驟-4 &f擊殺&a【Lv43】哥布林薩滿 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 13
+        goals:
+          0:
+            mobs: '【Lv43】哥布林薩滿'
+            goal: 20
+
+      13:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<湯馬士>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+          - '&f步驟-4 &f擊殺&a【Lv43】哥布林薩滿 &e20&f/&e20'
+        goto: OBJECT 14
+        npc: 5
+
+      14:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 15
+        toggle: true
+        
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<湯馬士>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+          - '&f步驟-4 &f擊殺&a【Lv43】哥布林薩滿 &e20&f/&e20'
+          - '&f步驟-5 &f與&a<湯馬士>&f對話'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<湯馬士> &f慢手慢腳的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<湯馬士> &f你們要知道,要不是有我們臨冬城做你們的靠山'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<湯馬士> &f你們早就不能做冒險者了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      16:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 115200
+        - mmocore admin exp give {player} fishing 115200
+        - mmocore admin exp give {player} food 115200
+        - mmocore admin exp give {player} handicraft 115200
+        - mmocore admin exp give {player} main 115200
+        - mmocore admin exp give {player} mining 115200
+        - mmocore admin exp give {player} alchemy 115200

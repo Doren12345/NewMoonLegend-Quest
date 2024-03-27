@@ -1,0 +1,493 @@
+# -------------------- Display settings --------------------
+display_name: '&e&e[第二章]受歡迎的餐廳'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &f- &e金幣&fx1000
+    &f- &a經驗值&fx12100
+    &f- &b物品-時裝布料&fx1
+    &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
+    &#32027d&m                                   
+    &r&f{controls}
+
+display_priority: 1
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  max_completions: 1
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      bossbar: >
+        {quest} &a任務完成!
+      bossbar_color: GREEN  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務失敗!
+      bossbar_color: RED  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務取消!
+      bossbar_color: PINK  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_05
+    2:
+      type: LOGIC
+      logic: '%mmocore_level% >= 6'
+
+# -------------------- Activator settings --------------------
+activators: [cnpc437]
+
+activators_dialog:
+  - '&a<羅德> &f冒險者你好! 要來接委託嗎？ &d(右鍵點擊NPC來接取任務)'
+  - ''
+
+activators_dialog_auto_start_distance: 4
+
+activators_dialog_reset:
+  reset_delay: 5 SECOND
+  reset_distance: 6.0
+
+# -------------------- Main Quest Object --------------------
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅德#42>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 437
+        npc: 437
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅德#42>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅德#42>&f對話'
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[哈囉？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f哈囉？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f喔喔，是一個新的冒險者!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f你好，我是這裡的公會接待員，大家都叫我&a[羅德]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[羅德先生你好，我是%luckperms_prefix%{player}&f!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f羅德先生你好，我是%luckperms_prefix%{player}&f!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f你來的真是時候，&a[東日漁村]&f目前正面臨很多方面的危機QwQ'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f公會剛好發來了許多委託，但是沒有冒險者在這附近，我正愁著該怎麼辦呢。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[哈哈，那真巧，我也是誤打誤撞來到這裏的，哈哈]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f哈哈，那真巧，我也是誤打誤撞來到這裏的，哈哈'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f那就麻煩你幫忙了，這裡是其中一個委託：'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &f==============================='
+          - 'SEND_MESSAGE                 &a小麥短缺'
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &a區域: 東日漁村'
+          - 'SEND_MESSAGE &b分類: 交付物品'
+          - 'SEND_MESSAGE &e委託者: 艾琳娜'
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &f任務內容:'
+          - 'SEND_MESSAGE 餐廳目前急需小麥'
+          - 'SEND_MESSAGE 需要非常--非常大量的小麥'
+          - 'SEND_MESSAGE 請冒險者幫忙採集大量小麥回來！'
+          - 'SEND_MESSAGE ==============================='
+          - WAIT_TICKS 70
+          - 'SEND_MESSAGE &a<羅德> &f內容就是幫這裡的餐廳收集大量的小麥...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f他們所需的大量是真的很大量!!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f這已經是這星期第201次的委托了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f有些冒險者都做到怕了!!!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[要這麼多小麥... 那餐廳真的很好吃嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f要這麼多小麥... 那餐廳真的很好吃嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f這個就不好說了，你收集足夠的&a[小麥]&f完成委託後就理解了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](雖然不太懂為什麼，但還是收集一些&a[小麥]&b吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+      4:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 52
+        objective_detail: '&f交付&a[小麥]&f給&a<艾琳娜#31> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 5
+        goals:
+          0:
+            goal: 15
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_FOOD_FARM
+                MMOITEMS_ITEM_ID: '小麥'
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[小麥]&f給&a<艾琳娜#31>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[小麥]&f給&a<艾琳娜#31>'
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 6
+        toggle: true
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &a<艾琳娜> &f你好，我是餐廳負責人&a[艾琳娜]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f請問你是一位嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      7:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[不是的小姐，請問妳是不是發布了一個&a[公會委托]&f？ 我是來提供&a[小麥]&f的]'
+            goto: OBJECT 8A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[不是的阿姨，請問妳是不是發布了一個&a[公會委托]&f？ 我是來提供&a[小麥]&f的]'
+            goto: OBJECT 8B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[不是的婆婆，請問妳是不是發布了一個&a[公會委托]&f？ 我是來提供&a[小麥]&f的]'
+            goto: OBJECT 8C
+
+      8A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不是的小姐，請問妳是不是發布了一個&a[公會委托]&f？ 我是來提供&a[小麥]&f的。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f什麼小姐啦，阿姨我一把年齡了，哈哈哈 (゜▽゜;)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f真是辛苦你了，冒險者，小麥交給我就可以了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你將肩上扛著的小麥放了下來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f謝謝你! 這裡是給你們的報酬，下次有時間的話再來我們餐廳嘗嘗!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](艾琳娜拿出了一些錢袋)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+
+      8B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不是的阿姨，請問妳是不是發布了一個&a[公會委托]&f？ 我是來提供&a[小麥]&f的。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f小麥交給我就可以了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你將肩上扛著的小麥放了下來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f謝謝，這裡是給你們的報酬。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](艾琳娜拿出了少許錢袋)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+
+      8C:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+        goto: OBJECT 8C1
+        actions:
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不是的婆婆，請問妳是不是發布了一個&a[公會委托]&f？ 我是來提供&a[小麥]&f的。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f(゜▽゜;)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f(゜▽゜;)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f婆婆？？？？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f真是辛苦你了! 冒險者，小麥交給我就可以了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你將肩上扛著的小麥放了下來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f小麥怎麼這麼少？？？ 你太遜了吧，多拿一點回來!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      8C1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8C2
+        toggle: false   
+      8C2:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 52
+        objective_detail: '&f交付&a[小麥]&f給&a<艾琳娜#31> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f再度交付&a[小麥]&f給&a<艾琳娜#31> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 8C3
+        goals:
+          0:
+            goal: 128
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_FOOD_FARM
+                MMOITEMS_ITEM_ID: '小麥'
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[小麥]&f給&a<艾琳娜#31>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[小麥]&f給&a<艾琳娜#31>'
+      8C3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8C4
+        toggle: true
+      8C4:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f再度交付&a[小麥]&f給&a<艾琳娜#31> &b128&f/&b128'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &a<艾琳娜> &f你太慢了吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你將肩上扛著一堆小麥放了下來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f你再給我去採10組小麥!!!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[對不起...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f對不起...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾琳娜> &f算了，算你識相。這次就先這樣，下次你再叫我婆婆，我讓你採小麥採不完!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: false
+
+      10:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅德>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+          - '&f步驟-4 &f與&a<羅德#42>&f對話'
+        goto: OBJECT 11
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 437
+        npc: 437
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅德#42>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅德#42>&f對話'
+
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: true
+
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+          - '&f步驟-4 &f與&a<羅德#42>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &a<羅德> &f你把&a[小麥]&f交給誰了？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[交給&a[艾琳娜]&f了]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f交給&a[艾琳娜]&f了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f怎麼樣，你懂了嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[懂？什麼意思？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f懂？什麼意思？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f呀...你真的好像什麼都不懂喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f那算了，你就當做沒有事情發生吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      13:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+          - '&f步驟-4 &f與&a<羅德#42>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[怎麼了嗎？我不懂，是他們家的食物其實很難吃？]'
+            goto: OBJECT 14
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[怎麼了嗎？我不懂，是他們家的食物其實變質了？]'
+            goto: OBJECT 14
+            
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅德>&f正在與你對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f交付&a[小麥]&f給&a<艾琳娜#31> &b15&f/&b15'
+          - '&f步驟-3 &f與&a<艾琳娜#31>&f對話'
+          - '&f步驟-4 &f與&a<羅德#42>&f對話'
+        goto: OBJECT 15
+        actions:
+          - 'SEND_MESSAGE &a<羅德> &f沒事啦，有些事情還是不要打聽比較好，兄弟，哈哈哈~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      15:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS_THEN_START a_quest_07
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+        - eco give {player} 1000
+        - mmocore admin exp give {player} main 12100
+        - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

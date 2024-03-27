@@ -1,0 +1,254 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]哥布林職業'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx57600
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]受傷的皇家禁衛軍'
+        - '&f可在&a[森林交匯處]&f向&a<皇家禁衛軍>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv20'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc60]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 19'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_18
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+        
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<炎鎮> &f收到最新資訊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<炎鎮> &f幻影塔附近出現了有職業的哥布林'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<炎鎮> &f麻煩你速前調查'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+
+      4:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a【Lv19】哥布林弓兵 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv19】哥布林弓兵 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 5
+        goals:
+          0:
+            mobs: '【Lv19】哥布林弓兵'
+            goal: 10
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b擊殺&a【Lv19】哥布林弓兵'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f擊殺&a【Lv19】哥布林弓兵'
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv19】哥布林弓兵 &b10&f/&b10'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](差不多了,先回去吧)'
+          - WAIT_TICKS 40
+
+      6:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 26
+        goto: OBJECT 7
+        position:
+          type: SINGLE
+          location: world,-1143,75,-540,0,0
+
+      7:
+        type: PLAYER_POSITION
+        objective_detail: '&a前往地點(-1143,75,-540)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv19】哥布林弓兵 &b10&f/&b10'
+          - '&f步驟-3 &a前往地點(-1143,75,-540)'
+        goto: OBJECT 8
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-1143,75,-540
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往地點(-1143,75,-540)'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f前往地點(-1143,75,-540)'
+          
+      8:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&a與&a<受傷的皇家禁衛軍>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv19】哥布林弓兵 &b10&f/&b10'
+          - '&f步驟-3 &a前往地點(-1143,75,-540)'
+          - '&f步驟-4 &f與&a<受傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 9
+        npc: 26
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&f與&a<受傷的皇家禁衛軍>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<受傷的皇家禁衛軍>&f對話'
+
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&a與&a<受傷的皇家禁衛軍>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv19】哥布林弓兵 &b10&f/&b10'
+          - '&f步驟-3 &a前往地點(-1143,75,-540)'
+          - '&f步驟-4 &f與&a<受傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受傷的皇家禁衛軍> &f救命...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受傷的皇家禁衛軍> &f我...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](不行了,先給他一些藥水療傷)'
+          - WAIT_TICKS 40
+          
+      10:
+        type: PLAYER_GCORE_NPC_DELIVER_ITEMS
+        npc: 26
+        objective_detail: '&a交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍> &e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv19】哥布林弓兵 &b10&f/&b10'
+          - '&f步驟-3 &a前往地點(-1143,75,-540)'
+          - '&f步驟-4 &f與&a<受傷的皇家禁衛軍>&f對話'
+          - '&f步驟-5 &f交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍> &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 11
+        goals:
+          0:
+            goal: 1
+            take: true
+            check: SameBase
+            item:
+              type: magma_cream
+              nbt:
+                MMOITEMS_ITEM_TYPE: CONSUMABLE
+                MMOITEMS_ITEM_ID: '回復藥水'
+
+      11:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 26
+        goto: OBJECT 12
+        position:
+          type: SINGLE
+          location: world,-1143,16,-540,0,0
+          
+      12:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 27
+        goto: OBJECT 13
+        position:
+          type: SINGLE
+          location: world,-1143,75,-540,0,0
+
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&a與&a<受傷的皇家禁衛軍>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv19】哥布林弓兵 &b10&f/&b10'
+          - '&f步驟-3 &a前往地點(-1143,75,-540)'
+          - '&f步驟-4 &f與&a<受傷的皇家禁衛軍>&f對話'
+          - '&f步驟-5 &f交付&a[回復藥水]&f給&a<受重傷的皇家禁衛軍> &e1&f/&e1'
+        goto: QUEST_SUCCESS
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<受傷的皇家禁衛軍> &f我好多了...謝謝你'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+        
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 57600
+        - mmocore admin exp give {player} fishing 57600
+        - mmocore admin exp give {player} food 57600
+        - mmocore admin exp give {player} handicraft 57600
+        - mmocore admin exp give {player} main 57600
+        - mmocore admin exp give {player} mining 57600
+        - mmocore admin exp give {player} alchemy 57600
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 26
+        - gcore npcreset {player} 27
+        - compass stop {player}

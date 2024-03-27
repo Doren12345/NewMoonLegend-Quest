@@ -1,0 +1,248 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]突擊幻影塔'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx52900
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]哥布林職業'
+        - '&f可在&a[內湖營地]&f向&a<炎鎮>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv19'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc60]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 18'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_17
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+        
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<炎鎮> &f看來每座幻影塔的情況都不同'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<炎鎮> &f我想應該和之前的「女巫」有關'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<炎鎮> &f她所使用的圖騰就是激活幻影塔的「鑰匙」'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<炎鎮> &f請你先到最近我們的幻影塔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<炎鎮> &f嘗試消滅幻影怪物吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<炎鎮> &f看看有甚麼反應'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往最近的幻影塔'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b前往最近的幻影塔'
+
+      4:
+        type: PLAYER_POSITION
+        objective_detail: '&a前往最近的幻影塔(-1010,63,-610)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往最近的幻影塔(-1010,63,-610)'
+        goto: OBJECT 5
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-1010,63,-610
+
+      5:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a【Lv15】幻影•暗 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往最近的幻影塔(-1010,63,-610)'
+          - '&f步驟-3 &f擊殺&a【Lv15】幻影•暗 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 6
+        goals:
+          0:
+            mobs: '幻影暗'
+            goal: 10
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b擊殺&a【Lv15】幻影•暗'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f擊殺&a【Lv15】幻影•暗'
+          
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往最近的幻影塔(-1010,63,-610)'
+          - '&f步驟-3 &f擊殺&a【Lv15】幻影•暗 &b10&f/&b10'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](這樣下去只會沒完沒了)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](還是先回去吧)'
+          - WAIT_TICKS 40
+
+      7:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往最近的幻影塔(-1010,63,-610)'
+          - '&f步驟-3 &f擊殺&a【Lv15】幻影•暗 &b10&f/&b10'
+          - '&f步驟-4 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 8
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 60
+        npc: 60
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<炎鎮#65>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<炎鎮#65>&f對話'
+          
+      8:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 9
+        toggle: true
+
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往最近的幻影塔(-1010,63,-610)'
+          - '&f步驟-3 &f擊殺&a【Lv15】幻影•暗 &b10&f/&b10'
+          - '&f步驟-4 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<炎鎮> &f果然是這樣'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<炎鎮> &f當幻影塔被激活,就會不停出現幻影怪物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      10:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<炎鎮>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往最近的幻影塔(-1010,63,-610)'
+          - '&f步驟-3 &f擊殺&a【Lv15】幻影•暗 &b10&f/&b10'
+          - '&f步驟-4 &f與&a<炎鎮#65>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [那怎麼辦?]'
+            goto: OBJECT 11
+            
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往最近的幻影塔(-1010,63,-610)'
+          - '&f步驟-3 &f擊殺&a【Lv15】幻影•暗 &b10&f/&b10'
+          - '&f步驟-4 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<炎鎮> &f我猜測只有把「鑰匙」取出才能阻止幻影怪物生成'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<炎鎮> &f但幻影怪物有一定的危險性'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<炎鎮> &f目前就先靜待觀察'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<炎鎮> &f有必要時再主動出擊吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      12:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+        
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 52900
+        - mmocore admin exp give {player} fishing 52900
+        - mmocore admin exp give {player} food 52900
+        - mmocore admin exp give {player} handicraft 52900
+        - mmocore admin exp give {player} main 52900
+        - mmocore admin exp give {player} mining 52900
+        - mmocore admin exp give {player} alchemy 52900
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

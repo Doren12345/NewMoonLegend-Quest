@@ -1,0 +1,347 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]狼群效應&a(回顧)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f不會有任務獎勵
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc103]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_03
+
+completion:
+  max_completions: 99999999
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<雷卡特斯>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 3
+        npc: 3
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<雷卡特斯@5>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<雷卡特斯@5>&f對話'
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<雷卡特斯>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<雷卡特斯> &f你是冒險者嗎?請問有甚麼事?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你把狼群事件告訴了隊長)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<雷卡特斯> &f這已經是第8單收到大家的回報了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<雷卡特斯> &f可惜我是剛從前線被調來&a[卡坦村]&f駐守'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<雷卡特斯> &f所以這種情況我也是第1次見'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<雷卡特斯> &f能麻煩你幫我問一下&a[村長]&f嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<雷卡特斯> &f畢竟&a[村長]&f見過的事情比我多'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<卡納克@2>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<卡納克@2>&f對話'
+          
+      4:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<卡納克@2>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+        goto: OBJECT 5
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 2
+        npc: 2
+        click_types: LEFT_CLICK
+
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 6
+        toggle: true
+
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<卡納克>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/9]&a<卡納克> &f這個現象之前也出現'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/9]&a<卡納克> &f是我小時候的事情了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/9]&a<卡納克> &f那陣子也是有聽說狼突然會攻擊人類'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/9]&a<卡納克> &f但那時候我還小,沒想這麼多就自己出去採蘋果了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/9]&a<卡納克> &f突然有隻狼出現追我,我就跑上山,但牠還在追'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/9]&a<卡納克> &f當我快要被追上的時候'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/9]&a<卡納克> &f突然出現了一位&a[冒險者]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/9]&a<卡納克> &f他拿着&a[長劍]&f擊退了那隻狼'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/9]&a<卡納克> &f救了我一命,我永遠會記住這個恩人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      11:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<卡納克>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[但是為什麼會發生這樣的事?]'
+            goto: OBJECT 12
+            
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<卡納克>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<卡納克> &f當時不清楚,但是過了幾天'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<卡納克> &f就開始出現&4[黑龍事件]了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      13:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<卡納克>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[發生了甚麼事?]'
+            goto: OBJECT 14
+            
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<卡納克>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+        goto: OBJECT 15
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<卡納克> &f那天我就在田裡工作'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<卡納克> &f突然聽到很遠處有很大的咆哮聲'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<卡納克> &f慢慢的天空就變成全黑色了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<卡納克> &f然後長達2年的人類和不死族的戰爭就爆發了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<卡納克> &f情況可以說是相當慘烈'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<卡納克> &f你絕對不會想經歷那段歷史的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      15:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 16
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<雷卡特斯@5>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<雷卡特斯@5>&f對話'
+
+      16:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<雷卡特斯@5>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+          - '&f步驟-3 &f與&a<雷卡特斯@5>&f對話'
+        goto: OBJECT 17
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 3
+        npc: 3
+        click_types: LEFT_CLICK
+
+      17:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 18
+        toggle: true
+
+      18:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<雷卡特斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+          - '&f步驟-3 &f與&a<雷卡特斯@5>&f對話'
+        goto: OBJECT 19
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<雷卡特斯> &f看來&a[村長]&f也經歷過那段時間'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<雷卡特斯> &f接下來交給我們&e[皇家禁衛軍]&f吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<雷卡特斯> &f你回去跟&a[艾比]&f回報就可以了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      19:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 20
+        toggle: false
+            
+      20:
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比@4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比@4>&f對話'
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比@4>&f對話' 
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+          - '&f步驟-3 &f與&a<雷卡特斯@5>&f對話'
+        goto: OBJECT 21
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+
+      21:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 22
+        toggle: true
+
+      22:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<艾比@4>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<雷卡特斯@5>&f對話'
+          - '&f步驟-2 &f與&a<卡納克@2>&f對話'
+          - '&f步驟-3 &f與&a<雷卡特斯@5>&f對話'
+        goto: OBJECT 23
+        actions: 
+          - 'SEND_MESSAGE &e[1/5]&a<艾比> &f好的,謝謝你&6{player}'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<艾比> &f現在你完成了一個&a[公會任務]&f了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<艾比> &f我會給你&a[冒險者代幣]&f做獎勵'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<艾比> &f你可以找我查看&a[冒險者商店]&f,記得看看喔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<艾比> &f再有任務我會通知你的了owo'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      23:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+            
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+        
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

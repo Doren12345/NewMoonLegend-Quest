@@ -1,0 +1,382 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]炎鎮的指導'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx72900
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]雪山之戰'
+        - '&f可在&a[內湖營地]&f向&a<炎鎮>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv23'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc60]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 22'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_21
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/8]&a<炎鎮> &f在不久的將來就會有一場大戰'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/8]&a<炎鎮> &f到時候也會需要你的力量'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/8]&a<炎鎮> &f遇到不義的事,有能力的人就要帶領大家'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/8]&a<炎鎮> &f擊殺邪惡的生物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/8]&a<炎鎮> &f當然,不是每個人都有與生俱來的力量'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/8]&a<炎鎮> &f所以我們都必須要努力鍛鍊身體'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/8]&a<炎鎮> &f先從跑步開始吧!訓練你的心肺功能!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/8]&a<炎鎮> &f當你跑了500米再來跟我說吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b移動500米'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f移動500米'
+
+      4:
+        type: PLAYER_MOVE_BY_FOOT_DISTANCE
+        gps:
+          enabled: false
+        objective_detail: '&f移動500米 &b{objective_progression}&f/&b{objective_goal}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米&b{objective_progression}&f/&b{objective_goal}'
+        goto: OBJECT 5
+        goal: 500
+
+      5:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 6
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 60
+        npc: 60
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<炎鎮#65>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<炎鎮#65>&f對話'
+
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 7
+        toggle: true
+
+      7:
+        type: SERVER_ACTIONS
+        gps:
+          enabled: false
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &b[1/2]&a<炎鎮> &f少年!這就累了嗎?可不行喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/2]&a<炎鎮> &f接下來就要跳100下!訓練你的跳躍力!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      8:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 9
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b訓練跳躍力'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f訓練跳躍力'
+
+      9:
+        type: PLAYER_JUMP
+        objective_detail: '&f訓練跳躍力 &b{objective_progression}&f/&b{objective_goal}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b{objective_progression}&f/&b{objective_goal}'
+        goto: OBJECT 10
+        goal: 100
+
+      10:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 11
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 60
+        npc: 60
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<炎鎮#65>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<炎鎮#65>&f對話'
+
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: true
+        
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &b[1/3]&a<炎鎮> &f很好,接下來就去雪山上訓練!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/3]&a<炎鎮> &f冒險者必須要能適應惡劣的環境!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/3]&a<炎鎮> &f才能面對不同的挑戰!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      13:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 14
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往&a[雪山深處]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f前往&a[雪山深處]'
+
+      14:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[雪山深處]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-6 &f前往&a[雪山深處]'
+        goto: OBJECT 15
+        position:
+          type: SPHERE_INSIDE
+          radius: 10
+          center: world,-1379,148,76
+          
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](炎鎮大哥的訓練也太硬了吧)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](好累喔...)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](等等...怎麼前面有煙...？)'
+          - WAIT_TICKS 40
+          
+      16:
+        type: NONE
+        goto: OBJECT 17
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b查看&a[前面的煙]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f查看&a[前面的煙]'
+
+      17:
+        type: PLAYER_POSITION
+        objective_detail: '&b查看&a[前面的煙]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-6 &f查看&a[前面的煙]'
+        goto: OBJECT 18
+        position:
+          type: SPHERE_INSIDE
+          radius: 10
+          center: world,-1410,107,107
+          
+      18:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-6 &f查看&a[前面的煙]'
+        goto: OBJECT 19
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](這個難道是不死族的洞穴！？)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](我要趕快回去跟炎鎮大哥說！)'
+          - WAIT_TICKS 40
+
+      19:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-6 &f查看&a[前面的煙]'
+          - '&f步驟-7 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 20
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 60
+        npc: 60
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<炎鎮#65>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<炎鎮#65>&f對話'
+
+      20:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 21
+        toggle: true
+        
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &f移動500米'
+          - '&f步驟-3 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-4 &f訓練跳躍力&b100&f/&b100'
+          - '&f步驟-5 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-6 &f查看&a[前面的煙]'
+          - '&f步驟-7 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 22
+        actions:
+          - 'SEND_MESSAGE &b[1/2]&a<炎鎮> &f太好了!終於發現他們的洞穴了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/2]&a<炎鎮> &f少年!你做得很好!我們準備前往討伐他們吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      22:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 72900
+        - mmocore admin exp give {player} fishing 72900
+        - mmocore admin exp give {player} food 72900
+        - mmocore admin exp give {player} handicraft 72900
+        - mmocore admin exp give {player} main 72900
+        - mmocore admin exp give {player} mining 72900
+        - mmocore admin exp give {player} alchemy 72900
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

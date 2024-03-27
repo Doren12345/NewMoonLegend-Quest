@@ -1,0 +1,208 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]博多斯危機'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx45000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]變異的食人魚(上)'
+        - '&f可在&a[博多斯村莊]&f向&a<羅柏#97>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv26'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc92]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 25'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_24
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅柏#97>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<羅柏> &f太好了!是冒險者!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<羅柏#97>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你好,請問是不是發生甚麼事了?]'
+            goto: OBJECT 4
+            
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅柏#97>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<羅柏> &f是的!就是最近這裡的食人魚數量急劇增加'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<羅柏> &f但是原因我們也不知道...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<羅柏> &f食人魚數量會大大影響這村莊裡的安全'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 6
+        toggle: false
+
+      6:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a【Lv27】叢林食人魚 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv27】叢林食人魚 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 7
+        goals:
+          0:
+            mobs: '【Lv27】叢林食人魚'
+            goal: 20
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b擊殺&a【Lv27】叢林食人魚'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f擊殺&a【Lv27】叢林食人魚'
+            
+      7:
+        type: SERVER_ACTIONS
+        objective_detail: '&a你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv27】叢林食人魚 &b20&f/&b20'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](等等,這隻食人魚的魚鰭怎麼怪怪的)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情]((你拿下了食人魚的魚鰭)'
+          - WAIT_TICKS 40
+          
+      8:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅柏#97>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv27】叢林食人魚 &b20&f/&b20'
+          - '&f步驟-3 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 9
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 92
+        npc: 92
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅柏#97>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅柏#97>&f對話'
+            
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: true
+            
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<羅柏#97>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅柏#97>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv27】叢林食人魚 &b20&f/&b20'
+          - '&f步驟-3 &f與&a<羅柏#97>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<羅柏> &f這是食人魚的魚鰭?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<羅柏> &f怎麼是這種顏色...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<羅柏> &f這我要跟公會總部回報一下,你等等再來找我吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 45000
+        - mmocore admin exp give {player} fishing 45000
+        - mmocore admin exp give {player} food 45000
+        - mmocore admin exp give {player} handicraft 45000
+        - mmocore admin exp give {player} main 45000
+        - mmocore admin exp give {player} mining 45000
+        - mmocore admin exp give {player} alchemy 45000
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

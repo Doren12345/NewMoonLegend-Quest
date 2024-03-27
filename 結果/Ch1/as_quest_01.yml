@@ -1,0 +1,975 @@
+# -------------------- Display settings --------------------
+display_name: '&e[第一章]一切的開始&a(回顧)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &a✔ &f已領取任務獎勵
+    &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
+    &#32027d&m                                   
+    &r&f{controls}
+
+display_priority: 1
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      bossbar: >
+        {quest} &a任務完成!
+      bossbar_color: GREEN  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務失敗!
+      bossbar_color: RED  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務取消!
+      bossbar_color: PINK  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_01
+
+# -------------------- Activator settings --------------------
+activators: [cnpc103]
+
+# -------------------- Main Quest Object --------------------
+branches:
+  main:
+    starts_at: 0
+    objects:
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        npc: 697 #奧斯卡#47
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 697 #奧斯卡#47
+
+        objective_detail: '&f與&a<奧斯卡#47>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<奧斯卡#47>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<奧斯卡#47>&f對話'
+
+        goto: OBJECT 1
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        toggle: true
+        goto: OBJECT 2
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        goto: OBJECT 3
+        actions: 
+          - 'SEND_MESSAGE &a<奧斯卡> &f冒險者!!歡迎你來到&e[柏拉迪斯大陸]&f!相信你已經看完五樓的指南了吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f那現在就等我來跟你介紹...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f歡迎來到&e[新月城]&f的&a[圖書館]&f!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f這裡是知識的殿堂，匯聚了無數寶貴的書籍和智慧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f要成為一個優秀的冒險者，圖書館是一個不可或缺的地方。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f不過...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f雖然我們叫做圖書館，但館內卻沒有多少書籍...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[圖書館沒有書籍？你在和我開玩笑嗎？]'
+            goto: OBJECT 4A
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[圖書館沒有書，就和老婆餅沒有老婆一樣吧。]'
+            goto: OBJECT 4B
+      4A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f圖書館沒有書籍？你在和我開玩笑嗎？' 
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f我沒有在和你開玩笑，圖書館大部分的書籍都在幾個月前被搶走了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f事情發生的很突然，當時有一群&7[黑色衣服]&f的人衝進來。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f把我們館內很多重要的書都拿走了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f正當我想要去追的時候，他們直接在我眼前消失了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[原來是這樣!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f原來是這樣!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40 
+          - 'SEND_MESSAGE &a<奧斯卡> &f不過那群&7[黑色衣服]&f的人沒有把全部書本都拿走。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f為了防止那些沒被拿走的書本再次被搶走，目前書本都交由&b[館長 麥倫]&f保管。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f如果你想要看那些書籍，可以向&b[館長 麥倫]&f購買一份複製品。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f對了，你應該還沒有去&a[冒險者公會]&f登記做冒險者吧？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f圖書館沒有書，就和老婆餅沒有老婆一樣吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f不一樣，幾個月前我們館內還是有很多書籍的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f不過自從這個事情發生了之後，館內的書籍量變很少了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f事情發生的很突然，當時有一群&7[黑色衣服]&f的人衝進來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f把我們館內很多重要的書都拿走了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f正當我想要去追的時候，他們直接在我眼前消失了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[原來是這樣!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f原來是這樣!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40 
+          - 'SEND_MESSAGE &a<奧斯卡> &f不過那群&7[黑色衣服]&f的人沒有把全部書本都拿走。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f為了防止那些沒被拿走的書本再次被搶走，目前書本都交由&b[館長 麥倫]&f保管。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f如果你想要看那些書籍，可以向&b[館長 麥倫]&f購買一份複製品。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f對了，你應該還沒有去&a[冒險者公會]&f登記做冒險者吧？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[什麼？ 冒險者還需要登記的？]'
+            redo_text: '&d&l[故事劇情] 按我回答 >> &7[什麼？ 冒險者還需要登記的？]'
+            goto: OBJECT 6A
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[冒險者公會是什麼？]'
+            redo_text: '&d&l[故事劇情] 按我回答 >> &7[冒險者公會是什麼？]'
+            goto: OBJECT 6B
+          2:
+            text: ''
+            redo_text: '&d&l[故事劇情] 按我回答 >> &c[我沒有問題要問了]'
+            goto: OBJECT 7      
+      6A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f什麼？ 冒險者還需要登記的？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f沒錯，為了防止非冒險者進入危險區域，所以需要做登記。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f登記還有一個好處，就是可以方便我們紀錄&6[冒險者階級]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f至於什麼是&6[冒險者階級]&f，你可以去問問看&a[冒險者公會]&f的人。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      6B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f冒險者公會是什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &a[冒險者公會]&f是一個聚集廣大冒險者的組織。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f當大陸上有人需要冒險者時，就會通知&a[冒險者公會]&f'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f&a[冒險者公會]&f就會發出委託，讓冒險者去幫忙。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      7:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+        goto: OBJECT 8
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我沒有問題要問了。'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f如果你要登記成為&a[冒險者公會]&f的冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f就需要先跟&a[莎莉#59]&f說一聲，她就會幫你做登記了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f她是「新月三子」中的「月照」的未婚妻。她充滿了溫暖的人情味，與她對話後你就會感受到了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &f她就在對面，你可以使用&e[新手教學]&f送你的&b[系統水晶]&f定位NPC位置'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<奧斯卡> &b[系統水晶]&f>&a[定位系統]&f>[NPC定位]可以找到&a[莎莉#59]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b(提示:做主線任務時，請不要接取任何支線任務，有機會讓指標出現問題)'
+          - 'SEND_MESSAGE &b(若指標已出現問題，請至&b[系統水晶]&f>&3[任務列表]&f>&a[進行中的任務]&b取消所有任務)'
+      8:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 9
+        toggle: false
+      9:
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<莎莉#59>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<莎莉#59>&f對話'
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<莎莉#59>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+        goto: OBJECT 10
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 153
+        npc: 153
+      10:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 11
+        toggle: true
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+        goto: OBJECT 12
+        actions: 
+          - 'SEND_MESSAGE &a<莎莉> &f您好，有什麼可以幫到你的嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      12:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[妳好，我是新來的冒險者，請多指教!]'
+            goto: OBJECT 13A
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[妳好，我想要登記成冒險者ʘ‿ʘ]'
+            goto: OBJECT 13B
+          2:
+            text: '&d&l[故事劇情] 按我回答 >> &f[沒有]'
+            max_completions: 1
+            goto: OBJECT 13C
+      13A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+        goto: OBJECT 14
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f妳好，我是新來的冒險者，請多指教!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f原來是新來的冒險者，歡迎你!!那你先幫我填寫一下這張資料文件。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你拿到了一張資料填寫書，你把你的基本訊息都寫在上面了)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你把資料都填好給她了)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f哇嗚!你叫做%luckperms_prefix%{player}&f，真是是個好名字呢!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f我叫做莎莉，是冒險者總部的負責人。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f既然你是來登記做冒險者的，那我就分享幾個其他冒險者的心得給你吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      13B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+        goto: OBJECT 14
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f妳好，我想要登記成冒險者ʘ‿ʘ'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f原來是新來的冒險者，歡迎你!!那你先幫我填寫一下這張資料文件。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你拿到了一張資料填寫書，你把你的基本訊息都寫在上面了)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你把資料都填好給她了)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f你叫做%luckperms_prefix%{player}&f，是個好名子耶!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f我叫做莎莉，是冒險者總部的負責人。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f既然你是來登記做冒險者的，那我就分享幾個其他冒險者的心得給你吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      13C:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+        goto: OBJECT 12
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f沒有'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f沒有嗎？ 哈哈，抱歉打擾您了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f如果有需要幫助都可以找我喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+        goto: OBJECT 15
+        actions: 
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[好呀! 我也不知道自己可以在這裡做什麼]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好呀! 我也不知道自己可以在這裡做什麼'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f既然你是來當冒險者的，那最重要的當然就是...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f向著更高階的冒險者階級前進!!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f冒險者階級有分成&7[初級冒險者]&f、&a[下級冒險者]&f、&b[中級冒險者]&f、&6[上級冒險者]&f、&d[特級冒險者]&f，共五個階級。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我回答 >> &f[所以... 我現在是屬於&7[初級冒險者]&f嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f所以... 我現在是屬於&7[初級冒險者]&f嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f很可惜，你目前並不屬於&7[初級冒險者]&f喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &7[初級冒險者]&f並不是一個最基本的冒險者階級'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f換句話說，並不是所有已登記的冒險者都會屬於&7[初級冒險者]&f'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f要成為&7[初級冒險者]&f，就會需要完成&7[初級冒險者]&f的任務。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f每一個冒險者階級都有相應的任務，如&7[初級冒險者]&f對應的任務是&b[支線]成為合格的冒險者(3)&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<莎莉> &f冒險者階級越高，相應任務的難度就會越高。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f冒險者階級就是一個這樣的系統。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我回答 >> &f[我大概明白了，謝謝你的分享(≧▽≦)]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我大概明白了，謝謝你的分享(≧▽≦)' 
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f不客氣(≧▽≦)，你的資料我已經幫你上傳了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f我剛剛幫你接了一個任務，位在&a[卡坦村]&f，期待你的表現!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f還有，麻煩你順便幫我把這本書拿去給&a[娜娜明#10]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f她上次就叫我幫她買了，只是我一直沒有給她。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我回答 >> &f[我很樂意幫忙!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我很樂意幫忙!' 
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f謝謝你! 那就交給你了(•‿•)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](莎莉給你了一本已包裝好的書本)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<莎莉> &f你可以在門口前面大樹的旁邊的&b[水池]&f傳送點的位置按下&a[Shift]&f進行傳送，前往&a[卡坦村]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      15:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 16
+        toggle: false
+      16:
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<娜娜明#10>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<娜娜明#10>&f對話'
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<娜娜明#10>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 17
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 631
+        npc: 631    
+      17:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 18
+        toggle: true
+      18:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 19
+        actions: 
+          - 'SEND_MESSAGE &a<娜娜明> &f還記得我嗎？我是在&e[新手教學]&f教過你的那一位~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f能再次看到你真是很開心(≧▽≦)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f有去登記成為&8[冒險者]&f了嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          'PROMPT_NEXT &d&l[故事劇情] 按我回答 >> &f[有呀! 哦對了，這是&a[莎莉小姐#59]&f託我給你的書]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f有呀! 哦對了，這是&a[莎莉小姐#59]&f託我給你的書'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f太好了~&a[莎莉]&f真是我的好閨蜜~下次可要送好吃的給她!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f那你應該是第一次來到&a[卡坦村]&f吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f我和你介紹一下，&a[卡坦村]&f位在整個大陸的中心點'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f所以這裡的進口貿易，人口，旅遊，美食，都是全大陸上最豐富的&a[村莊]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f雖然就不能跟&b[新月城]&f那種大都市比較，&f但以&a[村莊]&f的規模來說，算是數一數二大了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f就是因為這個原因，&a[卡坦村]&f吸引不同的人材逗留和定居。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f我建議你應該多多和這裡的人打交道'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f畢竟日後，你有機會幫這裡的村民做他們的委托。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我回答 >> &f[好主意，我也想認識他們，你覺得我應該先找誰？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好主意，我也想認識他們，你覺得我應該先找誰？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f所謂&a[家有一老，如有一寶]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f村長可是&a[卡坦村]&f的&6[知識寶庫]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f他從小見證&a[卡坦村]&f由寂寂無名的村莊變成現在的繁榮大村莊。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f先去跟村長打個招呼吧，村長人很熱情的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40     
+      19:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 20
+        toggle: false   
+      20:
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<卡納克#2>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<卡納克#2>&f對話'
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<卡納克#2>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 21
+          title_subtitle: '&b與&a<卡納克#2>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<卡納克#2>&f對話'
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 2
+        npc: 2
+      21:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 22
+        toggle: true
+      22:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 23
+        actions: 
+          - 'SEND_MESSAGE &a<卡納克> &f哦，又來了一位新的冒險者啊，歡迎你來到我們卡坦村。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f我是卡納克，你就叫我村長好了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f卡坦村一向對冒險者開放，歡迎你在這裡定居或者尋找工作。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f如果你有任何問題，盡管找我就是了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f讓我來介紹一下我的好朋友，安格斯。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f他可是大陸上有名氣的鐵匠，曾打造過無數的武器和防具。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f只要你提供足夠的素材，他就能為你製作出各種奇特的裝備呢。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      23:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 24
+        toggle: false
+      24:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<安格斯#6>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<安格斯#6>&f對話'
+        objective_detail: '&f與&a<安格斯#6>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 25
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 4
+        npc: 4   
+      25:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 26
+        toggle: true
+      26:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 27
+        actions: 
+          - 'SEND_MESSAGE &a<安格斯> &f歡迎光臨，我已經聽&a[卡納克]&f說了，你是新來的冒險者吧？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你點了點頭)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<安格斯> &f我是卡坦村的第二任鐵匠&a[安格斯]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<安格斯> &f這大陸上大部份的武器和裝備，我都知道鍛造的方式。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<安格斯> &f除了那些太&6[高科技]&f的，那我真的不太懂，哈哈(￣▽￣)~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<安格斯> &f科技還是交給&e[年輕人]&f去研究吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<安格斯> &f我跟&a[羅素]&f都是比較傳統的老人，喜歡慢慢的用心去製作精品。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<安格斯> &f你可以去跟他打個招呼，他現在應該在自己的店面。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<安格斯> &f他可是我的大鼻族好友，所以對人都很友善有禮，只不過他做東西的速度... 不可言喻。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      27:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 28
+        toggle: false
+      28:
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅素#25>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅素#25>&f對話'
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅素#25>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-6 &f與&a<羅素#25>&f對話'
+        goto: OBJECT 29
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 611
+        npc: 611
+      29:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 30
+        toggle: true
+      30:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-6 &f與&a<羅素#25>&f對話'
+        goto: OBJECT 31
+        actions: 
+          - 'SEND_MESSAGE &a<羅素> &f你好呀，你是新來的冒險者吧，我叫羅素。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你好!'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f你應該從來沒有試過&a[手工藝]&f吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f那就讓我來教你什麼叫做&a[手工藝]&f!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &a[手工藝]&f是指把一些基本的原材料做成&a[工藝品/物品]&f的一門技術。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f例如使用&a[原木]&f製作成&b[木門]&f，就是手工藝中的一項技術。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f如果你想學會這些工藝品的做法，&f就要到&b[新月城]&f的圖書館找館長買書來看。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f書裡面會有教學，閱讀完教學後，在書裡按下&b[點擊解鎖]&f就能學會了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f每次學會一個工藝品的做法，都需要關上書休息一下才能再看喔。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f當然，你也可以直接找我幫忙，我很樂意幫助你。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f如果你想看有關工藝品的實物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅素> &f你可以到對面&a[冒險者公會]&f看，裡面的任務木板是我親手做的。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](是時候來解決&a[莎莉小姐]&b交給我的任務了)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40  
+      31:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 32
+        toggle: false     
+      32:
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比#4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比#4>&f對話'
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比#4>&f對話' 
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-6 &f與&a<羅素#25>&f對話'
+          - '&f步驟-7 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 33
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1  
+      33:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 34
+        toggle: true
+      34:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-6 &f與&a<羅素#25>&f對話'
+          - '&f步驟-7 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 35
+        actions: 
+          - 'SEND_MESSAGE &a<艾比> &f你好，你是&a[莎莉]&f小姐的朋友對吧，我是&a[艾比]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f恭喜你，你登記成功了，正式成為了冒險者!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f現在你在各個村莊完成&a[公會任務]&f，都能夠獲得&a[冒險者代幣]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &a[冒險者代幣]&f會存在你的帳號裡，&f只要找接待員就能打開&a[冒險者商店]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &a[冒險者代幣]&f可以換的物品很多，其中&d[大地的知性]&f可說是非常重要'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      35:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-6 &f與&a<羅素#25>&f對話'
+          - '&f步驟-7 &f與&a<艾比#4>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[什麼是&d[大地的知性]&f？]'
+            goto: OBJECT 36A
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[&d[大地的知性]&f是什麼？ 能吃嗎？]'
+            goto: OBJECT 36B
+      36A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-6 &f與&a<羅素#25>&f對話'
+          - '&f步驟-7 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 37
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f什麼是&d[大地的知性]&f？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &d[大地的知性]&f是一種屬於&a[精靈族]&f的技術。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f只要在&9[集中器]&f中放上足夠的&d[大地的知性]&f，&9[集中器]&f就能集合大地的能量，&f把能量轉變成不同的的資源。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<艾比> &f有時候可能是獲得稀有的&e[技能書]&f都說不定喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f由於&d[大地的知性]&f是一個很重要的資源來源，所以冒險者幫忙寫了一本書，目前蒐藏在&b[新月城圖書館]&f，名為&5[大地的知性#106]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<艾比> &f那本書裡面有詳細的說&d[大地的知性]&f的結構與使用方式，是一本很實用的書。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f為了祝賀你成功登記為冒險者，公會將會送&a[新手禮包-陸行鳥寵物]&f給你。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f這樣你在未來的時候趕路會比較方便，如果想要再更方便，可以考慮購買馬匹。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f想要購買馬匹，你可以去找&a[連姆]&f，他那裏似乎有幾批訓練過的馬可以購買。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f馬匹可以一邊騎行一進用技能，方便戰鬥。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f那現在你應該都已經累了，你先休息一下吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f等你準備好開始&a[卡坦村公會委託任務]&f再來找我吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b(提示:每個主線都有等級要求，若等級還未到達要求，可以完成&9[支線]&b來提升等級)'
+          - 'SEND_MESSAGE &b(使用&e[系統水晶]&f>&3[任務]&f>&9[支線]&b來查看目前可以接取的支線)'
+      36B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<奧斯卡#47>&f對話'
+          - '&f步驟-2 &f與&a<莎莉#59>&f對話'
+          - '&f步驟-3 &f與&a<娜娜明#10>&f對話'
+          - '&f步驟-4 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-5 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-6 &f與&a<羅素#25>&f對話'
+          - '&f步驟-7 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 37
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &d[大地的知性]&f是什麼？ 能吃嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f哈哈哈，你別說笑了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &d[大地的知性]&f是一種屬於&a[精靈族]&f的技術。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f只要在&9[集中器]&f中放上足夠的&d[大地的知性]&f，&9[集中器]&f就能集合大地的能量，&f把能量轉變成不同的的資源。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<艾比> &f有時候可能是獲得稀有的&e[技能書]&f都說不定喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f由於&d[大地的知性]&f是一個很重要的資源來源，所以冒險者幫忙寫了一本書，目前蒐藏在&b[新月城圖書館]&f，名為&5[大地的知性#106]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<艾比> &f那本書裡面有詳細的說&d[大地的知性]&f的結構與使用方式，是一本很實用的書。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f為了祝賀你成功登記為冒險者，公會將會送&a[新手禮包-陸行鳥寵物]&f給你。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f這樣你在未來的時候趕路會比較方便，如果想要再更方便，可以考慮購買馬匹。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f想要購買馬匹，你可以去找&a[連姆]&f，他那裏似乎有幾批訓練過的馬可以購買。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f馬匹可以一邊騎行一進用技能，方便戰鬥。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f那現在你應該都已經累了，你先休息一下吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f等你準備好開始&a[卡坦村公會委託任務]&f再來找我吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b(提示:每個主線都有等級要求，若等級還未到達要求，可以完成&9[支線]&b來提升等級)'
+          - 'SEND_MESSAGE &b(使用&e[系統水晶]&f>&3[任務]&f>&9[支線]&b來查看目前可以接取的支線)'
+      37:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+          
+end_objects:
+  success:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - 'heal {player}'
+
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

@@ -1,0 +1,716 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]尋找威廉的師傅'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx186000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]蘇茲達小鎮的戰況'
+        - '&f可在&a[蘇茲達小鎮]&f向&a<傑恩@191>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv56'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc10]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 55'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_50
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+        goto: OBJECT 3A
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<威廉> &f現在的情況十分不妙,除了要盡快找回蓓拉'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<威廉> &f我也離不開這裡,這才是最麻煩的事情'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3A:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<威廉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [甚麼事?]'
+            goto: OBJECT 3B
+          
+      3B:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+        goto: OBJECT 4
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<威廉> &f如果我這段時間不留在這裡的話'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<威廉> &f可能會引爆第2次的&e[精靈戰爭]&f...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<威廉> &f但是長話短說吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<威廉> &f可能真的要拜託我師傅了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      4:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<威廉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [威廉大哥你的師傅?]'
+            goto: OBJECT 5
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<威廉> &f&f對,這件事只能是師傅了,出於我對他的尊敬'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<威廉> &f沒有他的許可,我不會告訴你他的名字'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<威廉> &f但我會告訴你他的家在哪裡'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<威廉> &f也請你現在就趕快過去吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<威廉> &f告訴他這裡發生的一切'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<威廉> &f看他老人家能不能幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 7
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e前往&a[威廉師傅的家]&e(3208,122,467)'
+          message: '&e[任務提示]&f前往&a[威廉師傅的家]&e(3208,122,467)'
+
+      7:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往[威廉師傅的家](3208,122,467)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+        goto: OBJECT 8
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,3208,122,467
+
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](應該是這個房屋了)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &b[故事劇情](那我現在應該要進去嗎?)'
+          - WAIT_TICKS 20
+          
+      9:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+        goto: OBJECT 10
+        commands:
+          - mm m spawn 【Lv56】STORY 10 world,3211,122,458,0,0
+          
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](這是甚麼?機器人?)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[1/1]&a<MaRk•戰鬥型甲蟲> &f攻擊入侵者!攻擊入侵者!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 20
+          
+      11:
+        type: PLAYER_MYTHICMOBS_MOBS_DEATH_NEARBY
+        objective_detail: '&f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲&e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 12
+        max_distance: 100.0
+        goals:
+          0:
+            mobs: '【Lv56】STORY'
+            goal: 5
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲'
+          
+      12:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 38
+        goto: OBJECT 13
+        position:
+          type: SINGLE
+          location: world,3211,122,452,0,0
+          
+      13:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&a劇情進行中...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+        goto: OBJECT 14
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,3211,122,457,0,0
+        wait_for_player_radius: 300
+        npc: 38
+          
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&a劇情進行中...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+        goto: OBJECT 15
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑斯> &f竟然有實力打敗我的機器人,你也挺強的嘛'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](傑斯按下手中的按鈕)'
+          - WAIT_TICKS 20
+          
+      15:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a劇情進行中...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+        goto: OBJECT 16
+        commands:
+          - 'mm m kill 【Lv56】STORY'
+          
+      16:
+        type: SERVER_ACTIONS
+        objective_detail: '&a劇情進行中...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+        goto: OBJECT 17
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](所有的機甲甲蟲都自爆了)'
+          - WAIT_TICKS 20
+          
+      17:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<傑斯>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 19
+        npc: 38
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<傑斯>&f對話'
+          message: '&e[任務提示]&f與&a<傑斯>&f對話'
+          
+      19:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 20
+        toggle: true
+        
+      20:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 21
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑斯> &f你是誰?怎麼來到這裡的?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+         
+      21:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [你好,請問你是威廉大哥的師傅嗎?]'
+            goto: OBJECT 22
+            
+      22:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 23
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑斯> &f怎麼這樣問我呢?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      23:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [因為是威廉大哥叫我來找他的師傅的]'
+            goto: OBJECT 24
+            
+      24:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [但因為出於對他的尊敬所以不能告訴我知道名字]'
+            goto: OBJECT 25
+
+      25:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 26
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<傑斯> &f哈哈,原來是這樣'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<傑斯> &f威廉真不愧是&e[巴羅先生]&f最看好的弟子'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<傑斯> &f在[能力]和[孝義]中都是三小子中發揮得最極致的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      26:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [甚麼!?]'
+            goto: OBJECT 27
+         
+      27:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 28
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<傑斯> &f那是&e[巴羅先生]&f說的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<傑斯> &f威廉是他最愛的弟子,除了國家大事處理得很好,還有...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      28:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [WTF!?]'
+            goto: OBJECT 29
+            
+      29:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 30
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑斯> &f怎麼了??'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      30:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [傳說中的勇者巴羅?他還在生嗎?]'
+            goto: OBJECT 31
+            
+      31:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 32
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑斯> &fWTF??'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你發現自己好像說錯話了)'
+          - WAIT_TICKS 20
+          
+      32:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [抱歉,我太失禮了]'
+            goto: OBJECT 33
+            
+      33:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 34
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<傑斯> &f哈哈,也不能全怪你,但下次要注意用詞喔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<傑斯> &f我也很難相信一個人類可以活超過120歲'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<傑斯> &f但身體年齡還是35歲'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<傑斯> &f這還是上年&e[巴羅先生]&f的身體報告...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<傑斯> &f這年不知道有沒有機會上升1歲'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<傑斯> &f但對上一次身體年齡是34歲已經是7年前的事了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想:明顯是個狠角色)'
+          - WAIT_TICKS 20
+          
+      34:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [所以說我現在可以在這裡找到&e[巴羅先生]&d嗎?]'
+            goto: OBJECT 35
+            
+      35:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 36
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑斯> &f&e[巴羅先生]&f他出遠門了,你有事找他嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+            
+      36:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [現在發生了一些大事情,威廉大哥叫我來的]'
+            goto: OBJECT 37
+            
+      37:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 38
+        actions:
+          - 'SEND_MESSAGE &e[1/9]&a<傑斯> &f對呀,哈哈,剛剛太混亂了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/9]&a<傑斯> &f我先來自我介紹吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/9]&a<傑斯> &f我叫做傑斯,是一名發明家'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/9]&a<傑斯> &f像是電梯,電子交易都是我發明的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/9]&a<傑斯> &f像是你們平常路過會打的訓練木樁'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/9]&a<傑斯> &f都是由我來設計出來的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/9]&a<傑斯> &f剛剛和你戰鬥的機器人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/9]&a<傑斯> &f就是我的新發明&b[秘術]&f!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/9]&a<傑斯> &f這個技術的命名是&d[魔法]&f和&e[科技]&f的結合!!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      38:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [原來你是發明家呀,但你怎麼出現在這裡?]'
+            goto: OBJECT 39
+            
+      39:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 40
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<傑斯> &f那是因為&e[巴羅先生]&f是我的恩人,詳細的之後再說'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<傑斯> &f但反而是你怎麼出現在這裡?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<傑斯> &f是發生了甚麼重要的事情嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<傑斯> &f因為威廉絕不可能把師傅的家告訴給一個陌生人身上'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想:的確,原來我這麼不普通了)'
+          - WAIT_TICKS 20
+          
+      40:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [抱歉,是我太失禮了,其實是這樣的...]'
+            goto: OBJECT 41
+            
+      41:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<威廉>&f對話'
+          - '&f步驟-2 &f前往&a[威廉師傅的家]&e(3208,122,467)'
+          - '&f步驟-3 &f擊殺&a【Lv56】機甲計劃MaRk-30•戰鬥型甲蟲 &e5&f/&e5'
+          - '&f步驟-4 &f與&a<傑斯>&f對話'
+        goto: OBJECT 42
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你把帝貝鎮發生的所有事情都告訴了他)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[1/5]&a<傑斯> &f難怪威廉會告訴你'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<傑斯> &f那真的要快點找到&e[巴羅先生]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<傑斯> &f但是他現在有事辦出遠門了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<傑斯> &f你先到我們的村莊[蘇茲達小鎮]等吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<傑斯> &f跟我的兒子傑恩說一聲,他就會好好照顧你的了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[事件]([光譜]]第二章：精靈戰爭(序)#702已經解鎖)'
+          - 'SEND_MESSAGE &b[事件]([書本]傑斯(The Jess)#107已經解鎖)'
+          - 'SEND_MESSAGE &b[事件]([情報]巴羅的身體報告#7已經解鎖)'
+          
+      42:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 186000
+        - mmocore admin exp give {player} fishing 186000
+        - mmocore admin exp give {player} food 186000
+        - mmocore admin exp give {player} handicraft 186000
+        - mmocore admin exp give {player} main 186000
+        - mmocore admin exp give {player} mining 186000
+        - mmocore admin exp give {player} alchemy 186000
+        - lp user {player} permission set rpgbook.702 true
+        - lp user {player} permission set rpgbook.107 true
+        - lp user {player} permission set rpgbook.7 true
+        - gcore npcreset {player} 38
+        - gcore npcreset {player} 39
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 38

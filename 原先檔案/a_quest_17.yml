@@ -1,0 +1,470 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]調查幻影塔'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &f阿帕奇部落圖騰&fx4
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx48400
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]突擊幻影塔'
+        - '&f可在&a[內湖營地]&f向&a<炎鎮>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv18'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc60]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 17'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_16
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<炎鎮> &f目前公會已經發出公告'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<炎鎮> &f將這個塔命名為幻影塔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<炎鎮> &f收到消息在阿姆斯草原都有出現'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<炎鎮> &f我想請你前去調查看看是怎樣的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往阿姆斯草原幻影塔'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b前往阿姆斯草原幻影塔'
+
+      4:
+        type: PLAYER_POSITION
+        objective_detail: '&a阿姆斯草原幻影塔'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+        goto: OBJECT 5
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-489,74,-218
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<炎鎮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &b(這個塔的外型和之前看到的一樣)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b(進去上頂樓看看)'
+          - WAIT_TICKS 40
+
+      6:
+        type: PLAYER_POSITION
+        objective_detail: '&a前往神秘的塔'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+        goto: OBJECT 7
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-489,106,-224
+          
+      7:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 24
+        goto: OBJECT 8
+        position:
+          type: SINGLE
+          location: world,-489.5,106,-216.5,90,0
+          
+      8:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 25
+        goto: OBJECT 9
+        position:
+          type: SINGLE
+          location: world,-492.5,106,-216.5,90,0
+          
+      9:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<黑衣男>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+        goto: OBJECT 10
+        npc: 24
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<黑衣男>&b對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b與&a<黑衣男>&b對話'
+          
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<黑衣男>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<黑衣男> &f怎麼又是你這個傢伙?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      11:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<黑衣男>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [我們見過面嗎?]'
+            goto: OBJECT 12
+            
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<黑衣男>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<黑衣女> &f上次竟然毒不死你!?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<黑衣女> &f這次就讓我們殺死你吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](擊殺兩名黑衣人)'
+          - 'SEND_MESSAGE &b[故事劇情]&c(死亡需要重新接取任務重做)'
+          
+      13:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 24
+        goto: OBJECT 14
+        position:
+          type: SINGLE
+          location: world,-491.5,23,-218,90,0
+          
+      14:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 25
+        goto: OBJECT 15
+        position:
+          type: SINGLE
+          location: world,-491.5,23,-220,90,0
+          
+      15:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+        goto: OBJECT 16
+        commands:
+          - 'mm m spawn test14 1 world,-492,106,-216,180,0'
+          - 'mm m spawn test15 1 world,-492,106,-216,180,0'
+          
+      16:
+        type: PLAYER_MYTHICMOBS_MOBS_DEATH_NEARBY
+        objective_detail: '&f擊殺目標'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男> &e{objective_progression:a}&f/&e{objective_goal:a}&f,&a<黑衣女> &e{objective_progression:b}&f/&e{objective_goal:b}'
+        goto: OBJECT 17
+        max_distance: 50.0
+        goals:
+          a:
+            mobs: 'test14'
+            goal: 1
+          b:
+            mobs: 'test15'
+            goal: 1
+          
+      17:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 18
+        toggle: true
+
+      18:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 19
+        position:
+          type: SINGLE
+          location: world,-490,106,-220
+          
+      19:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 24
+        goto: OBJECT 20
+        position:
+          type: SINGLE
+          location: world,-489.5,106,-217.5,90,0
+          
+      20:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 25
+        goto: OBJECT 21
+        position:
+          type: SINGLE
+          location: world,-491.5,106,-217.5,90,0
+          
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<黑衣男>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男>&e1&f/&e1&f,&a<黑衣女>&e1&f/&e1'
+        goto: OBJECT 22
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<黑衣男> &f可惡,怎麼可能敗在你這個小子身上'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](黑衣男吃下了一粒藥丸)'
+          - WAIT_TICKS 40
+          
+      22:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<黑衣男>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男> &e1&f/&e1&f,&a<黑衣女> &e1&f/&e1'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你們到底有什麼目的?]'
+            goto: OBJECT 23
+          
+      23:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<黑衣男>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男>&e1&f/&e1&f,&a<黑衣女>&e1&f/&e1'
+        goto: OBJECT 24
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<黑衣男> &f你慢慢猜吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      24:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 25
+        npc: 24
+        status: ELYTRA
+          
+      25:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<黑衣女>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男>&e1&f/&e1&f,&a<黑衣女>&e1&f/&e1'
+        goto: OBJECT 26
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](黑衣男倒在地上失去了呼吸)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[1/1]&a<黑衣女> &f我們誓死效忠黑暗軍團,不會出賣任何人的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](黑衣女吃下了一粒藥丸)'
+          - WAIT_TICKS 40
+          
+      26:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<黑衣女>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男>&e1&f/&e1&f,&a<黑衣女>&e1&f/&e1'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你們是黑暗軍團?]'
+            goto: OBJECT 27
+          
+      27:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<黑衣女>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男> &e1&f/&e1&f,&a<黑衣女> &e1&f/&e1'
+        goto: OBJECT 28
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<黑衣女> &f再見了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      28:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 29
+        npc: 25
+        status: ELYTRA
+          
+      29:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<黑衣男>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男> &e1&f/&e1&f,&a<黑衣女> &e1&f/&e1'
+        goto: OBJECT 30
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](黑衣女也倒在地上失去了呼吸)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](看來事情不簡單，還是趕快回去匯報)'
+          - WAIT_TICKS 40
+          
+      30:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 24
+        goto: OBJECT 31
+        position:
+          type: SINGLE
+          location: world,-491.5,23,-218,90,0
+          
+      31:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 25
+        goto: OBJECT 32
+        position:
+          type: SINGLE
+          location: world,-491.5,23,-220,90,0
+          
+      32:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<黑衣男>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<炎鎮#65>&f對話'
+          - '&f步驟-2 &a前往阿姆斯草原幻影塔(-489,74,-218)'
+          - '&f步驟-3 &a前往阿姆斯草原幻影塔(-489,106,-224)'
+          - '&f步驟-4 &f與&a<黑衣男>&f對話'
+          - '&f步驟-5 &f擊殺&a<黑衣男> &e1&f/&e1&f,&a<黑衣女> &e1&f/&e1'
+        goto: OBJECT 33
+        commands:
+          - gcore npcreset {player} 24
+          - gcore npcreset {player} 25
+          
+      33:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+          
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mi give RPG_ITEM_MOB 阿帕奇部落圖騰 {player} 4
+        - mmocore admin exp give {player} farm 48400
+        - mmocore admin exp give {player} fishing 48400
+        - mmocore admin exp give {player} food 48400
+        - mmocore admin exp give {player} handicraft 48400
+        - mmocore admin exp give {player} main 48400
+        - mmocore admin exp give {player} mining 48400
+        - mmocore admin exp give {player} alchemy 48400
+  cancel:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+          - gcore npcreset {player} 24
+          - gcore npcreset {player} 25

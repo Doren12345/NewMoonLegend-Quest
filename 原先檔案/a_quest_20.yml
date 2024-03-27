@@ -1,0 +1,216 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]受傷的皇家禁衛軍'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &f普通秘寶代幣&fx5
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx62500
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]上山調查'
+        - '&f可在&a[內湖營地]&f向&a<炎鎮>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv21'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc27]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 20'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_19
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a與&a<受傷的皇家禁衛軍>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受傷的皇家禁衛軍> &f我是從雪山上逃下來的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受傷的皇家禁衛軍> &f剛剛上面發生了大事件!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受傷的皇家禁衛軍>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [甚麼大事件?]'
+            goto: OBJECT 4
+
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a與&a<受傷的皇家禁衛軍>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<受傷的皇家禁衛軍> &f我在雪山上巡邏時'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<受傷的皇家禁衛軍> &f突然發現了一群不死族的出現!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<受傷的皇家禁衛軍> &f正當我打算上前戰鬥時'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<受傷的皇家禁衛軍> &f發現它們已經悄悄地前後夾擊我'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<受傷的皇家禁衛軍> &f所以我只好逃走,但還是不幸被攻擊了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<受傷的皇家禁衛軍> &f請你把這個消息告訴隊長'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<受傷的皇家禁衛軍>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受傷的皇家禁衛軍>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [那你怎麼辦?]'
+            goto: OBJECT 6
+
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a與&a<受傷的皇家禁衛軍>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受傷的皇家禁衛軍>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<受傷的皇家禁衛軍> &f沒事,我休息一下就能會回去了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<受傷的皇家禁衛軍> &f你先告訴隊長吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8
+        toggle: false
+          
+      8:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 9
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 60
+        npc: 60
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<炎鎮#65>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<炎鎮#65>&f對話'
+          
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<受傷的皇家禁衛軍>&f對話'
+          - '&f步驟-2 &f與&a<炎鎮#65>&f對話'
+        goto: QUEST_SUCCESS
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<炎鎮> &f已經很久沒有看到有職業的怪物出現了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<炎鎮> &f職業怪物出現代表怪物出現智慧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<炎鎮> &f接下來應該會有更多不同職業的怪物出現'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<炎鎮> &f我們需要更加去注意'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你把剛剛皇家禁衛軍的情況告訴了炎鎮)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<炎鎮> &f甚麼?竟然是不死族?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<炎鎮> &f好的,我先派人去把弟兄接回來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 62500
+        - mmocore admin exp give {player} fishing 62500
+        - mmocore admin exp give {player} food 62500
+        - mmocore admin exp give {player} handicraft 62500
+        - mmocore admin exp give {player} main 62500
+        - mmocore admin exp give {player} mining 62500
+        - mmocore admin exp give {player} alchemy 62500
+        - excellentcrates key give {player} 普通秘寶代幣 5
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

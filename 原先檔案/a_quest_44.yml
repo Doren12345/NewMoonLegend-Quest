@@ -1,0 +1,616 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]運送物品'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx120000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]搶回物品'
+        - '&f可在&a[雪沙交界]&f向&a<湯馬士>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv45'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc05]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 44'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_43
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<湯馬士>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<湯馬士>&f對話']
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<湯馬士> &f喂,你跟我過來,現在你負責護送我到伯萊利村莊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<湯馬士> &f快走!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_GCORE_NPC_SET_EQUIPMENT
+        goto: OBJECT 4
+        npc: 5
+        held_item:
+          type: CHEST
+
+      4:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<湯馬士>'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<湯馬士>&f對話']
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [呃...好吧,那箱子裡的是甚麼?]'
+            goto: OBJECT 5
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<湯馬士>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<湯馬士>&f對話']
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<湯馬士> &f不關你的事,你只是冒險者,不要多事'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<湯馬士> &f加上這箱子裡是教會的秘密!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<湯馬士> &f除了教會的高層沒人可以看!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<湯馬士> &f不要說這麼多了!快走吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        start_notify:
+          message: '&e[任務提示]&f跟著&a<湯馬士>&f走'
+          title: '&e任務提示'
+          title_subtitle: '&e跟著&a<湯馬士>&f走'
+        goto: OBJECT 7
+        toggle: false
+
+      7:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f跟著&a<湯馬士>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+        goto: OBJECT 8
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3289,77,-244,0,0
+        wait_for_player_radius: 10
+        npc: 5
+
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<湯馬士> &f快跟好我!冒險者!不然的話...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<卡雷德> &f親愛的牧師,我們等你很久了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<湯馬士> &f是誰?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: true
+
+      10:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 11
+        position:
+          type: SINGLE
+          location: world,-3289,77,-241,230,0
+
+      11:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 5
+        goto: OBJECT 12
+        position:
+          type: SINGLE
+          location: world,-3288,77,-246,270,0
+
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<湯馬士> &f你們是誰?到底在哪?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      13:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 14
+        commands:
+          - 'particle minecraft:large_smoke -3280 78 -245 1 1 1 0.1 1000'
+          - 'particle minecraft:large_smoke -3283 78 -245 1 1 1 0.1 1000'
+          - 'particle minecraft:large_smoke -3283 78 -242 1 1 1 0.1 1000'
+
+      14:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 6
+        goto: OBJECT 15
+        position:
+          type: SINGLE
+          location: world,-3279,78,-243,90,0
+
+      15:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 7
+        goto: OBJECT 16
+        position:
+          type: SINGLE
+          location: world,-3281,78,-248,90,0
+
+      16:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 17
+        position:
+          type: SINGLE
+          location: world,-3282,78,-245,90,0
+
+      17:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 18
+        actions:
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<卡雷德> &f牧師,乖乖地把東西交出來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<湯馬士> &f是黑暗軍團!?你們怎麼會...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<卡雷德> &f你該不會覺得可以逃過我們的視線吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<卡雷德> &f你的一舉一動早就被我們監視了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      18:
+        type: DIVERGE_CHAT
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [黑暗軍團,你們到底想做甚麼?]'
+            goto: OBJECT 19
+
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 20
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<卡雷德> &f你不就是壞我們好事的傢伙嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<卡雷德> &f終於見面了,我跟你說'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<卡雷德> &f我們黑暗軍團在做一個偉大的事'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<卡雷德> &f你這個小小的冒險者就不要在這擋路'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      20:
+        type: DIVERGE_CHAT
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [我跟你說,不管你們想做甚麼事,只要是想破壞這個世界的...]'
+            goto: OBJECT 21
+
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 22
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<卡雷德> &f我才沒時間聽你這傢伙說話'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<卡雷德> &f東西我們拿走了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+        
+      22:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 23
+        actions:
+          - WAIT_TICKS 2
+
+      23:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 24
+        commands:
+          - 'particle minecraft:large_smoke -3287 77 -244 1 1 1 0.1 1000'
+
+      24:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 25
+        position:
+          type: SINGLE
+          location: world,-3287,77,-246,90,0
+
+      25:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 26
+        actions:
+          - 'SEND_MESSAGE &e[3/4]&a<湯馬士> &f不行!這個...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](湯馬士被打了一下)'
+
+      26:
+        type: SERVER_GCORE_NPC_SET_EQUIPMENT
+        goto: OBJECT 27
+        npc: 5
+        held_item:
+          type: AIR
+
+      27:
+        type: SERVER_GCORE_NPC_SET_EQUIPMENT
+        goto: OBJECT 28
+        npc: 8
+        held_item:
+          type: CHEST
+
+      28:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 29
+        npc: 5
+        status: ELYTRA
+
+      29:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 30
+        actions:
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[4/4]&a<卡雷德> &f區區一個小牧師,還想阻止我嗎'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      30:
+        type: DIVERGE_CHAT
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [混蛋快把東西還回來!]'
+            goto: OBJECT 31
+
+      31:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 32
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<卡雷德> &f小子,走開!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      32:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 33
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3288,77,-242,0,0
+        npc: 8
+
+      33:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 34
+        commands:
+          - 'effect give {player} minecraft:nausea 15'
+          - 'effect give {player} minecraft:wither 15'
+
+      34:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 35
+        actions:
+          - 'SEND_MESSAGE &e[2/5]&a<卡雷德> &f小子,跟這世界上的人說'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<卡雷德> &f我的名字是卡雷德,世界的救世主'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<卡雷德> &f好好跟所有人說我的名字,讓人們都懼怕我的名字'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<卡雷德> &f哈哈哈哈'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      35:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 36
+        commands:
+          - 'particle minecraft:large_smoke -3287 77 -244 1 1 1 0.1 10000'
+          - 'particle minecraft:large_smoke -3280 78 -245 1 1 1 0.1 10000'
+          - 'particle minecraft:large_smoke -3283 78 -245 1 1 1 0.1 10000'
+          - 'particle minecraft:large_smoke -3283 78 -242 1 1 1 0.1 10000'
+
+      36:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 6
+        goto: OBJECT 37
+        position:
+          type: SINGLE
+          location: world,-3187,81,331,270,0
+
+      37:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 7
+        goto: OBJECT 38
+        position:
+          type: SINGLE
+          location: world,-3183,81,331,90,0
+
+      38:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 39
+        position:
+          type: SINGLE
+          location: world,-3185,81,333,180,0
+
+      39:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 40
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<湯馬士> &f我的頭好痛...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](湯馬士終於清醒了,慢慢站起來了)'
+          - WAIT_TICKS 20
+
+      40:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 41
+        npc: 5
+        status: CROUCHED
+
+      41:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 42
+        actions:
+          - 'SEND_MESSAGE &e[2/2]&a<湯馬士> &f可惡,怎麼辨...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      42:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<湯馬士>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<依夫#156>&f對話'
+          - '&f步驟-2 &f前往&a[發出信號的地點]'
+          - '&f步驟-3 &f與&a<湯馬士>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [牧師你沒事吧?]'
+            goto: OBJECT 43
+            
+      43:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f跟著&a<湯馬士>&f走'
+          - '&f步驟-3 &f觀看劇情'
+        goto: OBJECT 44
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<湯馬士> &f現在先不要管我了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<湯馬士> &f冒險者,箱子裡的東西真的很重要!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<湯馬士> &f我們一定要搶回來才行'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<湯馬士> &f你先等一下,我立刻叫人來幫忙看看他們跑去哪'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<湯馬士> &f這附近也有很多的皇家禁衛軍'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<湯馬士> &f他們一定跑不了的,找到就靠你了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      44:
+        type: SERVER_GCORE_NPC_SET_EQUIPMENT
+        goto: OBJECT 45
+        npc: 8
+        held_item:
+          type: STONE_SWORD
+
+      45:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 120000
+        - mmocore admin exp give {player} fishing 120000
+        - mmocore admin exp give {player} food 120000
+        - mmocore admin exp give {player} handicraft 120000
+        - mmocore admin exp give {player} main 120000
+        - mmocore admin exp give {player} mining 120000
+        - mmocore admin exp give {player} alchemy 120000
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 5
+        - gcore npcreset {player} 6
+        - gcore npcreset {player} 7
+        - gcore npcreset {player} 8

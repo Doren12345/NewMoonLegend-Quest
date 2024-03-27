@@ -1,0 +1,385 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]維修船隻'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx36100
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]圖騰的秘密'
+        - '&f可在&a[內湖營地]&f向&a<炎鎮>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv15'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc17]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 14'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_13
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+      1:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 2
+        actions:
+          - 'SEND_MESSAGE &e[1/8]&a<達哥> &f怎樣?找到人幫忙嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      2:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 18
+        goto: OBJECT 3
+        position:
+          type: SINGLE
+          location: world,163.5,64,-646.5,180,0
+          
+      3:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 20
+        goto: OBJECT 4
+        position:
+          type: SINGLE
+          location: world,160.5,65,-647.5,90,0
+          
+      4:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 21
+        goto: OBJECT 5
+        position:
+          type: SINGLE
+          location: world,166.5,64.5,-649.5,270,0
+          
+      5:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 22
+        goto: OBJECT 6
+        position:
+          type: SINGLE
+          location: world,170.5,66,-645.5,90,0
+          
+      6:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 23
+        goto: OBJECT 7
+        position:
+          type: SINGLE
+          location: world,170.5,66,-649.5,90,0
+
+      7:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &e[2/8]&a<陳> &f你好!要怎樣的幫忙?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40  
+          - 'SEND_MESSAGE &e[3/8]&a<達哥> &f怎麼突然有這麼多人'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/8]&a<達哥> &f你們是從哪裏來的?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/8]&a<陳> &f先不要說這麼多了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40  
+          - 'SEND_MESSAGE &e[6/8]&a<陳> &f我們要加緊腳步'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40  
+          - 'SEND_MESSAGE &e[7/8]&a<達哥> &f那你們先去支持住這些地方'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/8]&a<達哥> &f冒險者,船的其他地方就交給你了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      8:
+        type: PLAYER_POSITION
+        objective_detail: '&a維修船隻'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+        goto: OBJECT 9
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,171,63,-648
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b維修船隻'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b維修船隻'
+
+      9:
+        type: PLAYER_POSITION
+        objective_detail: '&a維修船隻'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+        goto: OBJECT 10
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,159,63,-648
+          
+      10:
+        type: PLAYER_POSITION
+        objective_detail: '&a維修船隻'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+          - '&f步驟-4 &a維修船隻&e(綠旗)'
+        goto: OBJECT 11
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,165,74,-647
+          
+      11:
+        type: PLAYER_POSITION
+        objective_detail: '&a維修船隻'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+          - '&f步驟-4 &a維修船隻&e(綠旗)'
+          - '&f步驟-5 &a維修船隻&e(黃旗)'
+        goto: OBJECT 12
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,166,63,-645
+          
+      12:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<陳>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+          - '&f步驟-4 &a維修船隻&e(綠旗)'
+          - '&f步驟-5 &a維修船隻&e(黃旗)'
+          - '&f步驟-6 &f與&a<達哥>&f對話'
+        goto: OBJECT 13
+        npc: 17
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<達哥>&b對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b與&a<達哥>&b對話'
+
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+          - '&f步驟-4 &a維修船隻&e(綠旗)'
+          - '&f步驟-5 &a維修船隻&e(黃旗)'
+          - '&f步驟-6 &f與&a<達哥>&f對話'
+        goto: OBJECT 14
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<達哥> &f已經修好了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40  
+          - 'SEND_MESSAGE &e[2/5]&a<達哥> &f謝謝你們的幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40  
+          - 'SEND_MESSAGE &e[3/5]&a<陳> &f接下來的就交給你了,冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40  
+          - 'SEND_MESSAGE &e[4/5]&a<達哥> &f那我們就出發吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40 
+
+      14:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 18
+        goto: OBJECT 15
+        position:
+          type: SINGLE
+          location: world,84,95,-581,0,0
+          
+      15:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 20
+        goto: OBJECT 16
+        position:
+          type: SINGLE
+          location: world,93,95,-589,90,0
+          
+      16:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 21
+        goto: OBJECT 17
+        position:
+          type: SINGLE
+          location: world,90,101,-584,270,0
+          
+      17:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 22
+        goto: OBJECT 18
+        position:
+          type: SINGLE
+          location: world,73,93,-561,90,0
+          
+      18:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 23
+        goto: OBJECT 19
+        position:
+          type: SINGLE
+          location: world,61,92,-558,90,0
+          
+      19:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 17
+        goto: OBJECT 20
+        position:
+          type: SINGLE
+          location: world,-868,63,-128,180,0
+          
+      20:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 21
+        position:
+          type: SINGLE
+          location: world,-867,63,-130,0,0
+          
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<達哥>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+          - '&f步驟-4 &a維修船隻&e(綠旗)'
+          - '&f步驟-5 &a維修船隻&e(黃旗)'
+          - '&f步驟-6 &f與&a<達哥>&f對話'
+        goto: OBJECT 22
+        actions:
+          - 'SEND_MESSAGE &e[5/5]&a<達哥> &f已經到達了,那就請你把軍糧送上去吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40  
+
+      22:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+          - '&f步驟-4 &a維修船隻&e(綠旗)'
+          - '&f步驟-5 &a維修船隻&e(黃旗)'
+          - '&f步驟-6 &f與&a<達哥>&f對話'
+          - '&f步驟-7 &f與&a<炎鎮#65>&f對話'
+        goto: OBJECT 23
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 60
+        npc: 60
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<炎鎮#65>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<炎鎮#65>&f對話'
+
+      23:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<炎鎮#65>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &a維修船隻&e(紅旗)'
+          - '&f步驟-3 &a維修船隻&e(藍旗)'
+          - '&f步驟-4 &a維修船隻&e(綠旗)'
+          - '&f步驟-5 &a維修船隻&e(黃旗)'
+          - '&f步驟-6 &f與&a<達哥>&f對話'
+          - '&f步驟-7 &f與&a<炎鎮#65>&f對話'
+        goto: QUEST_SUCCESS
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<炎鎮> &f是送軍糧來的嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<炎鎮> &f辛苦你了,先放在這裡,好好休息吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 36100
+        - mmocore admin exp give {player} fishing 36100
+        - mmocore admin exp give {player} food 36100
+        - mmocore admin exp give {player} handicraft 36100
+        - mmocore admin exp give {player} main 36100
+        - mmocore admin exp give {player} mining 36100
+        - mmocore admin exp give {player} alchemy 36100
+        - gcore npcreset {player} 17
+        - gcore npcreset {player} 18
+        - gcore npcreset {player} 20
+        - gcore npcreset {player} 21
+        - gcore npcreset {player} 22
+        - gcore npcreset {player} 23
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 18
+        - gcore npcreset {player} 20
+        - gcore npcreset {player} 21
+        - gcore npcreset {player} 22
+        - gcore npcreset {player} 23

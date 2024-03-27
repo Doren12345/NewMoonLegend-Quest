@@ -1,0 +1,455 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]蘇茲達小鎮的戰況'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx192000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]未知生物的存在'
+        - '&f可在&a[蘇茲達小鎮]&f向&a<妮妮#190>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv57'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc759]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 56'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_55
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑恩> &f你是誰?你是怎樣來到這裡的?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](傑恩非常驚訝地看著你)'
+          - WAIT_TICKS 20
+          
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑恩>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [是傑斯先生叫我來的]'
+            goto: OBJECT 4
+          
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<傑恩> &f&f父親大人?怎麼回事?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑恩>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [是這樣的...]'
+            goto: OBJECT 6
+
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你把事情的來龍去脈告訴了他)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[1/2]&a<傑恩> &f難怪,因為這裡是戰火前線的重要的地方'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<傑恩> &f正常人都不會來到這裡遊玩,工作之類的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      7:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑恩>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [這裡現在是甚麼狀況?]'
+            goto: OBJECT 7B
+            
+      7B:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<傑恩> &f附近的&a[伯萊利村莊]&f從很久以前就是嚴重的不死族戰火區'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<傑恩> &f那裡可是所有魔物都虎視眈眈的棲息地'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      8:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑恩>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [怎麼回事?]'
+            goto: OBJECT 9
+            
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &e[1/11]&a<傑恩> &f那是因為&4黑龍&f就是在東邊出現'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/11]&a<傑恩> &f所殘留的黑龍氣息最重'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/11]&a<傑恩> &f導致只要在這裡逗留的越久'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/11]&a<傑恩> &f就會把特點強化,例如體質異常不同'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/11]&a<傑恩> &f但是更多的是把不死族強化'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/11]&a<傑恩> &f導致&4[不死族]&f在這裡能不斷擴大勢力'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/11]&a<傑恩> &f演變出的&4[不死族]&f也越來越多'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/11]&a<傑恩> &f也讓皇家禁衛軍把很大部份的新力軍集中資源在&a[伯萊利村莊]&f的原因'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/11]&a<傑恩> &f所以作為&a[伯萊利村莊]&f的後盾&a[蘇茲達小鎮]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[10/11]&a<傑恩> &f我們的任務就是要確保各商船,武器,物資等能好好的運送到前線'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[11/11]&a<傑恩> &f確保軍團可以順利擊退&4[不死族]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+            
+      10:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<傑恩>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [有甚麼我可以幫忙的嗎?]'
+            goto: OBJECT 11
+            
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<傑恩>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+        goto: OBJECT 12
+        actions:
+          - 'SEND_MESSAGE &e[1/9]&a<傑恩> &f我想你的任務是要先找到&a[巴羅師傅]&f吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/9]&a<傑恩> &f你也只好在這裡等了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/9]&a<傑恩> &a[巴羅師傅]&f最近都很常不知道跑哪去'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/9]&a<傑恩> &f只是希望他有時候都要顧著身體'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/9]&a<傑恩> &f雖然是比我還要健康'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/9]&a<傑恩> &f但也不希望他的身體出甚麼事...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想:看來&a[巴羅先生]&b真的很受人尊敬)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[7/9]&a<傑恩> &f對了,你可以先找我們的首領&a[亞歷]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/9]&a<傑恩> &f因為目前這裡的狀況都是他掌管的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/9]&a<傑恩> &f跟他打個招呼,你也能更了解這裡的事'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      12:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 13
+        toggle: false
+
+      13:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        gps:
+          enabled: true
+        objective_detail: '&f與&a<亞歷#193>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+        goto: OBJECT 14
+        npc: 762
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<亞歷#193>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<亞歷#193>&f對話'
+  
+      14:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 15
+        toggle: true
+  
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<亞歷>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你心想:應該怎樣開口會比較好...)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[1/6]&a<亞歷> &f剛剛已經有人跟我報告了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<亞歷> &f你就是那個在西邊事情都鬧很大的&a[下級冒險者]&f,對吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想:這個人是怎樣知道的?)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[3/6]&a<亞歷> &f很高興認識你,我很欣賞你的勇敢'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<亞歷> &f但是眼下沒有這個功夫和你慢慢聊天了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<亞歷> &f快有下艘物資船到了碼頭了,我要趕快去準備了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<亞歷> &f請你也到溫室找&a[妮妮]&f幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      16:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 17
+        toggle: false
+        
+      17:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        gps:
+          enabled: true
+        objective_detail: '&f與&a<亞歷#193>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+          - '&f步驟-3 &f與&a<妮妮#190>&f對話'
+        goto: OBJECT 18
+        npc: 763
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<妮妮#190>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<妮妮#190>&f對話'
+    
+      18:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 19
+        toggle: true
+  
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<妮妮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+          - '&f步驟-3 &f與&a<妮妮#190>&f對話'
+        goto: OBJECT 20
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<妮妮> &f你是首領叫你來的對吧,很高興認識你~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+    
+      20:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<妮妮>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+          - '&f步驟-3 &f與&a<妮妮#190>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [你好,我是來看有甚麼可以幫到忙的]'
+            goto: OBJECT 21
+            
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<妮妮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+          - '&f步驟-3 &f與&a<妮妮#190>&f對話'
+        goto: OBJECT 22
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<妮妮> &f那就太好了,能請你幫忙去外面收集甜莓嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<妮妮> &f甜莓是我們這裡特有的水果'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<妮妮> &f小小一顆就能補充到水份'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<妮妮> &f很適合在這裡長期戰鬥能隨手吃到的食物'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      22:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 23
+        toggle: false
+
+
+      23:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 763
+        objective_detail: '&f交付&a[甜莓]&f給&a<妮妮#190> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+          - '&f步驟-3 &f與&a<妮妮#190>&f對話'
+          - '&f步驟-2 &f交付&a[甜莓]&f給&a<妮妮#190> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 24
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[甜莓]&f給&a<妮妮#190>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[甜莓]&f給&a<妮妮#190>'
+        goals:
+          0:
+            goal: 10
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_FOOD_FRUIT
+                MMOITEMS_ITEM_ID: '甜莓'
+                
+      24:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 25
+        toggle: true   
+
+      25:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<妮妮>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑恩#191>&f對話'
+          - '&f步驟-2 &f與&a<亞歷#193>&f對話'
+          - '&f步驟-3 &f與&a<妮妮#190>&f對話'
+          - '&f步驟-4 &f交付&a[甜莓]&f給&a<妮妮#190> &b10&f/&b10'
+          - '&f步驟-5 &f與&a<妮妮#190>&f對話'
+        goto: OBJECT 26
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<妮妮> &f謝謝你,要你一個外人來幫忙,真不好意思'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      26:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 192000
+        - mmocore admin exp give {player} fishing 192000
+        - mmocore admin exp give {player} food 192000
+        - mmocore admin exp give {player} handicraft 192000
+        - mmocore admin exp give {player} main 192000
+        - mmocore admin exp give {player} mining 192000
+        - mmocore admin exp give {player} alchemy 192000

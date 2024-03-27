@@ -1,0 +1,335 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]搶回物品'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx125000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]武器大師'
+        - '&f可在&a[帝貝鎮]&f向&a<賽斯>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv46'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [gnpc05]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 45'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_44
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<湯馬士>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<湯馬士>&f對話']
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<湯馬士> &f已經找到他們的行蹤了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<湯馬士> &f他們在[幻影•惡]裡面!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<湯馬士> &f快去搶回我們的東西'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e前往&a[幻影•惡]'
+          message: '&e[任務提示]&f前往&a[幻影•惡]'
+
+      4:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[幻影•惡]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+        goto: OBJECT 5
+        position:
+          type: SPHERE_INSIDE
+          radius: 10
+          center: world,-3188,73,329
+          
+      5:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a幻影•惡 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 6
+        goals:
+          0:
+            mobs: '幻影惡'
+            goal: 15
+            
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+        goto: OBJECT 7
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](發現了一個幻影塔的裂縫,你走進去了)'
+          - WAIT_TICKS 40
+
+      7:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 8
+        position:
+          type: SINGLE
+          location: world_story,-3184,81,323,90,0
+          
+      8:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        goto: OBJECT 9
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](發現了一個幻影塔的裂縫,你走進去了)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[1/7]&a<黑暗軍團> &f太好了,教會的箱子也得到了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/7]&a<黑暗軍團> &f接下來只要穩固所有的幻影塔就可以了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/7]&a<卡雷德> &f沒錯,還好我們有和不死族合作'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/7]&a<卡雷德> &f沒有它們的幫忙,我們也不會這麼快蓋好這麼多的幻影塔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/7]&a<黑暗軍團> &f接下來就是要那個女孩的血對吧?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/7]&a<卡雷德> &f沒錯,只要把&4[帝貝鎮]&f的那個女孩抓到'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/7]&a<卡雷德> &f那就差不多可以復活黑龍了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      9:
+        type: DIVERGE_CHAT
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [(可惡,等我用技能偷襲他們,把物品搶回來!)]'
+            goto: OBJECT 10
+
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<神秘聲音>&f(不要這樣做!)'
+          - WAIT_TICKS 40
+          
+      11:
+        type: DIVERGE_CHAT
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [(你是誰?)]'
+            goto: OBJECT 12
+
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<神秘聲音>&f(以你現在的能力不夠他們打的,你快去保護那個女孩吧)'
+          - WAIT_TICKS 40
+          
+      13:
+        type: DIVERGE_CHAT
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [(不是...物品還在他們...)]'
+            goto: OBJECT 14
+            
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        goto: OBJECT 15
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<神秘聲音>&f(請你去保護那個女孩吧,這才是最重要的)'
+          - WAIT_TICKS 40
+          
+      15:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 16
+        position:
+          type: SINGLE
+          location: world,-3188,73,329,90,0
+          
+      16:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+        goto: OBJECT 17
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](到底是誰在跟我說話...上次也是這樣...)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](不過好像偷聽到很多事,先回去和牧師湯馬士回報吧)'
+          - WAIT_TICKS 40
+          
+      17:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<湯馬士>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+          - '&f步驟-5 &f與&a<湯馬士>&f對話'
+        goto: OBJECT 18
+        npc: 5
+        
+      18:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 19
+        toggle: true
+
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<湯馬士>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<湯馬士>&f對話'
+          - '&f步驟-2 &f前往&a[幻影•惡]'
+          - '&f步驟-3 &f擊殺&a【Lv45】幻影•惡 &e15&f/&e15'
+          - '&f步驟-4 &f觀看劇情'
+          - '&f步驟-5 &f與&a<湯馬士>&f對話'
+        goto: OBJECT 20
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<湯馬士> &f帝貝鎮的那個女孩?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<湯馬士> &f那你先去帝貝鎮和鎮守的皇家禁衛軍隊長威廉說一聲吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<湯馬士> &f教會箱子的事就交給其他的皇家禁衛軍去搶回來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<湯馬士> &f還有教會箱子不要跟任何人說!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      20:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 125000
+        - mmocore admin exp give {player} fishing 125000
+        - mmocore admin exp give {player} food 125000
+        - mmocore admin exp give {player} handicraft 125000
+        - mmocore admin exp give {player} main 125000
+        - mmocore admin exp give {player} mining 125000
+        - mmocore admin exp give {player} alchemy 125000

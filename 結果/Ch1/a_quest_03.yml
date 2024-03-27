@@ -1,0 +1,1183 @@
+# -------------------- Display settings --------------------
+display_name: '&e[第一章]阿姆斯的雙子洞'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &f- &e金幣&fx300
+    &f- &a經驗值&fx6400
+    &f- &b物品-時裝布料&fx1
+    &f- &6技能-緊急補給&fx1
+    &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
+    &#32027d&m                                   
+    &r&f{controls}
+
+display_priority: 1
+# -------------------- Post-quest settings --------------------
+
+completion:
+  max_completions: 1
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      bossbar: >
+        {quest} &a任務完成!
+      bossbar_color: GREEN  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務失敗!
+      bossbar_color: RED  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務取消!
+      bossbar_color: PINK  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_02
+    2:
+      type: LOGIC
+      logic: '%mmocore_level% >= 3'
+
+# -------------------- Activator settings --------------------
+activators: [cnpc3]
+
+activators_dialog:
+  - '&a<艾比> &f冒險者! 又有新的委託了! &d(右鍵點擊NPC來接取任務)'
+  - ''
+
+activators_dialog_auto_start_distance: 4
+
+activators_dialog_reset:
+  reset_delay: 5 SECOND
+  reset_distance: 6.0
+  reset_notify:
+    message: '&a<艾比> &f趕快過來接委託喔，不要等等被其他冒險者搶走了!'
+
+# -------------------- Main Quest Object --------------------
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比#4>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比#4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比#4>&f對話'
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &a<艾比> &f冒險者，準備好接下一個委託了嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[準備好了!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f準備好了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f這次的委託是來自&a[羅絲]&f，內容大約是要一些裝飾教堂的材料。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &f==============================='
+          - 'SEND_MESSAGE       &a裝修教堂'
+          - 'SEND_MESSAGE '
+          - 'SEND_MESSAGE &a區域: 卡坦村'
+          - 'SEND_MESSAGE &b分類: 交付物品'
+          - 'SEND_MESSAGE &e委託者: 羅絲'
+          - 'SEND_MESSAGE '
+          - 'SEND_MESSAGE  '
+          - 'SEND_MESSAGE '
+          - 'SEND_MESSAGE &f任務內容:'
+          - 'SEND_MESSAGE 最近因為宗教儀式需求'
+          - 'SEND_MESSAGE 需要一些會發亮的裝飾品'
+          - 'SEND_MESSAGE 請冒險者幫忙蒐集會發亮的物質!'
+          - 'SEND_MESSAGE ==============================='
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 100
+          - 'SEND_MESSAGE &a<艾比> &f你趕快去找他問一下情況吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+      4:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅絲#3>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+        goto: OBJECT 5
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 337
+        npc: 337
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅絲#3>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅絲#3>&f對話'
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 6
+        toggle: true
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+        goto: OBJECT 7
+        actions:
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[羅絲小姐，妳是不是有放一個委託在公會？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f羅絲小姐，妳是不是有放一個委託在公會？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f沒錯，這個委託是這樣的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f從前從前，教堂第一代的修女們因為不明原因，集體遷移至&b[阿姆斯草原河邊]&f並建造了教堂。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f他們利用附近&5[異常豐饒]&f的土地來滿足日常生活所需。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f由於這個區域環境良好，漸漸的，越來越多的人移居此良地生活。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f這座&a[塔爾登教堂]&f就是村莊的中心。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f相傳，第一代修女將此地命名為&a[卡坦]&f，以紀念賜予此地豐饒的神靈。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f另有一說認為，教堂的名稱&a[塔爾登]&f才是第一代修女們的命名。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f由於讀音的差異，久而久之，&a[主的教堂]與村莊的名稱逐漸走向分歧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你開始打瞌睡了)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND effect give {player} minecraft:blindness 10'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &7(打呼聲)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f你...給我...起來!!!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND effect clear {player} minecraft:blindness'
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[抱歉... 不小心睡著了]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f抱歉... 不小心睡著了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f真是的! 你們這群冒險者，什麼都不聽，一天天的就只想著趕快交差委託(`o´)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f算了... 總之，我想要裝飾&a[主的教堂]&f，因為一些儀式的原因，需要一種會發出神聖光芒的物質的物質。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[會發光的物質？要去哪裡找到？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f會發出神聖光芒的物質？要去哪裡找到？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f關於這個... 其實我也不太知道。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f你可以去問問看&a[嵐風]&f，他是卡坦村最大的情報商人。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8
+        toggle: false
+      8:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅絲#3>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+        goto: OBJECT 9
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 603
+        npc: 603
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<嵐風#18>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<嵐風#18>&f對話'
+      9:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 10
+        toggle: true
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &a<嵐風> &f怎麼啦，需要情報是吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[哇!嵐風怎麼都知道？好有效率...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f哇!嵐風怎麼都知道？好有效率...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f因為我就在你們旁邊聽...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[哦... 哈哈哈，所以哪裡有會發光的物質？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f哦... 哈哈哈，所以哪裡有會發光的物質？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f真沒禮貌!我可是一個情報商人，怎麼能免費讓你拿情報呢？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f這樣吧!我看你也沒錢，而我們春雨貿易想要的是這裡的特有資源'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f去&a[阿姆斯草原]&f幫我收集特有資源來換情報吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f我想要&a[煤炭]&f10個、&a[鐵錠]&f5個、&a[橡木]&f20個、&a[綠色藥草]&f10個、&a[鱈魚]&f5個。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f如果不知道資源如何獲取，可以向我購買情報。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想：嵐風也太摳門，連一個資源的情報也要收錢...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      11:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[購買&a[煤炭、鐵錠資源情報]&6($50)&f]'
+            redo_text: ''
+            unavailable_text: '&d&l[故事劇情] 按我回答 >> &4[沒有足夠金錢來購買&4[煤炭、鐵錠資源情報]&c($50)&4]'
+            conditions:
+              conditions:
+                a:
+                  type: LOGIC_MONEY
+                  currency: VAULT
+                  logic: '{money} >= 100'
+            goto: OBJECT 12A
+          1:
+            text: '&d&l[故事劇情] 按我回答 >> &f[購買&a[橡木資源情報]&6($50)&f]'
+            redo_text: ''
+            unavailable_text: '&d&l[故事劇情] 按我回答 >> &4[沒有足夠金錢來購買&4[橡木資源情報]&c($50)&4]'
+            conditions:
+              conditions:
+                a:
+                  type: LOGIC_MONEY
+                  currency: VAULT
+                  logic: '{money} >= 100'
+            goto: OBJECT 12B
+          2:
+            text: '&d&l[故事劇情] 按我回答 >> &f[購買&a[藥草資源情報]&6($50)&f]'
+            redo_text: ''
+            unavailable_text: '&d&l[故事劇情] 按我回答 >> &4[沒有足夠金錢來購買&4[藥草資源情報]&c($50)&4]'
+            conditions:
+              conditions:
+                a:
+                  type: LOGIC_MONEY
+                  currency: VAULT
+                  logic: '{money} >= 100'
+            goto: OBJECT 12C
+          3:
+            text: '&d&l[故事劇情] 按我回答 >> &f[購買&a[鱈魚資源情報]&6($50)&f]'
+            redo_text: ''
+            unavailable_text: '&d&l[故事劇情] 按我回答 >> &4[沒有足夠金錢來購買&4[鱈魚資源情報]&c($50)&4]'
+            conditions:
+              conditions:
+                a:
+                  type: LOGIC_MONEY
+                  currency: VAULT
+                  logic: '{money} >= 100'
+            goto: OBJECT 12D
+          5:
+            text: '&d&l[故事劇情] 按我回答 >> &e[交付&a[特有資源]&e]'
+            conditions:
+              conditions:
+                a:
+                  type: ITEMS
+                  items:
+                    goal: 10
+                    check: SameBase
+                    item:
+                      type: ghast_tear
+                      nbt:
+                        MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
+                        MMOITEMS_ITEM_ID: '煤炭'
+                b:
+                  type: ITEMS
+                  items:
+                    goal: 5
+                    check: SameBase
+                    item:
+                      type: ghast_tear
+                      nbt:
+                        MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
+                        MMOITEMS_ITEM_ID: '鐵錠'
+                c:
+                  type: ITEMS
+                  items:
+                    goal: 20
+                    check: SameBase
+                    item:
+                      type: ghast_tear
+                      nbt:
+                        MMOITEMS_ITEM_TYPE: RPG_ITEM_TREE
+                        MMOITEMS_ITEM_ID: '橡木'
+                d:
+                  type: ITEMS
+                  items:
+                    goal: 10
+                    check: SameBase
+                    item:
+                      type: ghast_tear
+                      nbt:
+                        MMOITEMS_ITEM_TYPE: RPG_ITEM_POTION
+                        MMOITEMS_ITEM_ID: '綠色藥草'
+                e:
+                  type: ITEMS
+                  items:
+                    goal: 5
+                    check: SameBase
+                    item:
+                      type: ghast_tear
+                      nbt:
+                        MMOITEMS_ITEM_TYPE: RPG_ITEM_FISH
+                        MMOITEMS_ITEM_ID: '鱈魚'
+            goto: OBJECT 13
+          6:
+            text: '&d&l[故事劇情] 按我回答 >> &c[什麼情報都不買]'
+            goto: OBJECT 12E
+      12A:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'PERFORM_COMMAND eco take {player} 50'
+          - 'SEND_MESSAGE &b[故事劇情](你已成功購買&a[煤炭、鐵錠資源情報]&6($50)&b)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f煤炭是一個常見的資源，在整個大陸上的洞穴裡都能找到他的蹤跡。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f鐵錠則是一盛產在&a[阿姆斯草原]&f的基礎礦物。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f要獲取煤炭或鐵錠，最近的礦洞就是&7[亡靈洞窟]&e(-209,69,309)&f了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f不過我額外告訴你一個情報：其實煤炭與鐵錠不用到礦洞裡挖，在地上就有。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f離你最近的一個煤炭點在&e[-135,90,215]&f，這種不在洞窟的礦物資源，被稱作&a[野外礦物]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f這種&a[野外礦物]&f優勢在於沒有怪物在旁邊守著，但是它的生成時間是在礦洞內的2倍。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      12B:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'PERFORM_COMMAND eco take {player} 50'
+          - 'SEND_MESSAGE &b[故事劇情](你已成功購買&a[橡木資源情報]&6($50)&b)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f橡木是一種可以在橡木林或草原上找到的木種，盛產在&a[阿姆斯草原]&f。
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f要獲取橡木，最快的點位在&a[卡坦村的蘋果樹下]&e(-25,65,193)&f，該地方有3個生成點。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f如果要將地上的橡木採集至你背包，你需要對橡木使用&a[斧頭]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &a[斧頭]&f可以在雜貨商人花費&e$100&f購買。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      12C:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'PERFORM_COMMAND eco take {player} 50'
+          - 'SEND_MESSAGE &b[故事劇情](你已成功購買&a[藥草資源情報]&6($50)&b)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f綠色藥草是一個常見的資源，在整個大陸上都可以找到。
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f綠色藥草以它的&b[超快生長速度]&f與&a[超強的環境適應力]&f聞名。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f採集藥草與採集其他的素材不同，不需要任何工具，甚至可以徒手採集。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f綠色藥草可以釀造成許多不同種類的藥水，如&d[生命藥水]&f、&2[防毒藥水]&f等。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      12D:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+        goto: OBJECT 11
+        actions:
+          - 'PERFORM_COMMAND eco take {player} 50'
+          - 'SEND_MESSAGE &b[故事劇情](你已成功購買&a[鱈魚資源情報]&6($50)&b)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f鱈魚是&a[卡坦村]&f的特產，在卡坦村的河流可以輕易找到。
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f要獲取鱈魚，首先需要擁有&a[釣竿]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &a[釣竿]&f可以向雜貨商人購買，僅需&e$100&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f獲取釣竿後，至卡坦村的河流開始釣魚。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f當魚上鉤後，你需要把握好釣竿的力度，在適當的時機拉緊，就可以把鱈魚釣上岸來。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      12E:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12E2
+        toggle: false
+      12E2:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<嵐風#3>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+        goto: OBJECT 11
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 603
+        npc: 603
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<嵐風#18>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<嵐風#18>&f對話'
+      13:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 14
+        toggle: false
+      14:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 603
+        objective_detail: '&f交付&a[特產資源]&f給&a<嵐風#18>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[煤炭]&f給&a<嵐風#18> &b{objective_progression:0}&f/&b{objective_goal:0}'
+          - '&f步驟-6 &f交付&a[鐵錠]&f給&a<嵐風#18> &b{objective_progression:1}&f/&b{objective_goal:1}'
+          - '&f步驟-6 &f交付&a[橡木]&f給&a<嵐風#18> &b{objective_progression:2}&f/&b{objective_goal:2}'
+          - '&f步驟-6 &f交付&a[綠色藥草]&f給&a<嵐風#18> &b{objective_progression:3}&f/&b{objective_goal:3}'
+          - '&f步驟-6 &f交付&a[鱈魚]&f給&a<嵐風#18> &b{objective_progression:4}&f/&b{objective_goal:4}'
+        goto: OBJECT 15
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[特產資源]&f給&a<嵐風#18>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[煤炭]&f10個、&a[鐵錠]&f5個、&a[橡木]&f20個、&a[綠色藥草]&f10個、&a[鱈魚]&f5個給&a<嵐風#18>'
+        goals:
+          0:
+            goal: 10
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
+                MMOITEMS_ITEM_ID: '煤炭'
+          1:
+            goal: 5
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
+                MMOITEMS_ITEM_ID: '鐵錠'
+          2:
+            goal: 20
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_TREE
+                MMOITEMS_ITEM_ID: '橡木'
+          3:
+            goal: 10
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_POTION
+                MMOITEMS_ITEM_ID: '綠色藥草'
+          4:
+            goal: 5
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_FISH
+                MMOITEMS_ITEM_ID: '鱈魚'
+      15:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 16
+        toggle: true
+      16:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+        goto: OBJECT 17
+        actions:
+          - 'SEND_MESSAGE &a<嵐風> &f好啦，是時候履行我們的約定了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f既然你都幫我蒐集好特產資源了，那我就大發慈悲的告訴你吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[所以... &a[發光的物質]&f可以在哪裡找到？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f所以... &a[發光的物質]&f可以在哪裡找到？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f這個大陸上有非常多會發光的物質，如&a[小精靈粉塵]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[小精靈粉塵？那是什麼？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f小精靈粉塵？那是什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &a[小精靈粉塵]&f就是可以在小精靈的皮膚上找到的一種發光物質。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f雖然它發出的光非常微弱，但應該能滿足&a[羅絲]&f的需求。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[小精靈通常棲息在哪裡？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f小精靈通常棲息在哪裡？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f小精靈通常棲息在洞窟內，不管是什麼品種的小精靈都是這樣。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f離卡坦村最近的小精靈洞窟就在&a[北方的丘陵底下]&f，趕快過去吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      17:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 18
+        toggle: false
+      18:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[卡坦村北方的丘陵]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+        goto: OBJECT 19
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,177,67,105
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往&a[卡坦村北方的丘陵]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f前往&a[卡坦村北方的丘陵]'
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+        goto: OBJECT 20
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](&a[嵐風]&b說的小精靈洞穴應該是就是這裡了，帶一點粉塵回去吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      20:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 337
+        objective_detail: '&f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 21
+        goals:
+          0:
+            goal: 5
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_MOB
+                MMOITEMS_ITEM_ID: '小精靈粉塵'
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[小精靈粉塵]&f給&a<羅絲#3>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[小精靈粉塵]&f給&a<羅絲#3>'
+      21:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 22
+        toggle: true
+      22:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+        goto: OBJECT 23
+        actions:
+          - 'SEND_MESSAGE &a<羅絲> &f謝啦! 小精靈粉塵蘊含了些許的豐饒能量，還可以用於對付後生不死族!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f用來點亮神聖的教堂再適合不過了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](冒險者公會廣播：緊急通知，請各位盡快遠離後山，並請在場的冒險者迅速前往冒險者公會!)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想：嗯？緊急通知？去看看好了...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      23:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 24
+        toggle: false
+      24:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比#4>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 25
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比#4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比#4>&f對話'
+      25:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 26
+        toggle: true
+      26:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 27
+        actions:
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[發生什麼事了？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f發生什麼事了？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f沒時間解釋了，這是來自&a[皇家禁衛軍 魯茲]&f的緊急委託，地點位於卡坦村西後山!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f總之帶上你的武器快趕過去吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      27:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 28
+        toggle: false
+      28:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<魯茲#24>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+        goto: OBJECT 29
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 610
+        npc: 610
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<魯茲#24>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<魯茲#24>&f對話'
+      29:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 30
+        toggle: true
+      30:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+        goto: OBJECT 31
+        actions:
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[我是來支援的!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我是來支援的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f有人來支援真是好極了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f我一人根本無法阻擋這群失控的亡靈礦工們!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f今天不曉得為什麼，牠們集體往洞外衝刺!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](一群亡靈礦工又衝了出來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f快! 阻止牠們跑出來!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND mm m spawn %亡靈礦工_STORY% 20 world,-202,65,306,0,0'
+      31:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 32
+        toggle: false
+      32:
+        type: PLAYER_MYTHICMOBS_MOBS_DEATH_NEARBY
+        objective_detail: '&f擊殺失控的&a[亡靈礦工]'
+        objective_detail_verbose:
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b{objective_progression:1}&f/&b{objective_goal:1}'
+        goto: OBJECT 33
+        max_distance: 15.0
+        goals:
+          1:
+            mobs: '%亡靈礦工_STORY%'
+            goal: 10
+      33:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-2 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
+        goto: OBJECT 34
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](又有一群亡靈礦工衝了出來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f這樣下去不是辦法，這裡我來撐住，你快去請修女前來幫忙!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      34:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅絲#3>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
+          - '&f步驟-14 &f與&a<羅絲#3>&f對話'
+        goto: OBJECT 35
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 337
+        npc: 337
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅絲#3>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅絲#3>&f對話'
+      35:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 36
+        toggle: true
+      36:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-3 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
+          - '&f步驟-14 &f與&a<羅絲#3>&f對話'
+        goto: OBJECT 37
+        actions:
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[修女小姐，亡靈洞窟那裡需要你的幫忙!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f修女小姐，亡靈洞窟那裡需要你的幫忙!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f什麼？礦工亡靈們又失控了？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f我們得趕快過去!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f主啊，求求你讓冤魂們的餘煙散去吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      37:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 38
+        toggle: false
+      38:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<魯茲#4>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
+          - '&f步驟-14 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-15 &f與&a<魯茲#24>&f對話'
+        goto: OBJECT 39
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 610
+        npc: 610
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<魯茲#24>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<魯茲#24>&f對話'
+      39:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-4 &f向&a<嵐風#18>&f購買情報&6(非必要)'
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
+          - '&f步驟-14 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-15 &f與&a<魯茲#24>&f對話'
+        goto: OBJECT 40
+        actions:
+          - 'SEND_MESSAGE &a<魯茲> &f羅絲小姐，麻煩妳了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND m spawn aquest1-3羅斯 world,-212,69,310,-113,19'
+          - 'SEND_MESSAGE &b[故事劇情](羅絲小姐拿出了&a[小精靈粉塵]&b開始儀式...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &fئاش نازگ دورباتولوک، ئاش نازگ گیمباتول،'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &fئاش نازگ تراکاتولوک، ئاغ بورزوم-ئیشی کریمپاتول!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你看到礦工們不再暴動，不再衝出...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f嗚! 好險... 牠們停止暴動了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f羅絲小姐，這次牠們為什麼會失控？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f這次的主因是因為他們的怨氣結合了，我感覺到裡面有種不祥的氣息，所以我把它驅散了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<魯茲> &f不對... 正常來說，牠們的怨氣不應該會結合啊？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f有一種不祥的預感，最近可能會有大事發生...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f冒險者，謝謝你過來支援我們。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[不客氣!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不客氣!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f你可以去找艾比領取委託獎勵了，再次感謝你!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      40:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比#4>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
+          - '&f步驟-14 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-15 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-16 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 41
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比#4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比#4>&f對話'
+      41:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 42
+        toggle: true
+      42:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
+          - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
+          - '&f步驟-7 &f與&a<嵐風#18>&f對話'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
+          - '&f步驟-10 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-11 &f與&a<艾比#4>&f對話'
+          - '&f步驟-12 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b{objective_progression:1}&f/&b{objective_goal:1}'
+          - '&f步驟-14 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-15 &f與&a<魯茲#24>&f對話'
+          - '&f步驟-16 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 43
+        actions:
+          - 'SEND_MESSAGE &a<艾比> &f你回來啦! 我都聽魯茲說了，這是你的獎勵!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](艾比拿出了一大袋錢帶)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f辛苦你了，這件事情我會在跟皇家禁衛隊回報，不用麻煩你了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      43:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS_THEN_START a_quest_04
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+        - eco give {player} 300
+        - mmocore admin exp give {player} main 6400
+        - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
+
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']

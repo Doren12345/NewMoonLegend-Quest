@@ -1,0 +1,179 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]冒險者考試的由來'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx210000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]中級冒險者考試'
+        - '&f可在&a[新月城]&f向&a<莎莉@59>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv60'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc153]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 59'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_58
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你把手上的信件交給莎莉)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[1/2]&a<莎莉> &f甚麼!?這是真的!?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<莎莉> &f師傅已經有50年沒有主動提拔新冒險者了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<莎莉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [甚麼意思?]'
+            goto: OBJECT 3B
+          
+      3B:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 4
+        actions:
+          - 'SEND_MESSAGE &e[1/10]&a<莎莉> &f那就讓我跟你說一下吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/10]&a<莎莉> &f首先,冒險者公會是由師傅一手建立出來的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/10]&a<莎莉> &f目的是確保村莊會有足夠的冒險者保護和幫助而創立'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/10]&a<莎莉> &f避免有一些太新的冒險者處理有難度的事'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/10]&a<莎莉> &f所以就出現有了冒險者等級'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/10]&a<莎莉> &f現在的升階機制都是&a下級 &f> &9中級 &f> &6上級 &f> &d特級'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/10]&a<莎莉> &f升階通常都是在當地的公會接待員會評估冒險者的實力'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/10]&a<莎莉> &f然後會再寫信給師傅,師傅評估後才決定給不給[升階考試]測試實力'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/10]&a<莎莉> &f現在師傅都給我這個信件...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[10/10]&a<莎莉> &f證明師傅肯定你的實力!讓你挑戰&9[中級冒險者升階考試]&f!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      4:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<莎莉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> [那就太好了,我要做甚麼嗎?]'
+            goto: OBJECT 5
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<莎莉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<莎莉@59>&f對話'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<莎莉> &f你先好好準備自己的裝備吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<莎莉> &f下次你再來找我,我就會告訴你考試內容了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 210000
+        - mmocore admin exp give {player} fishing 210000
+        - mmocore admin exp give {player} food 210000
+        - mmocore admin exp give {player} handicraft 210000
+        - mmocore admin exp give {player} main 210000
+        - mmocore admin exp give {player} mining 210000
+        - mmocore admin exp give {player} alchemy 210000

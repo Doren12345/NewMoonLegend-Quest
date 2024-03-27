@@ -1,0 +1,609 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]武器大師'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx130000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]合作任務'
+        - '&f可在&a[帝貝鎮]&f向&a<愛比#188>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv47'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc172]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 46'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_45
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<賽斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<賽斯> &f你好,有甚麼事嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<賽斯>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你好,我有重要的事要告訴皇家禁衛軍隊長威廉知道]'
+            goto: OBJECT 4
+
+      4:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<賽斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<賽斯> &f抱歉,隊長剛剛帶軍出去進行調查了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<賽斯> &f應該要晚一點才會回來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<賽斯> &f你等一下再回來找他吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+        goto: OBJECT 6
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](既然這樣,我就先到城裡看看有沒有女孩)'
+          - WAIT_TICKS 40
+
+      6:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 7
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e在城裡走走'
+          message: '&e[任務提示]&f在城裡走走'
+
+      7:
+        type: PLAYER_POSITION
+        objective_detail: '&f在城裡走走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+        goto: OBJECT 8
+        position:
+          type: SPHERE_INSIDE
+          radius: 5
+          center: world,-3412,68,896
+          
+      8:
+        type: DIVERGE_CHAT
+        objective_detail: '&f在城裡走走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [這城鎮也挺熱鬧的]'
+            goto: OBJECT 9
+
+      9:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 9
+        goto: OBJECT 10
+        position:
+          type: SINGLE
+          location: world,-3416,68,899,180,0
+          
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+        goto: OBJECT 11
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<蘭> &f當然,這裡可是帝貝鎮'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<蘭>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 12
+        actions:
+          - WAIT_TICKS 2
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<蘭>&f對話'
+          message: '&e[任務提示]&f與&a<蘭>&f對話'
+          
+      12:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<蘭>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 13
+        npc: 9
+        
+
+      13:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 14
+        toggle: true
+        
+      14:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你好,我是新來的冒險者]'
+            goto: OBJECT 15
+          
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 16
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<蘭> &f你好,我是蘭'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<蘭> &f是住在這裡的冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      16:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你也是冒險者嗎?]'
+            goto: OBJECT 17
+            
+      17:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 18
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<蘭> &f當然,在這裡的人大多都是冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<蘭> &f大家都是為了提升實力就選擇住在這裡'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      18:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [提升實力?這是甚麼意思?]'
+            goto: OBJECT 19
+          
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 20
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<蘭> &f你來這裡不是為了跟隨威廉大哥的嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      20:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [威廉大哥?是皇家禁衛軍的隊長威廉嗎?是呀]'
+            goto: OBJECT 21
+            
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 22
+        actions:
+          - 'SEND_MESSAGE &e[1/3]&a<蘭> &f你到底在問甚麼?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你把來龍去脈告訴了他)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/3]&a<蘭> &f那你可以放心了,管他黑龍還是甚麼軍團'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/3]&a<蘭> &f只要威廉大哥在的話,就不會有人受傷'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      22:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [威廉大哥很強嗎?]'
+            goto: OBJECT 23
+            
+      23:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 24
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<蘭> &f當然,他可以說是現在大陸上的最強!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<蘭> &f人稱為「新月三子」中的「月影」的威廉隊長'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<蘭> &f是一個真正意義上的武器大師'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<蘭> &f他精通全大陸上的所有武器,之前在&e[新月格鬥大賽]&f拿下了冠軍'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<蘭> &f炎鎮隊長也常來找他練習,兩個人每次都打得十分精彩!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      24:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [連炎鎮大哥也來找他練習?看來他真的很強]'
+            goto: OBJECT 25
+            
+      25:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 26
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<蘭> &f他還懂得創造不同的戰鬥流派,其中最著名的莫過於他的[魔龍領域]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<蘭> &f據說是在&5[未知領域]&f與&d[魔龍]&f戰鬥時,熟練地磨練出來,真是太誇張了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      26:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [那有他在就真的能放心了,哈哈]'
+            goto: OBJECT 27
+            
+      27:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 28
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<蘭> &f要一起去冒險者公會找委託做嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<蘭> &f反正威廉隊長還沒回來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      28:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蘭>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [好呀,一起走吧]'
+            goto: OBJECT 29
+            
+      29:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<蘭>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+        goto: OBJECT 30
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<蘭> &f那你跟著我來,我帶你去這裡的冒險者公會'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<蘭> &f我跟這裡的冒險者公會的人都很熟~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      30:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        start_notify:
+          message: '&e[任務提示]&f跟著&a<蘭>&f走'
+          title: '&e任務提示'
+          title_subtitle: '&e跟著&a<蘭>&f走'
+        goto: OBJECT 31
+        toggle: false
+
+      31:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f跟著&a<蘭>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+          - '&f步驟-4 &f跟著&a<蘭>&f走'
+        goto: OBJECT 32
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3366,68,943,0,0
+        wait_for_player_radius: 10
+        npc: 9
+        
+      32:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<蘭>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+          - '&f步驟-4 &f跟著&a<蘭>&f走'
+          - '&f步驟-5 &f與&a<蘭>&f對話'
+        goto: OBJECT 33
+        actions:
+          - WAIT_TICKS 2
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<蘭>&f對話'
+          message: '&e[任務提示]&f與&a<蘭>&f對話'
+          
+      33:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<蘭>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+          - '&f步驟-4 &f跟著&a<蘭>&f走'
+          - '&f步驟-5 &f與&a<蘭>&f對話'
+        goto: OBJECT 34
+        npc: 9
+
+      34:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 35
+        toggle: true
+        
+      35:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 36
+        position:
+          type: SINGLE
+          location: world,-3367,68,947,180,0
+          
+      36:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<愛比#188>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+          - '&f步驟-4 &f跟著&a<蘭>&f走'
+          - '&f步驟-5 &f與&a<蘭>&f對話'
+        goto: OBJECT 37
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<愛比> &f蘭,終於來了嗎?還帶了一個朋友來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<蘭> &f對,他是新來的冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      37:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<愛比#188>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+          - '&f步驟-4 &f跟著&a<蘭>&f走'
+          - '&f步驟-5 &f與&a<蘭>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你好]'
+            goto: OBJECT 38
+            
+      38:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<愛比#188>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<賽斯#181>&f對話'
+          - '&f步驟-2 &f在城裡走走'
+          - '&f步驟-3 &f與&a<蘭>&f對話'
+          - '&f步驟-4 &f跟著&a<蘭>&f走'
+          - '&f步驟-5 &f與&a<蘭>&f對話'
+        goto: OBJECT 39
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<愛比> &f你好,那你們要一起去做任務嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<愛比> &f剛剛有人發出委託想要一些黃金炸蝦球'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<蘭> &f不是吧,你覺得我是為此而來的嗎?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<蘭> &f給我一個目前最麻煩最多錢的任務給我'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<愛比> &f那...好吧,你們等我一下喔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/6]&a<愛比> &f我要先找一下'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      39:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 130000
+        - mmocore admin exp give {player} fishing 130000
+        - mmocore admin exp give {player} food 130000
+        - mmocore admin exp give {player} handicraft 130000
+        - mmocore admin exp give {player} main 130000
+        - mmocore admin exp give {player} mining 130000
+        - mmocore admin exp give {player} alchemy 130000
+    b:
+      type: SERVER_FIREWORKS_LAUNCH
+      position:
+        type: PLAYER_RELATIVE_SINGLE
+        location:
+          distance: 3
+          vertical_offset: 1
+      effects:
+        1:
+          type: CREEPER
+          colors:
+            - AQUA
+            - BLUE
+          fade_colors:
+            - AQUA
+            - BLUE
+          flicker: true
+          trail: true
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 9

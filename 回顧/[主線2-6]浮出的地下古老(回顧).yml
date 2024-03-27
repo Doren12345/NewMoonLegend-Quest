@@ -1,0 +1,604 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[第二章]浮出的地下古老&a(回顧)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &a✔ &f已領取任務獎勵
+    &f--------------------{detailed_progression}
+    {controls}
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc103]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_11
+
+completion:
+  max_completions: 99999999
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<羅德#25>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 611
+        npc: 611
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<羅素#25>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<羅素#25>&f對話'
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f與&a<羅德#42>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+        goto: OBJECT 2
+        toggle: true
+      
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+        goto: OBJECT 3
+        actions: 
+          - 'SEND_MESSAGE &a<羅德> &f你有看到書本裡面顯現出來的那幾串文字嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[真的有顯現出文字! 你太強了吧!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f真的有顯現出文字! 你太強了吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f和我猜想的一致，裡面的內容的確是用蟾蜍毒液所書寫。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &f但至於裡面的內容... 我對於文學這塊沒有興趣，你拿去問問村長吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](拿去問問村長是個好主意，去問問看吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+        goto: OBJECT 4
+        toggle: false
+      
+      4:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<卡納克#2>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 5
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 2
+        npc: 2
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<卡納克#2>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<卡納克#2>&f對話'
+      
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f與&a<卡納克#2>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 6
+        toggle: true
+      
+      6:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 7
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你將書本拿給了村長老人家看)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[村長你好，想請教你關於這本書的內容...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f村長你好，想請教你關於這本書的內容...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f好呀! 年輕時最愛讀書了，尤其是這種很神祕的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f老夫閱讀看看...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](村長拿起老花眼鏡，認真閱讀了書本一次)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &6「暗無天日之城」&f？&6「廢都」&f？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f這附近確實有一座埋在地下的都市，常被稱作&7[地下城]&f'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f並且這種都市在整片大陸上都有，是一種常見的結構。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f不過我們並不知道&7[地下城]&f是由誰建造的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f唉，聽說這座地下城已經存在數百年了，多麼悠久啊!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f我想&6「暗無天日之城」&f應該就是指&7[地下城]&f了，正好附近有個類似的，位在卡坦村東方的山坡上。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[地下城... 我想去探索看看!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f地下城... 我想去探索看看!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f正好，我也想要讓你去調查看看呢。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f唉! 我這骨子啊，不像年輕人，沒有辦法自己去探索一番...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f不過你如果要探索地下城的話，需要準備好裝備與武器'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f畢竟裡面棲息著&5[不死族]&f，牠們非常具有攻擊性。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f大部分的&5[不死族]&f都有一個特點，就是無法承受住太陽的照射。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f所以&5[不死族]&f大部分都棲息在地表內，&7[地下城]&f可以說是牠們的最佳居所。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f切記，進入地下城探索時，要小心地板上的陷阱，否則只有死路一條。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你心想：先準備一下裝備後去卡坦村東方的山坡看看吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+        
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 8
+        toggle: false
+      
+      8:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[Lv10地下城]&e(241,91,213)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+        goto: OBJECT 9
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,241,91,213
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往&a[Lv10地下城]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f前往&a[Lv10地下城]&e(241,91,213)'
+      
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+        goto: OBJECT 10
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你心想：這個洞想必是入口了，進去探索吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      10:
+        type: PLAYER_POSITION
+        objective_detail: '&f探索&a[Lv10地下城]&e(187,59,276)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+        goto: OBJECT 11
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,187,59,276
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b探索&a[Lv10地下城]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f探索&a[Lv10地下城]&e(187,59,276)'
+      11:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+        goto: OBJECT 12
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](骷髏們看見入侵者後開始躁動，朝你攻擊而來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](只好應戰了，上!)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      12:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL #擊殺生物
+        gps:
+          enabled: false
+        objective_detail: '&f擊殺&a【Lv10】骷髏犬 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 13
+        goals:
+          0:
+            mobs: '【Lv10】骷髏犬'
+            goal: 1
+      13:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+        goto: OBJECT 14
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](這裡的不死族數量太多了，根本殺不完!)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](只好邊應戰邊探索這個地下城了...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      14:
+        type: PLAYER_POSITION
+        objective_detail: '&f深入探索&a[Lv10地下城]&e(175,70,297)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(175,60,297)'
+        goto: OBJECT 15
+        position:
+          type: SPHERE_INSIDE
+          radius: 4
+          center: world,175,60,297
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b深入探索&a[Lv10地下城]&e(175,60,297)'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f深入探索&a[Lv10地下城]&e(175,60,297)'
+
+      15:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(175,70,297)'
+        goto: OBJECT 16
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](往下的樓梯？走下去調查吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      16:
+        type: PLAYER_POSITION
+        objective_detail: '&f深入探索&a[Lv10地下城]&e(163,57,268)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(174,46,295)'
+        goto: OBJECT 17
+        position:
+          type: SPHERE_INSIDE
+          radius: 4
+          center: world,174,46,295
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b深入探索&a[Lv10地下城]&e(174,46,295)'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f深入探索&a[Lv10地下城]&e(174,46,295)'
+      17:
+        type: PLAYER_POSITION
+        objective_detail: '&f深入探索&a[Lv10地下城]&e(163,57,268)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+        goto: OBJECT 18
+        position:
+          type: SPHERE_INSIDE
+          radius: 4
+          center: world,194,46,180
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b深入探索&a[Lv10地下城]&e(194,46,180)'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f深入探索&a[Lv10地下城]&e(194,46,180)'
+      
+      18:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+        goto: OBJECT 19
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你躲避了所有骷髏來到了一間巨大的房間)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[這是...這些巨大的圖騰是什麼?]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f這是...這些巨大的圖騰是什麼?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &0<???> &5&k終於來了？&f'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你用水晶記錄了影像，你隱約看見水晶有什麼氣息不斷飄向靈魂火把)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          #招喚一個以前的系統水晶實體在靈魂火把面前與玩家之間 不明顯的粒子效果從水晶移動到靈魂火把上 193 47 193
+          - 'SEND_MESSAGE &b[故事劇情](嗯... 去問問看村長關於圖騰的事情吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND minecraft:execute in minecraft:world run tp {player} -71 67 243 180 0'
+          - 'SEND_MESSAGE &b[故事劇情](你找了個安全的地方傳送回了村莊，但是隱約覺得你被跟蹤著)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      19:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<卡納克#2>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 20
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 2
+        npc: 2
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<卡納克#2>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<卡納克#2>&f對話'
+      
+      20:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 21
+        toggle: true
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 22
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你將調查結果告訴了村長)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f唉呀，我覺得這已經超出了我的認知範圍了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f不過這些圖騰我好像在哪裡見過類似的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f對了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[什麼對了？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f什麼對了？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f在枯木內沼海邊的山坡上有個小部落'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f他們好像有與你拍到的一模一樣的圖騰!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[在哪裡？我要過去問問!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f在哪裡？我要過去問問!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f那裡比較崎嶇，在枯木內沼的深處'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f直接走過去的話有點不太現實，途中有許多怪物，從東日漁村搭船繞過南邊通過海峽是個比較快速且安全的路線。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<卡納克> &f而且他們比較歡迎搭船過去的人，所以我建議你搭船過去。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[比較歡迎是什麼意思？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f比較歡迎是什麼意思？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<卡納克> &f那裡物資貧瘠，靠海的他們非常仰賴船隻貿易，因此看見船隻會很熱情的招待你。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](搭船嗎... 去找達哥看看？)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      22:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+        goto: OBJECT 23
+        toggle: false
+      23:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<船夫 達哥>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-8 &f與&a<船夫 達哥>&f對話'
+        goto: OBJECT 24
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 56
+        npc: 56
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<船夫 達哥>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<船夫 達哥>&f對話'
+      24:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-8 &f與&a<船夫 達哥>&f對話'
+        goto: OBJECT 25
+        toggle: true
+      25:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-8 &f與&a<船夫 達哥>&f對話'
+        goto: OBJECT 26
+        actions: 
+          - 'SEND_MESSAGE &a<達哥> &f村長都跟我說過了，這趟旅途包在我身上!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你們前往了枯木內沼的東北角，一個有著古老歷史的村落)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      26:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅素#25>&f對話'
+          - '&f步驟-2 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-3 &f前往&a[Lv10地下城]&e(241,91,213)'
+          - '&f步驟-4 &f探索&a[Lv10地下城]&e(187,59,276)'
+          - '&f步驟-5 &f擊殺&a【Lv10】骷髏犬 &b1&f/&b1'
+          - '&f步驟-6 &f深入探索&a[Lv10地下城]&e(194,46,180)'
+          - '&f步驟-7 &f與&a<卡納克#2>&f對話'
+          - '&f步驟-8 &f與&a<船夫 達哥>&f對話'
+        goto: OBJECT QUEST_SUCCESS
+        toggle: false
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+        - 'minecraft:execute in minecraft:world run tp {player} 163 64 -648'
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']
+        
+          

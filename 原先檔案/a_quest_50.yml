@@ -1,0 +1,1703 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[主線]危險來襲'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx1000
+    &f- &a總經驗值&fx155000
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      message:
+        - '&f--------------------'
+        - '&f解鎖&e[主線]尋找威廉的師傅'
+        - '&f可在&a[帝貝鎮]&f向&a<威廉>&f接取'
+        - '&f--------------------'
+        - '&f需要滿足以下條件才能接取任務：'
+        - '&a等級：Lv55'
+        - '&f--------------------'
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc173]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    1:
+      type: LOGIC
+      logic: '%mmocore_level% >= 50'
+    2:
+      type: QUEST_COMPLETED
+      model: a_quest_49
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<愛比>&f正在與你對話'
+        objective_detail_verbose: ['&f步驟-1 &f與&a<愛比>&f對話']
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<愛比> &f你來了嗎,上次感謝你的幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<愛比> &f這次也要靠你收集一下有關骷髏的情報'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 4
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e擊殺&a【Lv51】沙漠骷髏士兵'
+          message: '&e[任務提示]&f擊殺&a【Lv51】沙漠骷髏士兵'
+
+      4:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a【Lv51】沙漠骷髏士兵&e{objective_progression:0}&f/&e{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e{objective_progression:0}&f/&e{objective_goal:0}'
+        goto: OBJECT 5
+        goals:
+          0:
+            mobs: '【Lv51】沙漠骷髏士兵'
+            goal: 20
+
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&f準備回去與&a<愛比>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 6
+        actions: [WAIT_TICKS 2]
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e準備回去與&a<愛比>&f對話'
+          message: '&e[任務提示]&f準備回去與&a<愛比>&f對話'
+
+      6:
+        type: PLAYER_POSITION
+        objective_detail: '&f準備回去與&a<愛比>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 7
+        position:
+          type: SPHERE_INSIDE
+          radius: 10
+          center: world,-3415,73,744
+
+      7:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 8
+        toggle: true
+
+      8:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 9
+        position:
+          type: SINGLE
+          location: world,-3415,73,739,90,0
+
+      9:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 10
+        position:
+          type: SINGLE
+          location: world,-3429,72,736,0,0
+
+      10:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 6
+        goto: OBJECT 11
+        position:
+          type: SINGLE
+          location: world,-3431,72,730,0,0
+
+      11:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 7
+        goto: OBJECT 12
+        position:
+          type: SINGLE
+          location: world,-3432,72,739,0,0
+
+      12:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 13
+        goto: OBJECT 13
+        position:
+          type: SINGLE
+          location: world,-3434,71,737,0,0
+
+      13:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 14
+        goto: OBJECT 14
+        position:
+          type: SINGLE
+          location: world,-3436,71,733,0,0
+
+      14:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 15
+        goto: OBJECT 15
+        position:
+          type: SINGLE
+          location: world,-3437,71,739,0,0
+
+      15:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 16
+        goto: OBJECT 16
+        position:
+          type: SINGLE
+          location: world,-3439,71,730,0,0
+
+      16:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 17
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3429,72,762,0,0
+        npc: 8
+        wait_for_completion: false
+
+      17:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 18
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3431,72,762,0,0
+        npc: 6
+        wait_for_completion: false
+
+      18:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 19
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3432,72,762,0,0
+        npc: 7
+        wait_for_completion: false
+        
+      19:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 20
+        actions:
+          - WAIT_TICKS 2
+
+      20:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 21
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3434,72,762,0,0
+        npc: 13
+        wait_for_completion: false
+        
+      21:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 22
+        actions:
+          - WAIT_TICKS 2
+
+      22:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 23
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3436,72,762,0,0
+        npc: 14
+        wait_for_completion: false
+        
+      23:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 24
+        actions:
+          - WAIT_TICKS 2
+
+      24:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 25
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3437,72,762,0,0
+        npc: 15
+        wait_for_completion: false
+        
+      25:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 26
+        actions:
+          - WAIT_TICKS 2
+
+      26:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 27
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3438,72,762,0,0
+        npc: 16
+        wait_for_completion: false
+
+      27:
+        type: SERVER_ACTIONS
+        objective_detail: '&f你心想...'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+        goto: OBJECT 28
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](他們是...)'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &b[故事劇情](是&a<卡雷德>&f!?還有黑暗軍團?)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](難道是來抓女孩的嗎?)'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](我還沒找到誰是目標,可惡!要快點回去!)'
+          - WAIT_TICKS 40
+
+      28:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 29
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+
+      29:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 6
+        goto: OBJECT 30
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+
+      30:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 7
+        goto: OBJECT 31
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+
+      31:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 13
+        goto: OBJECT 32
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+
+      32:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 14
+        goto: OBJECT 33
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+
+      33:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 15
+        goto: OBJECT 34
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+
+      34:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 16
+        goto: OBJECT 35NPC
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+          
+      35NPC:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 35
+        position:
+          type: SINGLE
+          location: world,-3456,69,988,270,0
+
+      35:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<威廉>&f對話'
+          message: '&e[任務提示]&f與&a<威廉>&f對話'
+        goto: OBJECT 36
+        toggle: false
+
+      36:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<威廉>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+        goto: OBJECT 37
+        npc: 10
+
+      37:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 38
+        toggle: true
+
+      38:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+        goto: OBJECT 39
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<威廉> &f我也有察覺到有一股不尋常的氣息圍繞著帝貝鎮...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<威廉> &f看來可以動動關節了,跟我來吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      39:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 40
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e跟著&a<威廉>走'
+          message: '&e[任務提示]&f跟著&a<威廉>走'
+
+      40:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 41
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<威廉> &f你要跟好我喔,來吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      41:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 42
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3434,68,955,0,0
+        wait_for_player_radius: 5
+        npc: 10
+
+      42:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 43
+        commands:
+          - 'particle minecraft:sweep_attack -3434 68 955 1 1 1 0.1 1000'
+
+      43:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 44
+        position:
+          type: SINGLE
+          location: world,-3435,73,939,180,0
+
+      44:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 45
+        commands:
+          - 'particle minecraft:sweep_attack -3435 73 939 1 1 1 0.1 1000'
+
+      45:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 46
+        actions:
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+          - 'SEND_MESSAGE &e[1/1]&a<威廉> &f快點過來'
+          - WAIT_TICKS 40
+
+      46:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 47
+        gps:
+          enabled: false
+        position:
+          type: SINGLE
+          location: world,-3435,80,931,0,0
+        wait_for_player_radius: 5
+        npc: 10
+
+      47:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 48
+        commands:
+          - 'particle minecraft:sweep_attack -3435 80 931 1 1 1 0.1 1000'
+
+      48:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 49
+        position:
+          type: SINGLE
+          location: world,-3438,79,904,0,0
+
+      49:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+        goto: OBJECT 50
+        commands:
+          - 'particle minecraft:sweep_attack -3438 79 904 1 1 1 0.1 1000'
+
+      50:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<威廉>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+        goto: OBJECT 51
+        actions: [WAIT_TICKS 2]
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<威廉>&f對話'
+          message: '&e[任務提示]&f與&a<威廉>&f對話'
+
+      51:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<威廉>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+        goto: OBJECT 52
+        npc: 10
+
+      52:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 6
+        goto: OBJECT 53
+        position:
+          type: SINGLE
+          location: world,-3432,74,903,90,0
+
+      53:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 7
+        goto: OBJECT 54
+        position:
+          type: SINGLE
+          location: world,-3416,75,910,0,0
+
+      54:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 13
+        goto: OBJECT 55
+        position:
+          type: SINGLE
+          location: world,-3407,75,910,0,0
+
+      55:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 14
+        goto: OBJECT 56
+        position:
+          type: SINGLE
+          location: world,-3396,78,907,0,0
+
+      56:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 15
+        goto: OBJECT 57
+        position:
+          type: SINGLE
+          location: world,-3396,75,895,0,0
+
+      57:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+        goto: OBJECT 58
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<威廉> &f他們都在這了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<威廉> &f下面也有一個,跟好我了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+
+      58:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 59
+        commands:
+          - 'particle minecraft:sweep_attack -3438 79 904 1 1 1 0.1 1000'
+
+      59:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 60
+        position:
+          type: SINGLE
+          location: world,-3432,74,903,0,0
+
+      60:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 61
+        commands:
+          - 'particle minecraft:sweep_attack -3432 74 903 1 1 1 0.1 1000'
+
+      61:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 62
+        npc: 6
+        status: ELYTRA
+        
+      62:
+        type: SERVER_ACTIONS
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 63
+        actions:
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+          - WAIT_TICKS 30
+        
+      63:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 64
+        position:
+          type: SINGLE
+          location: world,-3416,75,910,0,0
+
+      64:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 65
+        commands:
+          - 'particle minecraft:sweep_attack -3416 75 910 1 1 1 0.1 1000'
+
+      65:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 66
+        npc: 7
+        status: ELYTRA
+        
+      66:
+        type: SERVER_ACTIONS
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 67
+        actions:
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+          - WAIT_TICKS 30
+
+      67:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 68
+        position:
+          type: SINGLE
+          location: world,-3407,75,910,0,0
+
+      68:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 69
+        commands:
+          - 'particle minecraft:sweep_attack -3407 75 910 1 1 1 0.1 1000'
+
+      69:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 70
+        npc: 13
+        status: ELYTRA
+
+      70:
+        type: SERVER_ACTIONS
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 71
+        actions:
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+          - WAIT_TICKS 30
+
+      71:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 72
+        position:
+          type: SINGLE
+          location: world,-3396,78,907,0,0
+
+      72:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 73
+        commands:
+          - 'particle minecraft:sweep_attack -3396 78 907 1 1 1 0.1 1000'
+          
+      73:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 74
+        npc: 14
+        status: ELYTRA
+          
+      74:
+        type: SERVER_ACTIONS
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+        goto: OBJECT 75
+        actions:
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+          - WAIT_TICKS 30
+
+      75:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 76
+        position:
+          type: SINGLE
+          location: world,-3396,75,896,180,0
+
+      76:
+        type: SERVER_ACTIONS
+        objective_detail: '&f與&a<威廉>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 77
+        actions: [WAIT_TICKS 2]
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e與&a<威廉>&f對話'
+          message: '&e[任務提示]&f與&a<威廉>&f對話'
+
+      77:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<威廉>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 78
+        npc: 10
+        
+      78:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 79
+        toggle: true
+        
+      79:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 80
+        actions:
+          - 'SEND_MESSAGE &e[1/6]&a<黑暗軍團> &f怎麼會這樣?你是...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/6]&a<威廉> &f快說你們來這的目的是甚麼?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/6]&a<黑暗軍團> &f你不會覺得我會說給你聽吧?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/6]&a<黑暗軍團> &f我們黑暗軍團決絕對不會...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/6]&a<威廉> &f那你可以死了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 20
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+          
+      80:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f跟著&a<威廉>&f走'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 81
+        commands:
+          - 'particle minecraft:sweep_attack -3396 75 896 1 1 1 0.1 1000'
+
+      81:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 82
+        npc: 15
+        status: ELYTRA
+        
+      82:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 83
+        actions:
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &e[6/6]&a<威廉> &f我們分頭去看看還有沒有黑暗軍團的殘黨'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      83:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<威廉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [好的]'
+            goto: OBJECT 84
+
+      84:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 85
+        actions:
+          - 'SEND_MESSAGE &e[1/1]&a<威廉> &f我去門口看,你到城內看吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      85:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 86
+        commands:
+          - 'particle minecraft:sweep_attack -3396 75 896 1 1 1 0.1 1000'
+          
+      86:
+        type: SERVER_ACTIONS
+        objective_detail: '&a<威廉>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+        goto: OBJECT 87
+        actions:
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+
+      87:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 88
+        position:
+          type: SINGLE
+          location: world,-3436,68,879,180,0
+          
+      88:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 89
+        position:
+          type: SINGLE
+          location: world,-3361,68,894,90,0
+          
+      89:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 7
+        goto: OBJECT 90
+        position:
+          type: SINGLE
+          location: world,-3364,68,894,0,0
+          
+      90:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 91
+        npc: 7
+        status: CROUCHED
+          
+      91:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 92
+        toggle: false
+        start_notify:
+          title: '&e任務提示'
+          title_subtitle: '&e到城內尋找黑暗軍團的殘黨'
+          message: '&e[任務提示]&f到城內尋找黑暗軍團的殘黨'
+          
+      92:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f到城內尋找黑暗軍團的殘黨'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+        goto: OBJECT 93
+        npc: 11
+
+      93:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+        goto: OBJECT 94
+        actions:
+          - 'SEND_MESSAGE &e[1/2]&a<辛西亞> &f冒險者!快救我!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/2]&a<蓓拉> &f你們到底是甚麼人?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      94:
+        type: DIVERGE_CHAT
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [快點放開辛西亞!]'
+            goto: OBJECT 95
+            
+      95:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+        goto: OBJECT 96
+        actions:
+          - 'SEND_MESSAGE &e[1/5]&a<卡雷德> &f又是你喔,冒險者'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/5]&a<卡雷德> &f可惜你來慢了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/5]&a<蓓拉> &f辛西亞!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/5]&a<辛西亞> &f姐...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 10
+
+      96:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+        goto: OBJECT 97
+        commands:
+          - 'particle minecraft:large_smoke -3364 68 896 1 1 1 0.1 10000'
+          - 'particle minecraft:large_smoke -3364 68 894 1 1 1 0.1 10000'
+          - 'particle minecraft:large_smoke -3361 68 894 1 1 1 0.1 10000'
+
+      97:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 11
+        goto: OBJECT 98
+        position:
+          type: SINGLE
+          location: world,-3426,75,875,270,0
+          
+      98:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 99
+        position:
+          type: SINGLE
+          location: world,-3427,75,876,270,0
+          
+      99:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 7
+        goto: OBJECT 100
+        position:
+          type: SINGLE
+          location: world,-3427,75,874,270,0
+          
+      100:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+        goto: OBJECT 101
+        actions:
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/5]&a<蓓拉> &f怎麼辦,冒險者...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      101:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<蓓拉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [你在這裡等,我出去找她們!]'
+            goto: OBJECT 102
+            
+      102:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 103
+        position:
+          type: SINGLE
+          location: world,-3369,68,899,180,0
+          
+      103:
+        type: PLAYER_GCORE_NPC_INTERACT
+        objective_detail: '&f與&a<威廉>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 104
+        npc: 10
+
+      104:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 105
+        actions:
+          - 'SEND_MESSAGE &e[1/22]&a<威廉> &f快!跟著我來'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+
+      105:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 106
+        position:
+          type: SINGLE
+          location: world,-3424,75,876,90,0
+        
+      106:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 107
+        position:
+          type: SINGLE
+          location: world,-3424,75,875,90,0
+          
+      107:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 108
+        actions:
+          - 'SEND_MESSAGE &e[2/22]&a<威廉> &f站著!再走就直接殺死你們!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/22]&a<卡雷德> &f雖然有聽說過帝貝鎮隊長很強...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/22]&a<卡雷德> &f但也不用強得像鬼這麼強吧...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[5/22]&a<威廉> &f謝謝你的讚美,但是我也不會放過你們的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[6/22]&a<威廉> &f說!你們抓她的目的是甚麼!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[7/22]&a<卡雷德> &f...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[8/22]&a<威廉> &f3...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[9/22]&a<威廉> &f2...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[10/22]&a<威廉> &f1!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - SEND_SOUND ENTITY_BLAZE_SHOOT
+
+      108:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 109
+        commands:
+          - 'particle minecraft:sweep_attack -3424 75 875 1 1 1 0.1 1000'
+          
+      109:
+        type: SERVER_GCORE_NPC_SET_STATUS
+        goto: OBJECT 110
+        npc: 7
+        status: ELYTRA
+        
+      110:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 111
+        actions:
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[11/22]&a<威廉> &f卡雷德對吧,下一個就是你了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[12/22]&a<卡雷德> &f...'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[13/22]&a<威廉> &f3...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[14/22]&a<卡雷德> &f好啦好啦!我們是要得到龍之後裔的血啦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[15/22]&a<威廉> &f龍之後裔的血?這女孩是龍之後裔?'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[16/22]&a<辛西亞> &f你媽的X,我才不是甚麼龍之後裔'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[17/22]&a<卡雷德> &f不可能!你身上明明就有龍之後裔的項鏈!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[18/22]&a<辛西亞> &f這是我姐送我的!你快放開我!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[19/22]&a<卡雷德> &f原來是這樣喔,哈哈哈哈'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      111:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 112
+        commands:
+          - 'particle minecraft:large_smoke -3424 75 874 1 1 1 0.1 10000'
+          - 'particle minecraft:large_smoke -3424 75 875 1 1 1 0.1 10000'
+          - 'particle minecraft:large_smoke -3424 75 876 1 1 1 0.1 10000'
+          
+      112:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 8
+        goto: OBJECT 113
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+          
+      113:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 12
+        goto: OBJECT 114
+        position:
+          type: SINGLE
+          location: world,-3434,26,900,0,0
+          
+      114:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 115
+        actions:
+          - 'SEND_MESSAGE &e[20/22]&a<威廉> &f糟糕!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[21/22]&a<辛西亞> &f怎麼就走啦?'
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[22/22]&a<威廉> &f你姐有危險了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      115:
+        type: DIVERGE_CHAT
+        objective_detail: '&f回應&a<威廉>'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> [我們快回去找她!]'
+            goto: OBJECT 116
+            
+      116:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 11
+        goto: OBJECT 117
+        position:
+          type: SINGLE
+          location: world,-3362,68,894,90,0
+          
+      117:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 118
+        position:
+          type: SINGLE
+          location: world,-3361,68,895,90,0
+          
+      118:
+        type: SERVER_PLAYER_TELEPORT
+        goto: OBJECT 119
+        position:
+          type: SINGLE
+          location: world,-3364,68,895,270,0
+          
+      119:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 120
+        actions:
+          - 'SEND_MESSAGE &e[1/4]&a<威廉> &f可惡,失策了....'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[2/4]&a<辛西亞> &f都是我的錯...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[3/4]&a<辛西亞> &f我害姐姐被抓走了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &e[4/4]&a<威廉> &f我回去重整策略,看有沒有方法追蹤他們的下落'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      120:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 10
+        goto: OBJECT 121
+        position:
+          type: SINGLE
+          location: world,-3456,69,988,270,0
+          
+      121:
+        type: SERVER_ACTIONS
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 122
+        actions:
+          - WAIT_TICKS 2
+
+      122:
+        type: SERVER_COMMANDS_PERFORM
+        objective_detail: '&f觀看劇情'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<愛比>&f對話'
+          - '&f步驟-2 &f擊殺&a【Lv51】沙漠骷髏士兵 &e20&f/&e20'
+          - '&f步驟-3 &f準備回去與&a<愛比>&f對話'
+          - '&f步驟-4 &f與&a<威廉>&f對話'
+          - '&f步驟-5 &f跟著&a<威廉>走'
+          - '&f步驟-6 &f與&a<威廉>&f對話'
+          - '&f步驟-7 &f跟著&a<威廉>走'
+          - '&f步驟-8 &f與&a<威廉>&f對話'
+          - '&f步驟-9 &f到城內尋找黑暗軍團的殘黨'
+          - '&f步驟-10 &f與&a<威廉>&f對話'
+        goto: OBJECT 123
+        commands:
+          - gcore npcreset {player} 6
+          - gcore npcreset {player} 7
+          - gcore npcreset {player} 8
+          - gcore npcreset {player} 13
+          - gcore npcreset {player} 14
+          - gcore npcreset {player} 15
+          - gcore npcreset {player} 16
+          
+      123:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 1000
+        - mmocore admin exp give {player} farm 150000
+        - mmocore admin exp give {player} fishing 150000
+        - mmocore admin exp give {player} food 150000
+        - mmocore admin exp give {player} handicraft 150000
+        - mmocore admin exp give {player} main 150000
+        - mmocore admin exp give {player} mining 150000
+        - mmocore admin exp give {player} alchemy 150000
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - gcore npcreset {player} 6
+        - gcore npcreset {player} 7
+        - gcore npcreset {player} 8
+        - gcore npcreset {player} 13
+        - gcore npcreset {player} 14
+        - gcore npcreset {player} 15
+        - gcore npcreset {player} 16
+    2:
+      type: SERVER_GCORE_NPC_TELEPORT
+      npc: 10
+      position:
+        type: SINGLE
+        location: world,-3456,69,988,270,0
+    3:
+      type: SERVER_GCORE_NPC_TELEPORT
+      npc: 11
+      position:
+        type: SINGLE
+        location: world,-3362,68,894,90,0
+    4:
+      type: SERVER_GCORE_NPC_TELEPORT
+      npc: 12
+      position:
+        type: SINGLE
+        location: world,-3362,68,896,90,0

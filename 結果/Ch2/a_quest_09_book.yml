@@ -1,0 +1,213 @@
+
+# -------------------- Display settings --------------------
+
+display_name: '&e[第二章]逃脫! 潛藏迷宮的陰謀'
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &6[動作]拿走書本{detailed_progression}
+    {controls}
+
+display_priority: 1
+# -------------------- Post-quest settings --------------------
+
+completion:
+  max_completions: 1
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+      bossbar: >
+        {quest} &a任務完成!
+      bossbar_color: GREEN  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務失敗!
+      bossbar_color: RED  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+      bossbar: >
+        {quest} &a任務取消!
+      bossbar_color: PINK  # Values : BLUE, GREEN, PINK, PURPLE, RED, WHITE, YELLOW
+      bossbar_style: SOLID  # Values : SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20
+      bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
+      bossbar_duration: 10 SECOND
+
+activators: [block]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_09
+
+
+
+branches:
+
+  main:
+    starts_at: 24
+    objects:
+      24:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
+          - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
+          - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
+          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-7 &f查看&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-8 &f拿走&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+        goto: OBJECT 25
+        actions: 
+          - SEND_SOUND ENTITY_CREEPER_PRIMED
+          - WAIT_TICKS 10
+          - 'SEND_MESSAGE &b[故事劇情](嗯？！什麼聲音，難道我被發現了？！)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[哈囉？]'
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &0<???> &f就在你...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f哈囉？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &0<???> &f你是何人？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &8<???> &f不好，這不是我們的人，快抓起來!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](快跑)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND minecraft:execute in minecraft:world_story run tp {player} -460.5 21.5 653.5'
+          - 'PERFORM_COMMAND qc start a_quest_09_book_detect {player} -silent'
+      25:
+        type: PLAYER_POSITION
+        objective_detail: '&c逃離洞窟'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
+          - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
+          - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
+          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-7 &f查看&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-8 &f拿走&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-9 &c逃離&a[神秘的洞窟]'
+        goto: OBJECT 26
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world_story,-479,65,464
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&c逃離&a[神秘的洞窟]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &c逃離&a[神秘的洞窟]&e(-479,65,464)' #新蓋洞窟的終點
+      26:
+        type: SERVER_ACTIONS
+        objective_detail: '&c逃離洞窟'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
+          - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
+          - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
+          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-7 &f查看&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-8 &f拿走&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-9 &c逃離&a[神秘的洞窟]'
+        goto: OBJECT 27
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](這樣跑下去也不是辦法，趕快找個安全的地方拿起水晶傳送回冬日漁村吧!)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &0<???> &f等等，水晶？！ 他是冒險者! 快阻止他!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      
+      27:
+        type: PLAYER_POSITION
+        objective_detail: '&f傳送回&a[東日漁村]&e(-487,64,367)'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
+          - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
+          - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
+          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-7 &f查看&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-8 &f拿走&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-9 &c逃離&a[神秘的洞窟]'
+          - '&f步驟-10 &f傳送回&a[東日漁村]&e(-487,64,367)'
+        goto: OBJECT 28
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,-487,64,367
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b傳送回&a[東日漁村]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f傳送回&a[東日漁村]&e(-487,64,367)'
+      
+      28:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅德#42>&f對話'
+          - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
+          - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
+          - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
+          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-7 &f查看&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-8 &f拿走&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
+          - '&f步驟-9 &c逃離&a[神秘的洞窟]'
+          - '&f步驟-10 &f找時機傳送回&a[東日漁村]&e(-487,64,367)'
+        goto: QUEST_SUCCESS_THEN_START a_quest_10
+        actions: 
+          - 'PERFORM_COMMAND questcreator stop a_quest_09_book_detect {player} -silent'
+          - 'SEND_MESSAGE &b[故事劇情](你跑了出來，回到了東日漁村，真是驚險...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](把剛剛找到的書拿給&a[羅德]&b看看吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+        - eco give {player} 900
+        - mmocore admin exp give {player} main 19600
+        - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}', 'minecraft:execute in minecraft:world run tp {player} -452.5 21 651.5']
+        
+          

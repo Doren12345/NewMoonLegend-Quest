@@ -1,0 +1,217 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&b[支線]皇家禁衛軍的訂單'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: BOOK
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &f任務報酬：
+    &f- &e金幣&fx300
+    &f- &a經驗值&fx1200
+    &f--------------------{detailed_progression}
+    {controls}
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc4]
+
+display_priority: 2
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &b[1/1]&a<安格斯> &f蘇茲..達..大劍...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](安格斯似乎在自言自語)'
+          - SEND_SOUND BLOCK_WOOL_PLACE
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[1/3]&a<安格斯> &f嗯...最近的訂單有點多啊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/3]&a<安格斯> &f而且素材也開始不夠用了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/3]&a<安格斯> &f等等去冒險者公會掛個委託吧'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[請問有什麼需要幫忙的嗎？]'
+            goto: OBJECT 3
+      3:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &b[1/4]&a<安格斯> &f哦？這不是冒險者&6{player}&f嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/4]&a<安格斯> &f你來得正好，我正打算委托冒險者幫忙收集一些素材'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/4]&a<安格斯> &f你願意幫忙嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[4/4]&a<安格斯> &f當然，我會準備相應的報酬的'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[當然可以，就交給我吧]'
+            goto: OBJECT 5
+      5:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &b[1/4]&a<安格斯> &f那真是太好了，我想請你幫忙收集一些&a[狼牙]&f給我'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/4]&a<安格斯> &f這些&a[狼牙]&f可以用來製作皇家禁衛軍需要的武器'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/4]&a<安格斯> &f至於數量嘛...我想大概10個就可以了'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[4/4]&a<安格斯> &f注意安全哦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      6:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS #交付10個物品
+        gps:
+          enabled: false
+        npc: 4
+        objective_detail: '&f交付&a[狼牙]&f給&a<安格斯#6> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-2 &f交付&a[狼牙]&f給&a<安格斯#6> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 7
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[狼牙]&f給&a<安格斯>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[狼牙]&f給&a<安格斯#6>'
+        goals:
+          0:
+            goal: 10
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_MOB
+                MMOITEMS_ITEM_ID: 狼牙
+      7:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-2 &f交付&a[狼牙]&f給&a<安格斯#6> &b{objective_progression:0}&f/&b{objective_goal:0}'
+          - '&f步驟-3 &f與&a<安格斯#6>&f對話'
+        goto: OBJECT 8
+        actions: 
+          - 'SEND_MESSAGE &b[1/4]&a<安格斯> &f嗯!這數量剛剛好'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/4]&a<安格斯> &f冒險者，你行動的速度可真快啊'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[3/4]&a<安格斯> &f真是幫大忙了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[4/4]&a<安格斯> &f來，這是說好的報酬'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](安格斯將手上的錢袋交給你)'
+          - SEND_SOUND BLOCK_WOOL_PLACE
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[1/2]&a<安格斯> &f對了，接下來還有一些事情想要請你幫忙'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[2/2]&a<安格斯> &f冒險者，你願意繼續幫我嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      8:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose: '&f步驟-1 &f與&a<安格斯#6>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我回答 >> &f[可以喔~]'
+            goto: OBJECT 9
+      9:
+        type: SERVER_ACTIONS #對話/劇情
+        hide_chat: true
+        objective_detail: '&a<安格斯>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<安格斯#6>&f對話'
+          - '&f步驟-2 &f交付&a[狼牙]&f給&a<安格斯#6> &b{objective_progression:0}&f/&b{objective_goal:0}'
+          - '&f步驟-3 &f與&a<安格斯#6>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &b[1/1]&a<安格斯> &f那麻煩你了，休息一會再來吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands:
+        - eco give {player} 300
+        - mmocore admin exp give {player} main 1200
+
+
+
+

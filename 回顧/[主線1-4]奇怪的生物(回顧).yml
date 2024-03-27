@@ -1,0 +1,312 @@
+# -------------------- Display settings --------------------
+
+display_name: '&e[第一章]奇怪的生物&a(回顧)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始進行 &a{quest} &7任務'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&a{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    &f--------------------
+    &a✔ &f已領取任務獎勵
+    &f--------------------{detailed_progression}
+    {controls}
+
+# -------------------- Post-quest settings --------------------
+
+completion:
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&c任務失敗'
+      title_subtitle: '&7你在任務 &c{quest} &7中失敗了!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+activators: [cnpc103]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_04
+    
+
+completion:
+  max_completions: 99999999
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 0
+    objects:
+
+      0:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比>&f對話'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 1
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾比#4>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾比#4>&f對話'
+
+      1:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 2
+        toggle: true
+
+      2:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 3
+        actions:
+          - 'SEND_MESSAGE &a<艾比> &f%luckperms_prefix%{player}&f，你休息好了嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f這裡有一個新的委託，你要接取嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[當然要!是關於什麼的？]'
+            goto: OBJECT 4-1
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[我再休息一下好了...]'
+            goto: OBJECT 4-2
+
+      4-1:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 5
+        actions:
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f當然要!是關於什麼的？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f剛剛有村民回報，在&a[卡坦村]&f外面的森林裡面'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f遇到一大群沒見過的&a[奇怪生物]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f因為最近&e[會長]&f好像一直在忙著開會，沒有時間處理這件事情，所以就委託了冒險者來幫忙。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<艾比> &f公會也有張貼公告，讓大家留意有沒有奇怪的事發生。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f為了安全起見，我們不能坐視不管'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f所以我把那位村民發現&a[奇怪生物]&f的位置坐標給你'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f麻煩你去看一下&a[奇怪生物]&f，小心不要讓村民暴露在危險之下喔。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+      4-2:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        goto: QUEST_CANCEL
+        actions:
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我再休息一下好了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f好的，等你休息好之後再來找我吧，我會把委託留給你的。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      5:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 6
+        toggle: false
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b前往&a[村民告知的地點]'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f前往&a[村民告知的地點]'
+
+      6:
+        type: PLAYER_POSITION
+        objective_detail: '&f前往&a[村民告知的地點]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f前往&a[村民告知的地點]&e(177,67,105)'
+        goto: OBJECT 7
+        position:
+          type: SPHERE_INSIDE
+          radius: 8
+          center: world,177,67,105
+
+      7:
+        type: SERVER_ACTIONS
+        objective_detail: '&f到達&a[村民告知的地點]'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅絲#3>&f對話'
+          - '&f步驟-2 &f與&a<艾比#4>&f對話'
+          - '&f步驟-3 &f前往&a[村民告知的地點]&e(177,67,105)'
+        goto: OBJECT 8
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你心想：這是哥布林？難道奇怪的生物就是指哥布林嗎？)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](哥布林朝你這裡衝了過來)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &b[故事劇情](你心想：看來他們不太有善，先解決再說吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+
+      8:
+        type: PLAYER_MYTHICMOBS_MOBS_KILL
+        objective_detail: '&f擊殺&a【Lv5】哥布林 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f前往&a[村民告知的地點]&e(177,67,105)'
+          - '&f步驟-3 &f擊殺&a【Lv5】哥布林 &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 9
+        goals:
+          0:
+            mobs: '【Lv5】哥布林'
+            goal: 1
+
+      9:
+        type: SERVER_ACTIONS
+        objective_detail: '&f擊殺&a【Lv5】哥布林 &b1&f/&b1'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f前往&a[村民告知的地點]&e(177,67,105)'
+          - '&f步驟-3 &f擊殺&a【Lv5】哥布林 &b1&f/&b1'
+        goto: OBJECT 10
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你心想：這裡哥布林殺也殺不完啊，先回去和&a[艾比]&b說吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+
+      10:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾比#4>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f前往&a[村民告知的地點]&e(177,67,105)'
+          - '&f步驟-3 &f擊殺&a【Lv5】哥布林 &b1&f/&b1'
+          - '&f步驟-4 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 11
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 1
+        npc: 1
+        
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: true
+
+      12:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f前往&a[村民告知的地點]&e(177,67,105)'
+          - '&f步驟-3 &f擊殺&a【Lv5】哥布林 &b1&f/&b1'
+          - '&f步驟-4 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 13
+        actions:
+          - 'SEND_MESSAGE &b[故事劇情](你將發現哥布林的事情告訴了艾比)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT #WOOL
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f什麼！？你說你發現了&a[哥布林]&f？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      13:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[對啊，怎麼了嗎？牠們好像挺普通的...]'
+            goto: OBJECT 14
+            
+      14:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾比#4>&f對話'
+          - '&f步驟-2 &f前往&a[村民告知的地點]&e(177,67,105)'
+          - '&f步驟-3 &f擊殺&a【Lv5】哥布林 &b1&f/&b1'
+          - '&f步驟-4 &f與&a<艾比#4>&f對話'
+        goto: OBJECT 15
+        actions:
+         - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f對啊，怎麼了嗎？牠們好像挺普通的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &a[哥布林]&f原先並不是居住在&a[阿姆斯草原]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f牠們應該是生活在大陸的東面。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f難道是發生了什麼事，令牠們離開了原本居住的地方嗎...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f我先通知&a[莎莉 小姐]&f，看公會有沒有相關資訊。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f你去叫&a[娜娜明]&f做好準備...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾比> &f這件事情有點嚴重，可能會有&9[中級任務]&f在卡坦出現...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+          
+      15:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: QUEST_SUCCESS
+        toggle: false
+
+end_objects:
+  success:
+    a:
+      type: SERVER_COMMANDS_PERFORM
+      commands: 
+        - heal {player}
+  cancel:
+    1:
+      type: SERVER_COMMANDS_PERFORM
+      commands: ['compass stop {player}']
