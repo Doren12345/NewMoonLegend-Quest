@@ -739,7 +739,7 @@ branches:
           - 'SEND_MESSAGE &a<魯茲> &f快! 阻止牠們跑出來!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'PERFORM_COMMAND mm m spawn %亡靈礦工_STORY% 20 world,-202,65,306,0,0'
+          - 'PERFORM_COMMAND mm m spawn STORY_礦工亡靈 20 world,-202,65,306,0,0'
       31:
         type: SERVER_CAMERA_MODE_TOGGLE
         goto: OBJECT 32
@@ -764,7 +764,7 @@ branches:
         max_distance: 15.0
         goals:
           1:
-            mobs: '%亡靈礦工_STORY%'
+            mobs: 'STORY_礦工亡靈'
             goal: 10
       33:
         type: SERVER_ACTIONS
@@ -784,6 +784,7 @@ branches:
           - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
         goto: OBJECT 34
         actions:
+          - 'PERFORM_COMMAND mm m kill STORY_礦工亡靈'
           - 'SEND_MESSAGE &b[故事劇情](又有一群亡靈礦工衝了出來)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
