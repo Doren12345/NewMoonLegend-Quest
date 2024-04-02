@@ -89,7 +89,7 @@ branches:
           - 'SEND_MESSAGE &e[1/3]&a<艾比> &f看來你準備好了,那我就給你第1個任務吧'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &e[2/3]&a<艾比> &f這個是來自&e[皇家騎士團 文]&f的委托,好像挺緊急的'
+          - 'SEND_MESSAGE &e[2/3]&a<艾比> &f這個是來自&e[皇家禁衛隊 文]&f的委托,好像挺緊急的'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &e[3/3]&a<艾比> &f你就快去找他問一下情況吧'

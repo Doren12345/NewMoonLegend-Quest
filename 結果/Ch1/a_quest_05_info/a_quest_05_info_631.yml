@@ -1,0 +1,206 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(娜娜明)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc631]
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[娜娜明姊姊，我想請教一件事情!]'
+            goto: OBJECT 2A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[娜娜明阿姨，我想請教一件事情!]'
+            goto: OBJECT 2B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[娜娜明，我想請教您...]'
+            redo_text: '&r'
+            goto: OBJECT 2C
+          3:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[&7(悄悄繞過)&f]'
+            goto: OBJECT QUEST_SUCCESS
+      2A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 3
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f娜娜明姊姊，我想請教一件事情!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f什麼？！姊姊！好年輕o(^▽^)o'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f娜娜明阿姨，我想請教一件事情!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f我有那麼老嗎？哼！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2C:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 1
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f娜娜明，我想請教您...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &7(假裝沒聽到...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[我想問有關於女王蜂的事情。]'
+            goto: OBJECT 4A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[我想請教姊姊，為什麼你的皮膚保養的那麼好？]'
+            goto: OBJECT 4B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[沒事]'
+            goto: OBJECT 4C
+      4A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我想問有關於女王蜂的事情。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f其實我也不太清楚呢!我只知道&a[羅絲]&f說過女王蜂蜂蜜可以拿來保養皮膚。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我想請教姊姊，為什麼你的皮膚保養的那麼好？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f這是羅絲教我的保養祕方! 別跟其他人說喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4C:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f沒事。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f真調皮! 來叫一聲就走了，也不噓寒問暖一下...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[我絕對守口如瓶!]'
+            goto: OBJECT 6A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[我絕對會大肆宣傳!]'
+            goto: OBJECT 6B
+      6A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我絕對守口如瓶!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f是這樣的，羅絲教會了我有關保養的許多秘訣，其中最有效的莫過於吃蘋果了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f蘋果含有豐富的維生素和礦物質，對皮膚和身體健康有益。堅持吃蘋果，可以幫助你保持青春美麗。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f如果想知道更多，你可以去找她問問看!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      6B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<娜娜明#10>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我絕對會大肆宣傳!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<娜娜明> &f哼! 那我不說了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+
+
+

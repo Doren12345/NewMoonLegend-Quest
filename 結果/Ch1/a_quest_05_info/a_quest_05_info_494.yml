@@ -1,0 +1,236 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(傑森)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc494]
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<傑森#27>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑森#27>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<傑森> &f你好啊，冒險者。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<傑森> &f我知道你想問什麼，恕我直言，女王蜂根本不存在!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[那麼你要怎麼解釋，夏佐拿到的那塊蜂蜜？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f那麼你要怎麼解釋，夏佐拿到的那塊蜂蜜？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f那就只是特別香甜的蜂蜜，有問題嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](看來要找出一些證據了...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<傑森#27>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[村莊裡有很多人都知道這個傳說，不可能是巧合...]'
+            redo_text: '&d&l[故事劇情] 按我選擇 >> &7[村莊裡有很多人都知道這個傳說，不可能是巧合...]'
+            goto: OBJECT 3A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[你怎麼解釋布勞恩的望遠鏡上的圖案？]'
+            conditions:
+              conditions:
+                a:
+                  type: QUEST_COMPLETED
+                  model: a_quest_05_info_606
+                  amount: 1
+                  end_types: [SUCCESS]
+                b:
+                  type: QUEST_COMPLETED
+                  model: a_quest_05_info_603
+                  amount: 1
+                  end_types: [SUCCESS]
+            goto: OBJECT 3B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[你怎麼解釋最近遭遇不測的那位禁衛軍？]'
+            conditions:
+              conditions:
+                a:
+                  type: QUEST_COMPLETED
+                  model: a_quest_05_info_3
+                  amount: 1
+                  end_types: [SUCCESS]
+            goto: OBJECT 3C
+          3:
+            text: '&d&l[故事劇情] 按我選擇 >> &c[離開]'
+            goto: QUEST_CANCEL
+      3A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<傑森#27>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑森#27>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f村莊裡有很多人都知道這個傳說，不可能是巧合...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f村莊裡的人以訛傳訛，這個謠言就傳開啦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f不然那麼大的蜜蜂早就被發現了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[大？你怎麼知道女王蜂很大的？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f大？你怎麼知道女王蜂很大的？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f...
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](看來要找出更關鍵的證據...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<傑森#27>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑森#27>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你怎麼解釋布勞恩的望遠鏡上的圖案？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f那就只是根據大家的傳言做出的工藝品，怎麼了嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[那個望遠鏡上女王蜂的細節不僅與村民的傳言相似，還和嵐風的調查結果不謀而合!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f那個望遠鏡上女王蜂的細節不僅與村民的傳言相似，還和嵐風的調查結果不謀而合!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f那情報商的鬼話你也信？要怎麼不謀而合？
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[他的調查中提到過一隻狼的屍體狀況，上面有巨大的鈍器撞擊的傷口...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f他的調查中提到過一隻狼的屍體狀況，上面有巨大的鈍器撞擊的傷口...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f那又如何？說不定是與其他冒險者戰鬥的傷痕，這很正常啊？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[女王蜂身上就有著特化的蜂螫!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f女王蜂身上就有著特化的蜂螫!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &7(默不作聲)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你快說！你是不是知道什麼？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你快說！你是不是知道什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f事情是這樣的，就在前幾天....'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f我們有個弟兄在快下山的時候，去到了阿姆斯草原上的那座遺落高塔後的丘陵。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS ６0
+          - 'SEND_MESSAGE &a<傑森> &f那位可憐的弟兄...他不熟悉這裡的環境。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f去到了那個我們都不曾過去的丘陵之後...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f結果他遭遇了蜜蜂的襲擊，我們過去的時候已經來不及了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f那名弟兄...胸口被穿了一個洞。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f我不想要讓大家知道女王蜂存在，不然有更多人會誤闖那片蜂狂禁地而喪命的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[很遺憾，聽見這麼悲傷的消息...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f很遺憾，聽見這麼悲傷的消息...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3C:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<傑森#27>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<傑森#27>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你怎麼解釋最近遭遇不測的那位禁衛軍？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f......'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f事情是這樣的，就在前幾天....'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f我們有個弟兄在快下山的時候，去到了阿姆斯草原上的那座遺落高塔後的丘陵。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS ６0
+          - 'SEND_MESSAGE &a<傑森> &f那位可憐的弟兄...他不熟悉這裡的環境。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f去到了那個我們都不曾過去的丘陵之後...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f結果他遭遇了蜜蜂的襲擊，我們過去的時候已經來不及了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f那名弟兄...胸口被穿了一個洞。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<傑森> &f我不想要讓大家知道女王蜂存在，不然有更多人會誤闖那片蜂狂禁地而喪命的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[很遺憾，聽見這麼悲傷的消息...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f很遺憾，聽見這麼悲傷的消息...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+

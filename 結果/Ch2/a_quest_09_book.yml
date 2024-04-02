@@ -50,7 +50,7 @@ completion:
       bossbar_flags: []  # Values : CREATE_FOG, DARKEN_SKY, PLAY_BOSS_MUSIC
       bossbar_duration: 10 SECOND
 
-activators: [block]
+activators: [bookshelf_npc4]
 
 conditions_start_restriction:
   match_amount: 1

@@ -287,7 +287,7 @@ branches:
           - 'SEND_MESSAGE &e[4/6]&a<薩彌爾> &f但記住,今天所討論的內容一定要保密'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &e[5/6]&a<薩彌爾> &f即使是公會還是皇家騎士團的人'
+          - 'SEND_MESSAGE &e[5/6]&a<薩彌爾> &f即使是公會還是皇家禁衛隊的人'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &e[6/6]&a<薩彌爾> &f都不要說出去'

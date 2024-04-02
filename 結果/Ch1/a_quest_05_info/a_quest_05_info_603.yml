@@ -1,0 +1,116 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(嵐風)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc603]
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<嵐風#18>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<嵐風#18>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<嵐風> &f冒險者，你看起來需要幫忙，有什麼事嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[我需要有關於女王蜂的情報!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我需要有關於女王蜂的情報!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f哈哈! 這次就算你&e[$500]&f!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<嵐風#18>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &e&l[交出$500]'
+            unavailable_text: '&d&l[故事劇情] 按我選擇 >> &c&l[沒有足夠的金錢來支付這筆交易&6($500)&f]'
+            conditions:
+              conditions:
+                a:
+                  type: LOGIC_MONEY
+                  currency: VAULT
+                  logic: '{money} >= 500'
+            goto: OBJECT 3
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &c[拒絕此交易]'
+            goto: QUEST_CANCEL
+      3:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<嵐風#18>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<嵐風#18>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'PERFORM_COMMAND eco take {player} 500'
+          - 'SEND_MESSAGE &a<嵐風> &f看在你為我做牛做馬的份上，我就大發慈悲的賣給你一些情報吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f對卡坦村居民而言，或許女王蜂只是一個傳聞。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f但是，根據&a[春雨貿易商隊]&f對整個平原做過的調查，在卡坦東邊的丘陵上，發現有很多蜜蜂盤據。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<嵐風> &f那裡的蜜蜂數量非常之多，以至於我們懷疑那裡是傳說中女王蜂的棲息地。然而，遺憾的是，我們並沒有發現女王蜂。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f不過，我們在那邊似乎有看到一些狼群屍體，屍體上有許多蜂螫以及巨大外力所撞擊的傷痕...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f這種巨大外力似乎並非冒險者所為，我們看到之後隨即停止了調查...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[謝謝，這情報對我來說很有用途!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f謝謝，這情報對我來說很有用途!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<嵐風> &f雖然我不知道你要女王蜂的情報做什麼，不過我藉此機會警告你，如果要去調查，請注意安全。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      

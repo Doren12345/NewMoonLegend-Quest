@@ -1,0 +1,140 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(魯茲)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc610]
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<魯茲#24>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<魯茲#24>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<魯茲> &f你好啊，冒險者! 多虧了你，現在礦工亡靈們很安分呢!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[牠們乖乖的樣子其實挺可愛的]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f牠們乖乖的樣子其實挺可愛的。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f哈哈，話說，你又有什麼委託了嗎？ 怎麼突然過來找我？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<魯茲#24>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[通常冒險者來這裡都是為了什麼？]'
+            goto: OBJECT 3A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[你有聽說過女王蜂嗎？]'
+            goto: OBJECT 3B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &c[沒事，就路過...]'
+            goto: OBJECT 3C
+      3A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<魯茲#24>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<魯茲#24>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f通常冒險者來這裡都是為了什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f通常都是為了一種礦物——鐵。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f這個洞窟裡面有豐富的鐵礦，是製作武器的基本材料!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f但是要小心，如果你搶到了牠們的礦物，牠們可是生氣的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<魯茲#24>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<魯茲#24>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你有聽說過女王蜂嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f我多少有在村子裡聽過，有關於女王蜂的那些傳聞。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f我在其他地方的確有見過其他巨大的野獸，而那些野獸的傳說早已流傳於當地村落中。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f不過女王蜂我倒是沒有見過...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f我只有聽過&a[卡坦村的東邊]&f有一些蜜蜂，或許你可以去那邊看看!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f我必須留守在這裡沒辦法過去，抱歉了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[好的，謝謝尼]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好的，謝謝尼。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3C:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<魯茲#24>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<魯茲#24>&f對話'
+        goto: QUEST_CANCEL
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f沒事，就路過...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<魯茲> &f這樣啊! 路上小心!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      

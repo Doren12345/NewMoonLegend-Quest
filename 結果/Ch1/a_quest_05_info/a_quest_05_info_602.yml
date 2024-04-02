@@ -1,0 +1,115 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(Peter)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc602]
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<Peter#19>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<Peter#19>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<Peter> &fHey Adventurer, what can I do for you today? &7(嘿冒險者，有何貴幹？)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[What do you know about queen bees?]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &fWhat do you know about queen bees? &7(你有知道什麼關於女王蜂的事情嗎？)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<Peter> &fI've heard a little bit, but I want to play a game with you now. I'll tell you after we play. &7(我有聽過一點，不過我現在想和你玩一個遊戲，玩完再告訴你。)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[OK!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &fOK!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<Peter> &fThe rules of the game are very simple. Open the box. If there is no gold inside, you will lose this game and die instantly! &7(遊戲規則很簡單，打開箱子，如果裡面沒有黃金，你就會瞬間死亡!)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[Sounds Crazy... I''m afraid of that.]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &fSounds Crazy... I''m afraid of that.'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<Peter> &cLET''S START! (讓我們開始吧!)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &5[打開神秘的箱子]'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: RANDOM #對話/劇情
+        gotos: |  # a list of goto's to apply
+          OBJECT 3A
+          OBJECT 3B
+        avoid_repeat_end_types: []
+      3A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<Peter#19>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<Peter#19>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你打開了箱子，在裡面找到了黃金...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<Peter> &fThat's exciting! I once saw a beehive in a place full of flowers, it could be the queen bee... &7(真是刺激! 我曾經在一個充滿花朵的地方看到一個蜂巢，有可能是女王蜂...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[OK, Thanks!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &fOK, Thanks!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<Peter#19>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<Peter#19>&f對話'
+        goto: QUEST_CANCEL
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你打開了箱子，在裡面找到了泥土...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND kill {player}'
+      

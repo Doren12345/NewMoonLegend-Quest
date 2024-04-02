@@ -1,6 +1,6 @@
 # -------------------- 顯示設定 --------------------
 
-display_name: '&6打探關於女王蜂的資訊&e(大衛)'
+display_name: '&6打探關於女王蜂的資訊&e(德)'
 
 start_notify:
   title: '&a任務開始'
@@ -34,7 +34,7 @@ completion:
       sound: BLOCK_ANVIL_DESTROY
 
 # -------------------- Post-quest settings --------------------
-activators: [cnpc599]
+activators: [cnpc152]
 
 display_priority: 1
 
@@ -46,83 +46,96 @@ branches:
 
       1:
         type: SERVER_ACTIONS #對話/劇情
-        objective_detail: '&a<大衛#16>&f正在與你對話'
+        objective_detail: '&a<德#13>&f正在與你對話'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<大衛#16>&f對話'
+          - '&f步驟-1 &f與&a<德#13>&f對話'
         goto: OBJECT 2
         actions: 
+          - 'SEND_MESSAGE &a<德> &f呼嚕! 冒險者!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
           - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你好!]'
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你好!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<大衛> &fyoooo~ 冒險者，你找我做什麼？'
+          - 'SEND_MESSAGE &a<德> &f如果去航行，你會想去哪裡？ 呼嚕! '
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
       2:
         type: DIVERGE_CHAT
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
-          - '&f步驟-1 &f與&a<大衛#16>&f對話'
+          - '&f步驟-1 &f與&a<德#13>&f對話'
         choices:
           0:
-            text: '&d&l[故事劇情] 按我選擇 >> &f[你有在外面看見奇怪的大蜜蜂嗎？]'
+            text: '&d&l[故事劇情] 按我選擇 >> &f[窩不知道...]'
             goto: OBJECT 3A
           1:
-            text: '&d&l[故事劇情] 按我選擇 >> &f[你有在附近看到大大大&m優惠&r&f蜜蜂嗎？]'
+            text: '&d&l[故事劇情] 按我選擇 >> &f[一個遙遠的地方!]'
             goto: OBJECT 3B
           2:
-            text: '&d&l[故事劇情] 按我選擇 >> &f[yooo~ 你有在外面看見奇怪的大蜜蜂嗎？]'
+            text: '&d&l[故事劇情] 按我選擇 >> &f[當然是回到自己的家囉!]'
             goto: OBJECT 3C
+          3:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[想去女王蜂的家!]'
+            goto: OBJECT 3D
       3A:
         type: SERVER_ACTIONS #對話/劇情
-        objective_detail: '&a<大衛#16>&f正在與你對話'
+        objective_detail: '&a<德#13>&f正在與你對話'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<大衛#16>&f對話'
+          - '&f步驟-1 &f與&a<德#13>&f對話'
         goto: QUEST_SUCCESS
         actions: 
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你有在外面看見奇怪的大蜜蜂嗎？'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f窩不知道...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<大衛> &f沒有，我只有看到奇怪的冒險者而已... &7(似乎就是你)'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你說什麼？！]'
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你說什麼？！'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<大衛> &f呃... 沒事!'
+          - 'SEND_MESSAGE &a<德> &f如果你不知道去哪，可以問問風! 它能以最快的速度，帶你去旅行!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
       3B:
         type: SERVER_ACTIONS #對話/劇情
-        objective_detail: '&a<大衛#16>&f正在與你對話'
+        objective_detail: '&a<德#13>&f正在與你對話'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<大衛#16>&f對話'
+          - '&f步驟-1 &f與&a<德#13>&f對話'
         goto: QUEST_SUCCESS
         actions: 
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你有在附近看到大大大&m優惠&r&f蜜蜂嗎？'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f一個遙遠的地方!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<大衛> &f有沒有大大大蜜蜂我不知道，我只知道有一個奇怪的冒險者。'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你說什麼？！]'
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你說什麼？！'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<大衛> &f呃... 沒事!'
+          - 'SEND_MESSAGE &a<德> &f那就去遙遠的地方吧! 風會引領你的!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
       3C:
         type: SERVER_ACTIONS #對話/劇情
-        objective_detail: '&a<大衛#16>&f正在與你對話'
+        objective_detail: '&a<德#13>&f正在與你對話'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<大衛#16>&f對話'
+          - '&f步驟-1 &f與&a<德#13>&f對話'
         goto: QUEST_SUCCESS
         actions: 
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &fyooo~ 你有在外面看見奇怪的大蜜蜂嗎？'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f當然是回到自己的家囉!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<大衛> &fyooo~ 只有看到可愛的小蜜蜂，在卡坦村的東北方!'
+          - 'SEND_MESSAGE &a<德> &f家! 年輕人想家了啊! 那麼就找個風和日麗的日子回到最初的起點吧!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
+      3D:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<德#13>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<德#13>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f想去女王蜂的家!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<德> &f女王蜂，一個流傳在卡坦村的傳說。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<德> &f雖然我不太清楚女王蜂在哪，不過風會指引你的!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+
+
+
+
