@@ -138,7 +138,7 @@ branches:
         goto: OBJECT 7
         start_notify:
           title: '&b任務提示'
-          title_subtitle: '&b交付&a[狼牙]&f給&a<安格斯>'
+          title_subtitle: '&b交付&a[狼牙]&b給&a<安格斯>'
           message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[狼牙]&f給&a<安格斯#6>'
         goals:
           0:

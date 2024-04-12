@@ -1,0 +1,260 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(艾譜莉)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc302]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_05_info_284
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾譜莉#8>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<艾譜莉> &f冒險者，怎麼了嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<艾譜莉#8>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[你父親的田是怎麼回事？為什麼種不出東西？]'
+            goto: OBJECT 3A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[艾譜莉好可愛呀!你在做什麼？]'
+            goto: OBJECT 3B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[我只是路過看看而已]'
+            goto: QUEST_CANCEL
+      3A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾譜莉#8>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你父親的田是怎麼回事？為什麼種不出東西？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f因為他的田之前被堆了一堆廢土...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f但是他不知道這件事，於是就在上面胡亂種菜...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你沒有跟他說過廢土的事情嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你沒有跟他說過廢土的事情嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f有啊! 但是他還是堅持用那些廢土來種菜...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f他常常跟我說什麼&a[豐饒之神]&f會眷顧他之類的鬼話，但是那只是神話，不是真的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[既然如此，要怎麼幫他的田土翻新呢？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f既然如此，要怎麼幫他的田土翻新呢？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f只要把頂層的廢土挖走，只保留底層肥沃的土就行了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f你去幫忙說服我爸爸吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾爾頓#9>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+          - '&f步驟-2 &f與&a<艾爾頓#9>&f對話'
+        goto: OBJECT 5
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 284
+        npc: 284
+        click_types: LEFT_CLICK
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾爾頓#9>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾爾頓#9>&f對話'
+      5:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾爾頓#9>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+          - '&f步驟-2 &f與&a<艾爾頓#9>&f對話'
+        goto: OBJECT 6
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你將&a[艾譜莉]&b的話轉告給了&a[艾爾頓]&b)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f老夫何嘗不想啊! 但是只憑老夫哪有可能把整座田翻過來啊？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[或許我可以幫幫你？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f或許我可以幫幫你？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f你瘋了嗎？ 這種困難的事情，你一個人真的做得到嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[不就是把土翻過來嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不就是把土翻過來嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f說的簡單，做的困難呀! 那土可是足足十米深呀! 三層樓!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[&7(沉默不語)&f]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f算了! 就這樣吧，我會去施肥的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你不是不喜歡施肥嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你不是不喜歡施肥嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f最近有出一款新技術的肥料，叫做有機肥料，我想用那個應該就行了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](回去找&a[艾譜莉]&b說明情況吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      6:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f與&a<艾譜莉#8>&f對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+          - '&f步驟-2 &f與&a<艾爾頓#9>&f對話'
+          - '&f步驟-3 &f與&a<艾譜莉#8>&f對話'
+        goto: OBJECT 7
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 302
+        npc: 302
+        click_types: LEFT_CLICK
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<艾譜莉#8>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<艾譜莉#8>&f對話'
+      7:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾譜莉#8>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+          - '&f步驟-2 &f與&a<艾爾頓#9>&f對話'
+          - '&f步驟-3 &f與&a<艾譜莉#8>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[抱歉，我沒辦法幫忙翻土，那土太厚了...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f抱歉，我沒辦法幫忙翻土，那土太厚了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f之後再看看我爸的田吧，先這樣就好...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[對了，你有聽說過女王蜂嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f對了，你有聽說過女王蜂嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f女王蜂... 我好像有聽過。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f羅素叔叔曾經幫&a[布勞恩]&f做過一個女王蜂風格的望遠鏡。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f看起來像一個很大的蜜蜂，但是蜂螫很大! 看起來像是挖掘機之類的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[我知道了，謝謝妮!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我知道了，謝謝妮!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f女王蜂挖掘機的扭距，一瞬間就會產生大量的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+      3B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾譜莉#8>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾譜莉#8>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f艾譜莉好可愛呀!你在做什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f(&c臉紅❤&f)謝謝(´･ω･`)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f我現在正在想，為什麼我的椅子可以搖晃，原理是什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[重力! 圓周運動!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f重力! 圓周運動!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾譜莉> &f原來是這樣!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+
+
+
+

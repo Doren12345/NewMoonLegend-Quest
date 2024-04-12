@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx600
     &f- &a經驗值&fx12100
     &f- &b物品-時裝布料&fx1
@@ -469,7 +469,10 @@ branches:
           - '&f步驟-4 &f與&a<羅德#42>&f對話'
         goto: OBJECT 15
         actions:
-          - 'SEND_MESSAGE &a<羅德> &f沒事啦，有些事情還是不要打聽比較好，兄弟，哈哈哈~'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f怎麼了嗎？我不懂，是他們家的食物...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅德> &7(打斷) &f沒事啦，有些事情還是不要打聽比較好，兄弟，哈哈哈~'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
 

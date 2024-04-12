@@ -36,6 +36,13 @@ completion:
 # -------------------- Post-quest settings --------------------
 activators: [cnpc631]
 
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+
 display_priority: 1
 
 branches:
@@ -62,7 +69,7 @@ branches:
             goto: OBJECT 2C
           3:
             text: '&d&l[故事劇情] 按我選擇 >> &f[&7(悄悄繞過)&f]'
-            goto: OBJECT QUEST_SUCCESS
+            goto: OBJECT QUEST_CANCEL
       2A:
         type: SERVER_ACTIONS #對話/劇情
         objective_detail: '&a<娜娜明#10>&f正在與你對話'
@@ -81,7 +88,7 @@ branches:
         objective_detail: '&a<娜娜明#10>&f正在與你對話'
         objective_detail_verbose:
           - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
-        goto: QUEST_SUCCESS
+        goto: QUEST_CANCEL
         actions: 
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f娜娜明阿姨，我想請教一件事情!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -122,7 +129,7 @@ branches:
         objective_detail: '&a<娜娜明#10>&f正在與你對話'
         objective_detail_verbose:
           - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
-        goto: QUEST_SUCCESS
+        goto: QUEST_CANCEL
         actions: 
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我想問有關於女王蜂的事情。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -148,7 +155,7 @@ branches:
         objective_detail: '&a<娜娜明#10>&f正在與你對話'
         objective_detail_verbose:
           - '&f步驟-1 &f與&a<娜娜明#10>&f對話'
-        goto: QUEST_SUCCESS
+        goto: QUEST_CANCEL
         actions: 
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f沒事。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT

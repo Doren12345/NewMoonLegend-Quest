@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &a✔ &f已領取任務獎勵
     &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
     &#32027d&m                                   
@@ -406,13 +406,12 @@ branches:
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f這是...這些巨大的圖騰是什麼?'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &5&k終於來了？&f'
+          - 'SEND_MESSAGE &7<???> &5&k終於來了？&f'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](你用水晶記錄了影像，你隱約看見水晶有什麼氣息不斷飄向靈魂火把)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          #招喚一個以前的系統水晶實體在靈魂火把面前與玩家之間 不明顯的粒子效果從水晶移動到靈魂火把上 193 47 193 
           - 'SEND_MESSAGE &b[故事劇情](嗯... 去問問看村長關於圖騰的事情吧)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40

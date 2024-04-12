@@ -1,0 +1,151 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(羅絲)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc337]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_05_info_631
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<羅絲#3>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅絲#3>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[你好，修女姐姐，你在做什麼!]'
+            goto: OBJECT 2
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[你好，我想請教您有關於保養的事情...]'
+            goto: OBJECT 3
+      2:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<羅絲#3>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅絲#3>&f對話'
+        goto: QUEST_CANCEL
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你好，修女姐姐，你在做什麼!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f姐姐在忙呢! 有什麼事情等等再說吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<羅絲#3>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<羅絲#3>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你好，我想請教您有關於保養的事情...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f保養啊？這個你可就問對人了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f蔬果中含有豐富的維他命以及少量元素。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f說到養生，今天都沒吃早餐，肚子好餓...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f不如我來用我的早餐當例子吧!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f蘋果和蘿蔔，一個是蔬菜，一個是水果，他們都有豐富的微量營養素。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f再來是雞肉和雞蛋，他們有蔬果沒有的大量營養素，像是脂肪與必須胺基酸。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f尤其是雞蛋! 含有人體所需的所有必需胺基酸!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f但是說到最珍貴最強大的保養祕方，莫過於蜂蜜了!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[蜂蜜？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f蜂蜜？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f沒錯! 蜂蜜是保養聖品，不論是用敷的還是食用都有很好的功效!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[那麼女王蜂蜂蜜呢？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f那麼女王蜂蜂蜜呢？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f女王蜂蜂蜜？ 那就是個傳說啦! 但是如果真的有那種東西，想必他的功效會是普通蜂蜜的好幾倍!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你所認知的女王蜂是什麼物種？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你所認知的女王蜂是什麼物種？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f女王蜂，我知道的傳說是，他是豐饒之神的子代，維持整座平原的植物之繁衍什麼的...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<羅絲> &f如果你問的是豐饒之神，我可以跟你說很多豐饒之神的神話與信仰。但女王蜂的話不是我熟悉的領域...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<羅絲> &f我想這種問題的話，嵐風應該會有比較多資訊吧？ 但是她可能會跟你要很多資源換情報...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[好的，謝謝修女姐姐!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好的，謝謝修女姐姐!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+
+
+
+

@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx1100
     &f- &a經驗值&fx25600
     &f- &b物品-時裝布料&fx1
@@ -422,13 +422,12 @@ branches:
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f這是...這些巨大的圖騰是什麼?'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &5&k終於來了？&f'
+          - 'SEND_MESSAGE &7<???> &5&k終於來了？&f'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](你用水晶記錄了影像，你隱約看見水晶有什麼氣息不斷飄向靈魂火把)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          #招喚一個以前的系統水晶實體在靈魂火把面前與玩家之間 不明顯的粒子效果從水晶移動到靈魂火把上 193 47 193
           - 'SEND_MESSAGE &b[故事劇情](嗯... 去問問看村長關於圖騰的事情吧)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -524,7 +523,7 @@ branches:
         goto: OBJECT 23
         toggle: false
       23:
-        type: PLAYER_CITIZENS_NPC_INTERACT
+        type: PLAYER_GCORE_NPC_INTERACT
         objective_detail: '&f與&a<船夫 達哥>&f對話'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<羅素#25>&f對話'
@@ -536,10 +535,7 @@ branches:
           - '&f步驟-7 &f與&a<卡納克#2>&f對話'
           - '&f步驟-8 &f與&a<船夫 達哥>&f對話'
         goto: OBJECT 24
-        position:
-          type: CITIZENS_NPC_RELATIVE_SINGLE
-          npc: 56
-        npc: 56
+        npc: 17
         start_notify:
           title: '&b任務提示'
           title_subtitle: '&b與&a<船夫 達哥>&f對話'
@@ -568,13 +564,14 @@ branches:
           - 'SEND_MESSAGE &b[故事劇情](你們前往了枯木內沼的東北角，一個有著古老歷史的村落)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
+          - 'SEND_MESSAGE &d★ &b[事件]&b(&4&l[書本]上古禁書#901&b已經似乎有更多可閱讀的內容...)'
       26:
         type: SERVER_GCORE_NPC_TELEPORT
-        npc: # 達哥出現
+        npc: 17
         goto: OBJECT 27
         position:
           type: SINGLE
-          location: world,162,64,-648,0,0
+          location: world,162,64,-648,-90,0
         
       27:
         type: SERVER_CAMERA_MODE_TOGGLE
@@ -590,9 +587,10 @@ end_objects:
         - mmocore admin exp give {player} main 25600
         - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
         - 'minecraft:execute in minecraft:world run tp {player} 163 64 -648'
+        - lp user {player} permission set rpgbook.901.stage2
   cancel:
     1:
       type: SERVER_COMMANDS_PERFORM
-      commands: ['compass stop {player}']
+      commands: ['compass stop {player}', 'gcore npcreset {player} 17']
         
           

@@ -1,0 +1,142 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(艾爾頓)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc284]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾爾頓#9>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾爾頓#9>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<艾爾頓> &f你知道老夫的農田為何種不出蔬菜嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&a<艾爾頓#9>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾爾頓#9>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[不知道]'
+            goto: OBJECT 3A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[可能需要施肥？]'
+            goto: OBJECT 3B
+          2:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[可能缺少了蜜蜂授粉？]'
+            goto: OBJECT 3C
+      3A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾爾頓#9>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾爾頓#9>&f對話'
+        goto: QUEST_CANCEL
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不知道。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f好吧...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾爾頓#9>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾爾頓#9>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f可能需要施肥？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f那為什麼卡坦其他的田就不用施肥？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f既然其他田不需要施肥，那老夫也不施肥!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3C:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<艾爾頓#9>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<艾爾頓#9>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f可能缺少了蜜蜂授粉？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f哦! 年輕人挺有知識的嘛，這倒是有可能!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f但是在這種村莊中心養蜜蜂，是不是有點危險？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[談到蜜蜂，你有聽說過女王蜂嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f談到蜜蜂，你有聽說過女王蜂嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f女王蜂？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<艾爾頓> &f那是卡坦村流傳已久的傳說，老夫年輕時有曾經去找過，不過什麼都沒找到...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[好吧，謝謝你。]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好吧，謝謝你。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+
+
+
+
+

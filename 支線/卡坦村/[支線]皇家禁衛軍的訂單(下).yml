@@ -116,7 +116,7 @@ branches:
         npc: 5
         start_notify:
           title: '&b任務提示'
-          title_subtitle: '&b與&a<路巴恩>&f對話'
+          title_subtitle: '&b與&a<路巴恩>&b對話'
           message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<路巴恩#48>&f對話'
       5:
         type: SERVER_ACTIONS #對話/劇情

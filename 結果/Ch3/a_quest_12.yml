@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx1200
     &f- &a經驗值&fx28900
     &f- &b物品-時裝布料&fx1
@@ -70,7 +70,7 @@ conditions_start_restriction:
       logic: '%mmocore_level% >= 12'
 
 # -------------------- Activator settings --------------------
-activators: [gnpc達哥]
+activators: [gnpc17]
 
 activators_dialog:
   - '&a<達哥> &f冒險者，我們到了! &d(右鍵點擊NPC來接取任務)'
@@ -87,29 +87,36 @@ activators_dialog_reset:
 branches:
 
   main:
-    starts_at: 0
+    starts_at: 35
     objects:
-
       0:
-        type: #與達哥對話(GNPC)
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 17
+        goto: OBJECT 1
+        position:
+          type: SINGLE
+          location: world,161.5,64.5,-648.5,-90,0
+      1:
+        type: PLAYER_GCORE_NPC_INTERACT
         objective_detail: '&f與&a<達哥>&f對話'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
-        goto: OBJECT 1
+        goto: OBJECT 2
+        npc: 17
         start_notify:
           title: '&b任務提示'
           title_subtitle: '&b與&a<達哥>&f對話'
           message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<達哥>&f對話'
-      1:
-        type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 2
-        toggle: true
       2:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 3
+        toggle: true
+      3:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
-        goto: OBJECT 3
+        goto: OBJECT 4
         actions: 
           - 'SEND_MESSAGE &a<達哥> &f到了，就是這裡!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -127,27 +134,42 @@ branches:
           - 'SEND_MESSAGE &a<達哥> &f等等，是食人魚! 不好，整艘船被包圍了!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      3:
-        type: SERVER_GCORE_NPC_TELEPORT
-        npc: #生成NPC 阿松
-        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
-        objective_detail_verbose: 
-          - '&f步驟-1 &f與&a<達哥>&f對話'
-        goto: OBJECT 4
-        position:
-          type: SINGLE
-          location: world,164,78,-623,180,30
       4:
-        type: SERVER_ACTIONS
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 41
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
         goto: OBJECT 5
+        position:
+          type: SINGLE
+          location: world,164,78,-623,180,30
+      5:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 6
         actions: 
           - 'SEND_MESSAGE &b[故事劇情](突然有人大叫著趴下，接著一群亂箭射了下來)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          # 生成箭雨
+          - 'PERFORM_COMMAND minecraft:summon arrow 158 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 159 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 160 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 161 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 162 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 163 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 164 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 165 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 166 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 167 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 168 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 169 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 170 73 -648'
+          - 'PERFORM_COMMAND minecraft:summon arrow 171 73 -648'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 10
           - 'SEND_MESSAGE &a<達哥> &f哇!! 好痛!!!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -162,57 +184,102 @@ branches:
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &a<達哥> &f啊啊啊啊啊！ &7(大聲尖叫)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[故事劇情](你心想：下去找他吧)'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-      5:
-        type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 6
-        toggle: false
       6:
-        type: SERVER_GCORE_NPC_TELEPORT
-        npc: #生成NPC 阿松
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 17
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
         goto: OBJECT 7
         position:
           type: SINGLE
-          location: world,158,63,-614,180,0
+          location: world,162,64,-646.3
+          wait_for_completion: true
       7:
-        type: #與阿松對話(GNPC)
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 17
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 8
+        position:
+          type: SINGLE
+          location: world,162,64,-648.7
+          wait_for_completion: true
+      8:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 17
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 9
+        position:
+          type: SINGLE
+          location: world,162,64,-646.3
+          wait_for_completion: true
+      9:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 17
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 10
+        position:
+          type: SINGLE
+          location: world,162,64,-648.7
+          wait_for_completion: true
+      10:
+        type: SERVER_ACTIONS
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 11
+        actions: 
+          - 'SEND_MESSAGE &b[故事劇情](你心想：下去找他吧)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      11:
+        type: SERVER_CAMERA_MODE_TOGGLE
+        goto: OBJECT 12
+        toggle: false
+      12:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 41
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+        goto: OBJECT 13
+        position:
+          type: SINGLE
+          location: world,162,78,-624
+      13:
+        type: PLAYER_GCORE_NPC_INTERACT
         objective_detail: '&f與&a<阿松>&f對話'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
           - '&f步驟-2 &f與&a<阿松>&f對話'
-        goto: OBJECT 8
-      8:
+        goto: OBJECT 14
+        npc: 41
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<阿松>&b對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &b與&a<阿松>&b對話'
+      14:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 9
+        goto: OBJECT 15
         toggle: true
-      9:
+      15:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
           - '&f步驟-2 &f與&a<阿松>&f對話'
-        goto: OBJECT 10
+        goto: OBJECT 16
         actions: 
           - 'SEND_MESSAGE &b[故事劇情](你聽到&a[達哥]&b把船開走了)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      10:
-        type: #達哥消失
-        goto: OBJECT 11
-      11:
-        type: SERVER_ACTIONS
-        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
-        objective_detail_verbose: 
-          - '&f步驟-1 &f與&a<達哥>&f對話'
-          - '&f步驟-2 &f與&a<阿松>&f對話'
-        goto: OBJECT 12
-        actions: 
+          - 'PERFORM_COMMAND gcore npcreset {player} 17'
           - 'SEND_MESSAGE &a<阿松> &f麻那好!阿帕叫阿松!你沒事吧？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -284,30 +351,214 @@ branches:
           - 'SEND_MESSAGE &a<阿松> &f跟我來，我帶你去阿帕奇看看!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      12:
+      16:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 13
+        goto: OBJECT 17
         toggle: false
-      13:
-        type: #阿松走到部落(world,91,95,-578,0,0)
+      17:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 41
         objective_detail: '&f跟隨&a<阿松>&f前往部落'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
-        goto: OBJECT 14
-      14:
+        goto: OBJECT 18
+        position:
+          type: SINGLE
+          location: world,159,78,-613
+      18:
+        type: PLAYER_POSITION
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 19
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,159,78,-613
+      19:
+        type: SERVER_GCORE_NPC_TELEPORT
+        npc: 41
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 20
+        position:
+          type: SINGLE
+          location: world,155,91,-595,0,0
+      20:
+        type: PLAYER_POSITION
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 21
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,155,91,-595
+      21:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 41
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 22
+        position:
+          type: SINGLE
+          location: world,133,94,-591
+        wait_for_completion: true
+      22:
+        type: PLAYER_POSITION
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 23
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,133,94,-591
+      23:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 41
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 24
+        position:
+          type: SINGLE
+          location: world,127,96,-586
+        wait_for_completion: true
+      24:
+        type: PLAYER_POSITION
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 25
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,127,96,-586
+      25:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 41
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 26
+        position:
+          type: SINGLE
+          location: world,119,97,-580
+        wait_for_completion: true
+      26:
+        type: PLAYER_POSITION
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 27
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,119,97,-580
+      27:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 41
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 28
+        position:
+          type: SINGLE
+          location: world,110,103,-573
+        wait_for_completion: true
+      
+      28:
+        type: PLAYER_POSITION
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 29
+        position:
+          type: SPHERE_INSIDE
+          radius: 3
+          center: world,110,103,-573
+      29:
+        type: SERVER_GCORE_NPC_NAVIGATE
+        npc: 41
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        goto: OBJECT 30
+        position:
+          type: SINGLE
+          location: world,103,98,-572
+        wait_for_completion: true
+      30:
+        type: SERVER_ACTIONS
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+        actions:
+          - 'SEND_MESSAGE &a<阿松> &f阿帕先跳進部落了，你可以繞路到正門進來~'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND gcore npcreset {player} 41'
+        goto: OBJECT 31
+      31:
+        type: PLAYER_CITIZENS_NPC_INTERACT
+        objective_detail: '&f跟隨&a<阿松>&f前往部落'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<達哥>&f對話'
+          - '&f步驟-2 &f與&a<阿松>&f對話'
+          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
+          - '&f步驟-4 &f與&a<阿松#50>&f對話'
+        goto: OBJECT 32
+        position:
+          type: CITIZENS_NPC_RELATIVE_SINGLE
+          npc: 623
+        npc: 623
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b與&a<阿松#50>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<阿松#50>&f對話'
+      32:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 15
+        goto: OBJECT 33
         toggle: true
-      15:
+      33:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
-        goto: OBJECT 16
+        goto: OBJECT 34
         actions: 
           - 'SEND_MESSAGE &b[故事劇情](你跟隨他到了小村落)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -322,28 +573,29 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f卡將波，韃嘎那麻那!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      16:
+      34:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 17
+        goto: OBJECT 35
         toggle: false
-      17:
-        type: #與陳對話(GNPC)
+      35:
+        type: PLAYER_GCORE_NPC_INTERACT
+        npc: 18 
         objective_detail: '&f與&a<陳>&f對話'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<達哥>&f對話'
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
-        goto: OBJECT 18
+        goto: OBJECT 36
         start_notify:
           title: '&b任務提示'
           title_subtitle: '&b與&a<陳>&f對話'
           message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<陳>&f對話'
-      18:
+      36:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 19
+        goto: OBJECT 37
         toggle: true
-      19:
+      37:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -351,7 +603,7 @@ branches:
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
-        goto: OBJECT 20
+        goto: OBJECT 38
         actions: 
           - 'SEND_MESSAGE &a<陳> &f阿帕奇很棒對吧，好山，好水...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -363,7 +615,7 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f別這樣嘛，麻雀雖小'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      20:
+      38:
         type: DIVERGE_CHAT
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -374,11 +626,11 @@ branches:
         choices:
           0:
             text: '&d&l[故事劇情] 按我選擇 >> &f[武器精隨（五臟俱全）]'
-            goto: OBJECT 21A
+            goto: OBJECT 39A
           1:
             text: '&d&l[故事劇情] 按我選擇 >> &f[你更雖小!]'
-            goto: OBJECT 21B
-      21A:
+            goto: OBJECT 39B
+      39A:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -386,12 +638,12 @@ branches:
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
-        goto: OBJECT 22
+        goto: OBJECT 40
         actions: 
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f武器精隨（五臟俱全）'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      21B:
+      39B:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -399,12 +651,12 @@ branches:
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
-        goto: OBJECT 22
+        goto: OBJECT 40
         actions: 
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你更雖小!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      22:
+      40:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -412,7 +664,7 @@ branches:
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
-        goto: OBJECT 23
+        goto: OBJECT 41
         actions: 
           - 'SEND_MESSAGE &a<陳> &f... 算了'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -434,7 +686,7 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f阿帕斯歐碩果僅存的文化大部分都流失了，只剩下幾句阿帕語了...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      23:
+      41:
         type: DIVERGE_CHAT
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -445,12 +697,12 @@ branches:
         choices:
           0:
             text: '&d&l[故事劇情] 按我選擇 >> &f[你們的語言失傳了？]'
-            goto: OBJECT 25
+            goto: OBJECT 43
           1:
-            text: '&d&l[故事劇情] 按我選擇 >> &f[瑪嘎啦 比嘎拉棒棒!]'
+            text: '&d&l[故事劇情] 按我選擇 >> &f[瑪嘎啦，比嘎拉棒棒!]'
             redo_text: ''
-            goto: OBJECT 24
-      24:
+            goto: OBJECT 42
+      42:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -458,13 +710,16 @@ branches:
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
-        goto: OBJECT 23
+        goto: OBJECT 41
         actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f瑪嘎啦，比嘎拉棒棒!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
           - 'SEND_MESSAGE &a<陳> &f不要亂讀我們族語啦，尊重一點!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           # 獲得成就亂念一通
-      25:
+      43:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -472,8 +727,11 @@ branches:
           - '&f步驟-2 &f與&a<阿松>&f對話'
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
-        goto: OBJECT 26
+        goto: OBJECT 44
         actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你們的語言失傳了？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
           - 'SEND_MESSAGE &a<陳> &f阿帕語大多已經失傳了，在幾千年的歷史裡失傳了。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -522,13 +780,17 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f這地方，也許這是阿帕追尋阿帕斯歐歷史的關鍵！在哪裡？麻那快帶阿帕去看看。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          # 傳送至地下城(沒有怪物的版本)
+          - WAIT_TICKS 40
+          - 'PERFORM_COMMAND tppos {player} 188 60 275 -180 0 world_tw'
+          - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](你們前往了地下城，但神奇的是骷髏沒有攻擊你們...)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          # 傳送至地下城圖騰(沒有怪物的版本)
+          - 'PERFORM_COMMAND tppos {player} 194 46 180 0 0 world_tw'
+          - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](你們沒有受到任何阻擋的去到了你看見大圖騰的位置)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
           - WAIT_TICKS 40
           - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[奇怪了...]'
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f奇怪了...'
@@ -542,14 +804,17 @@ branches:
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](外面傳來了骷髏的躁動聲響)'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          #播放骷髏聲音
-      26:
+          - SEND_SOUND ENTITY_SKELETON_DEATH
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_SKELETON_HURT
+          - WAIT_TICKS 10
+          - SEND_SOUND ENTITY_SKELETON_SHOOT
+          - WAIT_TICKS 20
+      44:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 27
+        goto: OBJECT 45
         toggle: false
-      27:
+      45:
         type: PLAYER_POSITION
         objective_detail: '&f查看&a[外面的躁動聲響]&e(178,46,175)'
         objective_detail_verbose:
@@ -558,16 +823,16 @@ branches:
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
           - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
-        goto: OBJECT 28
+        goto: OBJECT 46
         position:
           type: SPHERE_INSIDE
           radius: 3
-          center: world_story,178,46,175
-      28:
+          center: world_tw,178,46,175
+      46:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 29
+        goto: OBJECT 47
         toggle: true
-      29:
+      47:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -576,7 +841,7 @@ branches:
           - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
           - '&f步驟-4 &f與&a<陳>&f對話'
           - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
-        goto: OBJECT 30
+        goto: OBJECT 48
         actions: 
           - 'SEND_MESSAGE &b[故事劇情](你跟陳去外面查看，發現許多骷髏倒在地上)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -584,26 +849,7 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f怎麼回事？！'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      30:
-        type: 生成骷髏犬 178 46 174面相東方
-        goto: OBJECT 31
-      31:
-        type: 骷髏犬移動 骷髏犬將轉頭後跑到178 46 199後消失
-        goto: OBJECT 32
-      32:
-        type: 骷髏犬消失
-        goto: OBJECT 33
-      33:
-        type: SERVER_ACTIONS
-        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
-        objective_detail_verbose: 
-          - '&f步驟-1 &f與&a<達哥>&f對話'
-          - '&f步驟-2 &f與&a<阿松>&f對話'
-          - '&f步驟-3 &f跟隨&a<阿松>&f前往部落'
-          - '&f步驟-4 &f與&a<陳>&f對話'
-          - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
-        goto: OBJECT 34
-        actions: 
+          - 'PERFORM_COMMAND mm m spawn %故事骷髏犬%'
           - 'SEND_MESSAGE &b[故事劇情](一隻骷髏犬冒出來並向你們叫著，看起來很慌張，接著就跑向一個地方去)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -613,11 +859,11 @@ branches:
           - 'SEND_MESSAGE &b[故事劇情](跟著骷髏犬的尾巴跑，動作快點，要跟丟了!)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      34:
+      48:
         type: SERVER_CAMERA_MODE_TOGGLE
-        goto: OBJECT 35
+        goto: OBJECT 49
         toggle: false
-      35:
+      49:
         type: PLAYER_POSITION
         objective_detail: '&f跟隨&a[骷髏犬]&e(120,46,200)'
         objective_detail_verbose:
@@ -627,15 +873,17 @@ branches:
           - '&f步驟-4 &f與&a<陳>&f對話'
           - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
           - '&f步驟-6 &f跟隨&a[骷髏犬]&e(120,46,200)'
-        goto: OBJECT 36
+        goto: OBJECT 50
         position:
           type: SPHERE_INSIDE
           radius: 6
-          center: world_story,120,46,200
-      36:
-        type: 招喚一個女巫至 166 46 233待命
-        goto: OBJECT 37
-      37:
+          center: world_tw,120,46,200
+      50:
+        type: SERVER_ACTIONS
+        actions:
+          - 'PERFORM_COMMAND mm m spawn %阿帕女巫%'
+        goto: OBJECT 51
+      51:
         type: PLAYER_POSITION
         objective_detail: '&f再度跟隨&a[骷髏犬]&e(264,20,233)'
         objective_detail_verbose:
@@ -646,15 +894,17 @@ branches:
           - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
           - '&f步驟-6 &f跟隨&a[骷髏犬]&e(120,46,200)'
           - '&f步驟-7 &f再度跟隨&a[骷髏犬]&e(264,20,233)'
-        goto: OBJECT 38
+        goto: OBJECT 52
         position:
           type: SPHERE_INSIDE
           radius: 6
-          center: world_story,264,20,233
-      38:
-        type: 女巫移動至 172 235
-        goto: OBJECT 39
-      39:
+          center: world_tw,264,20,233
+      52:
+        type: SERVER_ACTIONS
+        actions:
+          - 'PERFORM_COMMAND mm m spawn %阿帕女巫%' #女巫移動至 172 235
+        goto: OBJECT 53
+      53:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -665,12 +915,18 @@ branches:
           - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
           - '&f步驟-6 &f跟隨&a[骷髏犬]&e(120,46,200)'
           - '&f步驟-7 &f再度跟隨&a[骷髏犬]&e(264,20,233)'
-        goto: OBJECT 40
+        goto: OBJECT 54
         actions: 
-          - 'SEND_MESSAGE &a<陳> &f什麼？牠是誰？'
+          - 'SEND_MESSAGE &b[故事劇情](你們被骷髏犬帶去樓下，你們看見了一個奇怪的身影)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[故事劇情](跟著骷髏犬的尾巴跑，動作快點，要跟丟了!)'
+          - 'SEND_MESSAGE &b[故事劇情](那身影走進傳送門後消失了)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你嘗試著追逐那個身影，不過似乎受到某種力量阻擋，無法移動)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<陳> &f什麼？牠是誰？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &a<陳> &f這是什麼一回事？'
@@ -690,7 +946,7 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f那麼，那個人又是誰？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      40:
+      54:
         type: DIVERGE_CHAT
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -704,11 +960,11 @@ branches:
         choices:
           0:
             text: '&d&l[故事劇情] 按我選擇 >> &f[如果我有辦法知道的話，我就不會來當什麼蠢蛋冒險者了...]'
-            goto: OBJECT 41A
+            goto: OBJECT 55A
           1:
             text: '&d&l[故事劇情] 按我選擇 >> &f[窩不知道]'
-            goto: OBJECT 41B
-      41A:
+            goto: OBJECT 55B
+      55A:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -719,7 +975,7 @@ branches:
           - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
           - '&f步驟-6 &f跟隨&a[骷髏犬]&e(120,46,200)'
           - '&f步驟-7 &f再度跟隨&a[骷髏犬]&e(264,20,233)'
-        goto: OBJECT 42
+        goto: OBJECT 56
         actions: 
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f如果我有辦法知道的話，我就不會來當什麼蠢蛋冒險者了...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -727,8 +983,8 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f別這麼說啦，阿帕先回到村莊吧？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          # 傳送回部落
-      41B:
+          - 'PERFORM_COMMAND tppos {player} 73.15 95 -564.06 226.83 10.71 world'
+      55B:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -739,7 +995,7 @@ branches:
           - '&f步驟-5 &f查看&a[外面的躁動聲響]&e(178,46,175)'
           - '&f步驟-6 &f跟隨&a[骷髏犬]&e(120,46,200)'
           - '&f步驟-7 &f再度跟隨&a[骷髏犬]&e(264,20,233)'
-        goto: OBJECT 42
+        goto: OBJECT 56
         actions: 
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f窩不知道'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -748,8 +1004,8 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f我們先回到村莊吧。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          # 傳送回部落
-      42:
+          - 'PERFORM_COMMAND tppos {player} 73.15 95 -564.06 226.83 10.71 world'
+      56:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
         objective_detail_verbose: 
@@ -768,7 +1024,7 @@ branches:
           - 'SEND_MESSAGE &a<陳> &f那邊好像出事了，麻那去看看吧。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      
+        
 end_objects:
   success:
     a:
@@ -779,7 +1035,13 @@ end_objects:
         - mmocore admin exp give {player} main 28900
         - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
   cancel:
-    1:
+    a:
       type: SERVER_COMMANDS_PERFORM
-      commands: ['compass stop {player}']
+      commands: ['compass stop {player}', 'gcore npcreset {player} 41']
+    b:
+      type: SERVER_GCORE_NPC_TELEPORT
+      npc: 17
+      position:
+        type: SINGLE
+        location: world,165,63,-648,0,0
 

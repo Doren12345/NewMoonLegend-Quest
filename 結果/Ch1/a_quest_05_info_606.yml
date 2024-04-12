@@ -36,6 +36,17 @@ completion:
 # -------------------- Post-quest settings --------------------
 activators: [cnpc606]
 
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_05_info_302
+
 display_priority: 1
 
 branches:
@@ -49,7 +60,7 @@ branches:
         objective_detail: '&a<布勞恩#20>&f正在與你對話'
         objective_detail_verbose:
           - '&f步驟-1 &f與&a<布勞恩#20>&f對話'
-        goto: OBJECT 2
+        goto: QUEST_SUCCESS
         actions: 
           - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[爬梯子好累...你怎麼能忍受每天爬梯子的生活？]'
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f爬梯子好累...你怎麼能忍受每天爬梯子的生活？'
@@ -73,5 +84,22 @@ branches:
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &[故事劇情](你拿起望遠鏡觀察)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<布勞恩> &f平常我沒有事情做的時候，我都會拿起這個望遠鏡四處觀察。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[那你有觀察到什麼奇怪的蜜蜂生物嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f那你有觀察到什麼奇怪的蜜蜂生物嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<布勞恩> &f沒有.......真的沒有!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[怎麼聽起來你像是在說謊？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f怎麼聽起來你像是在說謊？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<布勞恩> &f別說了，趕快走吧，別打擾我們皇家禁衛軍工作。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40

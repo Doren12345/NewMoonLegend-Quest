@@ -1,0 +1,275 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(游醬)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc555]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<游醬>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<游醬>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &d<游醬> &7(邊看著書邊吃著洋芋片)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[妳好!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f妳好!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<游醬>&f對話'
+        choices:
+          0: #一般玩家
+            text: '&d&l[故事劇情] 按我選擇 >> &f[不好意思，請問你...]'
+            conditions:
+              conditions:
+                a:
+                  type: LOGIC
+                  logic: '{player} != ahyau1022'
+            goto: OBJECT 3A
+          1: #阿游本人
+            text: '&d&l[故事劇情] 按我選擇 >> &f[妳！！！ 冒充我？？？&d(阿游本人限定)&f]'
+            conditions:
+              conditions:
+                a:
+                  type: LOGIC
+                  logic: '{player} = ahyau1022'
+            goto: OBJECT 3B
+      3A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<游醬>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<游醬>&f對話'
+        goto: OBJECT 4
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不好意思，請問你...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](&d[游醬]&b吃洋芋片的聲音太大了，似乎聽不到你說話。)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f紅茶和綠茶可以維持體溫...花茶可以有體香...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[大叫一聲]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f啊啊啊啊啊啊!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 20
+          - 'SEND_MESSAGE &a<游醬> &f啊啊啊啊! 你是誰，你什麼時候在我前面了？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[我站在這裡很久了...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我站在這裡很久了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f真的嗎？哈哈，抱歉。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你在看什麼書本？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你在看什麼書本？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f這是有關於中醫對於茶的書籍。很多茶都有養生的功效喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f像是紅綠茶可以調節體溫，冷就喝紅茶，熱就喝綠茶。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[蛤？ 那下次要養生就需要看氣象預報喝茶了...]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f蛤？ 那下次要養生就需要看氣象預報喝茶了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f我不是那個意思...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f另外還有果茶以及花茶，都是很好的養生補品喔!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[綠色藥草放進去水裡面就是綠茶了，對吧？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f綠色藥草放進去水裡面就是綠茶了，對吧？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f我想是的...但製作沒有那麼簡單。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[加進去後，再加入水果變成花茶？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f加進去後，再加入水果變成花茶？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f你猜對了! 加入水果的確會變成花茶!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[我要把家鄉的香蕉拿來加，另外在加一點生菜... 果菜汁做好了。]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f我要把家鄉的香蕉拿來加，另外在加一點生菜... 果菜汁做好了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f你這品味... 有點獨特。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &7(繼續泡茶，嘗了一下，苦的不成人樣)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f唉，我看書看得太認真，忘記把茶包拿起來了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f現在這紅茶比苦茶汁還苦。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f我想要一些有甜味的調味料來加，但是人工的糖又會發胖...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f哦，我想到了! 有一種天然的甜味劑，蜂蜜!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f不過我這裡沒有存貨了，冒險者可以幫我蒐集幾個過來嗎&d( ≧Д≦)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[當然可以啦!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f當然可以啦!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4:
+        type: PLAYER_CITIZENS_NPC_DELIVER_ITEMS
+        gps:
+          enabled: false
+        npc: 555
+        objective_detail: '&f交付&a[蜂蜜]&f給&a<游醬> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<游醬>&f對話'
+          - '&f步驟-2 &f交付&a[蜂蜜]&f給&a<游醬> &b{objective_progression:0}&f/&b{objective_goal:0}'
+        goto: OBJECT 5
+        goals:
+          0:
+            goal: 2
+            take: true
+            check: SameBase
+            item:
+              type: ghast_tear
+              nbt:
+                MMOITEMS_ITEM_TYPE: RPG_ITEM_SAUCE
+                MMOITEMS_ITEM_ID: '蜂蜜'
+        start_notify:
+          title: '&b任務提示'
+          title_subtitle: '&b交付&a[蜂蜜]&f給&a<游醬>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[蜂蜜]&f給&a<游醬>'
+      5:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<游醬>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<游醬>&f對話'
+          - '&f步驟-2 &f交付&a[蜂蜜]&f給&a<游醬> &b2&f/&b2'
+          - '&f步驟-3 &f與&a<游醬>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &a<游醬> &f謝了，食用適量蜂蜜還可以養顏美容，而且有白糖所沒有的風味。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[說到蜂蜜，你有聽說過女王蜂嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f說到蜂蜜，你有聽說過女王蜂嗎？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f女王蜂! 這個詞我在一本書上見過!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](你看到&d[游醬]&b邊吃洋芋片，邊走去拿那本書)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f我看看喔...女王蜂的傳說...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &7“根據以前學者對於女王蜂傳說的考究，他們認為女王蜂傳說可能有三個由來...”'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<游醬> &7“第一種可能，蜜蜂誤食了豐饒果而變的體型異常巨大，經過目擊的居民加油添醋下，變成了一個有5米大的巨大蜜蜂...”'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<游醬> &7“第二種可能，原本比較大的蜂后發生基因突變，結果變成了巨人症表徵的蜜蜂...同樣地，這種蜜蜂都活不久...”'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'SEND_MESSAGE &a<游醬> &7“最後一種可能...跟豐饒神話相關...如果女王蜂真的跟豐饒神話有關，&a[豐饒神話]&7中的神靈就有可能真實存在!”'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 60
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[豐饒神話是指？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f豐饒神話是指？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &a[豐饒神話]&f，是一個流傳於卡坦村許久的神話。打從第一代修女來了的時間就已經流傳民間了...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f詳細內容我不太懂，你可以去問問看&a[村長 卡納克]&f。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[謝謝游醬!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f謝謝游醬!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      3B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<大衛#16>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<大衛#16>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f妳！！！ 冒充我？？？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f你是... &l真正的阿游！！！！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f哇！！！我有生之年竟然可以看到阿游本尊！！！ 太棒了！！！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<游醬> &f女王蜂就在&a(360, 90, 18)&f會生，每天的下午5點會生～'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40

@@ -1,0 +1,178 @@
+# -------------------- 顯示設定 --------------------
+
+display_name: '&6打探關於女王蜂的資訊&e(雷卡斯特)'
+
+start_notify:
+  title: '&a任務開始'
+  title_subtitle: '&7開始{quest}'
+  sound: ENTITY_PLAYER_LEVELUP
+
+progress_notify:
+  actionbar: '&b{quest} &7| {objective}'
+
+all_status_item:
+  type: END_CRYSTAL
+  name: '&6{quest}'
+  lore: |-
+    {detailed_progression}
+    {controls}
+
+completion:
+  max_completions: 99999999
+  notify:
+    SUCCESS:
+      title: '&d任務完成'
+      title_subtitle: '&7你完成了任務 &a{quest} &7!'
+      sound: ENTITY_PLAYER_LEVELUP
+    FAIL:
+      title: '&cQuest failed'
+      title_subtitle: '&7You failed quest &c{quest} &7!'
+      sound: BLOCK_ANVIL_DESTROY
+    CANCEL:
+      title: '&c任務取消'
+      title_subtitle: '&7你取消了任務 &c{quest}'
+      sound: BLOCK_ANVIL_DESTROY
+
+# -------------------- Post-quest settings --------------------
+activators: [cnpc03]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+
+display_priority: 1
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&a<雷卡斯特#5>&f正在與你對話'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡斯特#5>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &a<雷卡斯特> &f哦! 是之前回報狼群事件的冒險者!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &f抱歉，我現在很忙，有事情的話等在過來吧。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[發生什麼了？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f發生什麼了？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &f呃... 算了，還是個告訴你好了。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &f我們現在正在埋葬一位殉職的弟兄，重點是，他才剛來幾天...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      2:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<雷卡斯特#5>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[非常遺憾聽到這種事情...]'
+            goto: OBJECT 4
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[他發生了什麼？]'
+            redo_text: ' '
+            goto: OBJECT 3
+      3:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡斯特#5>&f對話'
+        goto: OBJECT 2
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f非常遺憾聽到這種事情...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &f是啊，多麼年輕的熱血軍人啊...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      4:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡斯特#5>&f對話'
+        goto: OBJECT 5
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f他發生了什麼？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &f他身體被巨大的鈍器襲擊，我們只見女王...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &f呃，沒事。'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[&7(看一下遺體的狀況)&f]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &7(看一下遺體的狀況)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &f請不要這樣注視者死者，這樣非常不尊重!'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      5:
+        type: DIVERGE_CHAT
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose: 
+          - '&f步驟-1 &f與&a<雷卡斯特#5>&f對話'
+        choices:
+          0:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[非常抱歉...]'
+            goto: OBJECT 6A
+          1:
+            text: '&d&l[故事劇情] 按我選擇 >> &f[看一下而已，不會死吧？]'
+            goto: OBJECT 6B
+      6A:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡斯特#5>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f非常抱歉...'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &7(繼續處理士兵的事情...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](沉睡的英靈，可以想像遭遇蜂湧的棘刺，胸口中空的勳章，一個年輕的熱血消逝...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+      6B:
+        type: SERVER_ACTIONS #對話/劇情
+        objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
+        objective_detail_verbose:
+          - '&f步驟-1 &f與&a<雷卡斯特#5>&f對話'
+        goto: QUEST_SUCCESS
+        actions: 
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f看一下而已，不會死吧？'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &c他已經死了！'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &a<雷卡斯特> &7(繼續處理士兵的事情...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          - 'SEND_MESSAGE &b[故事劇情](沉睡的英靈，可以想像遭遇蜂湧的棘刺，胸口中空的勳章，一個年輕的熱血消逝...)'
+          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
+          - WAIT_TICKS 40
+          
+
+
+
+
+

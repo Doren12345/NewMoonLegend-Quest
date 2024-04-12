@@ -34,7 +34,17 @@ completion:
       sound: BLOCK_ANVIL_DESTROY
 
 # -------------------- Post-quest settings --------------------
-activators: [cnpc2]
+activators: [cnpc02]
+
+conditions_start_restriction:
+  match_amount: 2
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+    1:
+      type: QUEST_COMPLETED
+      model: a_quest_05_info_555
 
 display_priority: 1
 

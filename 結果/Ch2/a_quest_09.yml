@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx900
     &f- &a經驗值&fx19600
     &f- &b物品-時裝布料&fx1
@@ -284,14 +284,14 @@ branches:
           - WAIT_TICKS 40
       10:
         type: SERVER_GCORE_NPC_TELEPORT
-        npc: # 生成NPC (神秘男子)
+        npc: 24
         goto: OBJECT 11
         position:
           type: SINGLE
           location: world,-525,65,695,0,0
       11:
         type: SERVER_GCORE_NPC_TELEPORT
-        npc: # 生成NPC (神秘女子)
+        npc: 25
         goto: OBJECT 12
         position:
           type: SINGLE
@@ -306,32 +306,32 @@ branches:
           - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
         goto: OBJECT 13
         actions: 
-          - 'SEND_MESSAGE &0<???> &f動作快點! 哥們! 我們還要籌畫一些事情呢!'
+          - 'SEND_MESSAGE &7<???> &f動作快點! 哥們! 我們還要籌畫一些事情呢!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &f這座&8[洞窟]&f有我們需要的東西! 有它我們才能知曉如何解封那玩意...'
+          - 'SEND_MESSAGE &7<???> &f這座&8[洞窟]&f有我們需要的東西! 有它我們才能知曉如何解封那玩意...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &8<???> &f我們需要解封&b[那玩意]&f？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &f不要墨跡了，你不需要知道那麼多!'
+          - 'SEND_MESSAGE &7<???> &f不要墨跡了，你不需要知道那麼多!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
       13:
         type: SERVER_GCORE_NPC_TELEPORT
-        npc: # 神秘男子消失
+        npc: 24
         goto: OBJECT 14
         position:
           type: SINGLE
-          location: world,-525,65,695,0,0
+          location: world,-574,14,695,0,0
       14:
         type: SERVER_GCORE_NPC_TELEPORT
-        npc: # 神秘女子消失
+        npc: 25
         goto: OBJECT 15
         position:
           type: SINGLE
-          location: world,-524,65,693,0,0
+          location: world,-573,14,695,0,0
       15:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'
@@ -362,8 +362,8 @@ branches:
           center: world,-512,65,714
         start_notify:
           title: '&b任務提示'
-          title_subtitle: '&b跟隨未知的聲音&0<???>'
-          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f跟隨未知的聲音&0<???>&e(-505,44,707)'
+          title_subtitle: '&b跟隨未知的聲音&7<???>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f跟隨未知的聲音&7<???>&e(-505,44,707)'
 
       17:
         type: PLAYER_POSITION
@@ -394,13 +394,13 @@ branches:
           - 'SEND_MESSAGE &b[故事劇情](你跟蹤他們到了洞穴深處)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &f這座迷宮根本是鬼打牆!'
+          - 'SEND_MESSAGE &7<???> &f這座迷宮根本是鬼打牆!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &8<???> &f有沒有可能我們真的遇到了...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &f別胡說! 那群迷信的傻村民在那瞎猜，你還真信了？'
+          - 'SEND_MESSAGE &7<???> &f別胡說! 那群迷信的傻村民在那瞎猜，你還真信了？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](他們又往更深處前進了，跟上去吧)'
@@ -408,14 +408,14 @@ branches:
           - WAIT_TICKS 40
       19:
         type: PLAYER_POSITION
-        objective_detail: '&f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+        objective_detail: '&f隨著聲音跟蹤&7<???>&e(-469,18,712)'
         objective_detail_verbose:
           - '&f步驟-1 &f與&a<羅德#42>&f對話'
           - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
           - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
           - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
-          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
-          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-5 &f隨著聲音跟蹤&7<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&7<???>&e(-469,18,712)'
         goto: OBJECT 20
         position:
           type: SPHERE_INSIDE
@@ -423,8 +423,8 @@ branches:
           center: world,-469,18,712
         start_notify:
           title: '&b任務提示'
-          title_subtitle: '&b跟隨未知的聲音&0<???>'
-          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f跟隨未知的聲音&0<???>&e(-469,18,712)'
+          title_subtitle: '&b跟隨未知的聲音&7<???>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f跟隨未知的聲音&7<???>&e(-469,18,712)'
 
       20:
         type: SERVER_ACTIONS
@@ -434,8 +434,8 @@ branches:
           - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
           - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
           - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
-          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
-          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-5 &f隨著聲音跟蹤&7<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&7<???>&e(-469,18,712)'
         goto: OBJECT 21
         actions: 
           - 'SEND_MESSAGE &b[故事劇情](你跟丟了他們，獨自走到了洞穴更深處，並在地上找到一個紫色晶體)'
@@ -444,13 +444,13 @@ branches:
           - 'SEND_MESSAGE &b[故事劇情](你心想：這應該是他們掉的)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &f快! 在他們找到之前拿走!'
+          - 'SEND_MESSAGE &7<???> &f快! 在他們找到之前拿走!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](你困惑的看了四周，滿地的火把點亮了洞窟，但你依舊找不到是誰在說話)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &0<???> &f前方! 你手上那玩意應該可以把他藏起來!'
+          - 'SEND_MESSAGE &7<???> &f前方! 你手上那玩意應該可以把他藏起來!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](嗯？前面的建築是什麼？)'
@@ -465,8 +465,8 @@ branches:
           - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
           - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
           - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
-          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
-          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-5 &f隨著聲音跟蹤&7<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&7<???>&e(-469,18,712)'
           - '&f步驟-7 &f查看&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
         goto: OBJECT 22
         position:
@@ -485,8 +485,8 @@ branches:
           - '&f步驟-2 &f前往&a[神秘的洞窟]&e(-477,65,465)'
           - '&f步驟-3 &f探索&a[神秘的洞窟]&e(-544,65,618)'
           - '&f步驟-4 &f越過&a[淹水的洞窟]&e(-538,65,682)'
-          - '&f步驟-5 &f隨著聲音跟蹤&0<???>&e(-505,44,707)'
-          - '&f步驟-6 &f隨著聲音跟蹤&0<???>&e(-469,18,712)'
+          - '&f步驟-5 &f隨著聲音跟蹤&7<???>&e(-505,44,707)'
+          - '&f步驟-6 &f隨著聲音跟蹤&7<???>&e(-469,18,712)'
           - '&f步驟-7 &f查看&a[包裹著黑色煙霧的書本]&e(-452,21,649)'
         goto: OBJECT 23
         actions: 
@@ -511,9 +511,11 @@ end_objects:
       type: SERVER_COMMANDS_PERFORM
       commands: 
         - heal {player}
+        - gcore npcreset {player} 24
+        - gcore npcreset {player} 25
   cancel:
     1:
       type: SERVER_COMMANDS_PERFORM
-      commands: ['compass stop {player}']
+      commands: ['compass stop {player}', 'gcore npcreset {player} 24', 'gcore npcreset {player} 25']
         
           

@@ -14,14 +14,14 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |-
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx400
     &f- &a經驗值&fx8100
     &f- &b物品-時裝布料&fx1
     &f- &6技能-緊急補給&fx1
     &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
     &#32027d&m                                   
-    &r&f{controls}}
+    &r&f{controls}
 
 display_priority: 1
 # -------------------- Post-quest settings --------------------
@@ -71,7 +71,7 @@ conditions_start_restriction:
       logic: '%mmocore_level% >= 4'
 
 # -------------------- Activator settings --------------------
-activators: [cnpc1]
+activators: [cnpc01]
 
 activators_dialog:
   - '&a<艾比> &f冒險者! 新的委託!!! &7(逐漸瘋狂) &d(右鍵點擊NPC來接取任務)'
@@ -165,7 +165,7 @@ branches:
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &a<艾比> &f麻煩你去看一下&a[奇怪生物]&f，小心不要讓村民暴露在危險之下喔。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 4
+          - WAIT_TICKS 40
       4B:
         type: SERVER_ACTIONS
         objective_detail: '&f---&r&6[&b主線劇情進行中，請細心欣賞劇情!&6]&f---'

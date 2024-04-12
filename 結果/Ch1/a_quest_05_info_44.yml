@@ -1,6 +1,6 @@
 # -------------------- 顯示設定 --------------------
 
-display_name: '&6打探關於女王蜂的資訊&e(羅素)'
+display_name: '&6打探關於女王蜂的資訊&e(喬斯琳)'
 
 start_notify:
   title: '&a任務開始'
@@ -34,7 +34,14 @@ completion:
       sound: BLOCK_ANVIL_DESTROY
 
 # -------------------- Post-quest settings --------------------
-activators: [cnpc611]
+activators: [cnpc44]
+
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
 
 display_priority: 1
 
@@ -46,37 +53,38 @@ branches:
 
       1:
         type: SERVER_ACTIONS #對話/劇情
-        objective_detail: '&a<羅素#25>&f正在與你對話'
+        objective_detail: '&a<喬斯琳>&f正在與你對話'
         objective_detail_verbose:
-          - '&f步驟-1 &f與&a<羅素#25>&f對話'
-        goto: OBJECT 2
+          - '&f步驟-1 &f與&a<喬斯琳#30>&f對話'
+        goto: QUEST_SUCCESS
         actions: 
-          - 'SEND_MESSAGE &a<羅素> &7(專心製作工藝品)'
+          - 'SEND_MESSAGE &a<喬斯琳> &f你好，冒險者! 有需要什麼漁獲嗎？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[哈囉？我有個問題想問你！]'
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f哈囉？我有個問題想問你！'
+          - 'SEND_MESSAGE &a<喬斯琳> &f我們這裡有鱈魚、太平洋比目魚、鱸魚、鯉魚...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<羅素> &7(專心製作工藝品)'
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[漁獲的種類好多!]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f漁獲的種類好多!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[呃... 你有聽說過女王蜂嗎？]'
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f呃... 你有聽說過女王蜂嗎？'
+          - 'SEND_MESSAGE &a<喬斯琳> &f是啊! 我們有非常多種類的魚，都是今天釣上來的，可新鮮呢!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<羅素> &f女王蜂嗎？有，但那些都是傳說。'
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[對了，你有聽說過&6[女王蜂]&f嗎？]'
+          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f對了，你有聽說過&6[女王蜂]&f嗎？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[你知道女王蜂的資訊嗎？]'
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f你知道女王蜂的資訊嗎？'
+          - 'SEND_MESSAGE &a<喬斯琳> &6[女王蜂]&f... 那是什麼？蜂蜜王國？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<羅素> &f我沒有見過女王蜂，你可以去問問看皇家禁衛軍，他們比較知道這件事。'
+          - 'SEND_MESSAGE &b[故事劇情](看來&a[喬斯琳]&b完全不知道這個傳說...)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[好的，謝謝羅素!]'
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f好的，謝謝羅素!'
+          - 'SEND_MESSAGE &b[故事劇情](去問問看其他人吧)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-      
+
+
+
+

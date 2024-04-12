@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &r&f- &e金幣&fx100
     &r&f- &a經驗值&fx3600
     &r&f- &b物品-時裝布料&fx1
@@ -104,7 +104,7 @@ branches:
         start_notify:
           title: '&b任務提示'
           title_subtitle: '&b與&a<奧斯卡#47>&f對話'
-          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<奧斯卡#47>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<奧斯卡#47>&b對話'
 
         goto: OBJECT 1
       1:
@@ -243,8 +243,7 @@ branches:
             redo_text: '&d&l[故事劇情] 按我回答 >> &7[冒險者公會是什麼？]'
             goto: OBJECT 6B
           2:
-            text: ''
-            redo_text: '&d&l[故事劇情] 按我回答 >> &c[我沒有問題要問了]'
+            text: '&d&l[故事劇情] 按我回答 >> &c[我沒有問題要問了]'
             goto: OBJECT 7      
       6A:
         type: SERVER_ACTIONS
@@ -318,7 +317,7 @@ branches:
         start_notify:
           title: '&b任務提示'
           title_subtitle: '&b與&a<莎莉#59>&f對話'
-          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<莎莉#59>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<莎莉#59>&b對話'
         type: PLAYER_CITIZENS_NPC_INTERACT
         objective_detail: '&f與&a<莎莉#59>&f對話'
         objective_detail_verbose: 
@@ -473,7 +472,7 @@ branches:
           - 'SEND_MESSAGE &a<莎莉> &f要成為&7[初級冒險者]&f，就會需要完成&7[初級冒險者]&f的任務。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<莎莉> &f每一個冒險者階級都有相應的任務，如&7[初級冒險者]&f對應的任務是&b[支線]成為合格的冒險者(3)&f。'
+          - 'SEND_MESSAGE &a<莎莉> &f每一個冒險者階級都有相應的任務，如&7[初級冒險者]&f對應的任務是&e[第一章]甜蜜王座&f。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 60
           - 'SEND_MESSAGE &a<莎莉> &f冒險者階級越高，相應任務的難度就會越高。'
@@ -519,7 +518,7 @@ branches:
         start_notify:
           title: '&b任務提示'
           title_subtitle: '&b與&a<娜娜明#10>&f對話'
-          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<娜娜明#10>&f對話'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f與&a<娜娜明#10>&b對話'
         type: PLAYER_CITIZENS_NPC_INTERACT
         objective_detail: '&f與&a<娜娜明#10>&f對話'
         objective_detail_verbose: 
@@ -553,7 +552,7 @@ branches:
           - 'SEND_MESSAGE &a<娜娜明> &f有去登記成為&8[冒險者]&f了嗎？'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          'PROMPT_NEXT &d&l[故事劇情] 按我回答 >> &f[有呀! 哦對了，這是&a[莎莉小姐#59]&f託我給你的書]'
+          - 'PROMPT_NEXT &d&l[故事劇情] 按我回答 >> &f[有呀! 哦對了，這是&a[莎莉小姐#59]&f託我給你的書]'
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f有呀! 哦對了，這是&a[莎莉小姐#59]&f託我給你的書'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -981,6 +980,7 @@ branches:
           - 'SEND_MESSAGE &f陸行鳥是新手最棒的坐騎。'
           - 'SEND_MESSAGE &f&m--------------------'
           - 'SEND_MESSAGE &b(提示:你可以使用&e[系統水晶]&b來打開&d[寵物界面]&b)'
+          - WAIT_TICKS 5
       37:
         type: SERVER_CAMERA_MODE_TOGGLE
         goto: QUEST_SUCCESS_THEN_START a_quest_02

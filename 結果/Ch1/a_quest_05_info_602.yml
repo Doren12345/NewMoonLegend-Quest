@@ -36,6 +36,13 @@ completion:
 # -------------------- Post-quest settings --------------------
 activators: [cnpc602]
 
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+
 display_priority: 1
 
 branches:
@@ -83,7 +90,6 @@ branches:
         gotos: |  # a list of goto's to apply
           OBJECT 3A
           OBJECT 3B
-        avoid_repeat_end_types: []
       3A:
         type: SERVER_ACTIONS #對話/劇情
         objective_detail: '&a<Peter#19>&f正在與你對話'

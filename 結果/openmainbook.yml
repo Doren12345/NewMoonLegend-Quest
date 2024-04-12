@@ -1,0 +1,32 @@
+# -------------------- Display settings --------------------
+display_name: '[動作]打開禁書'
+completion:
+  max_completions: 99999999
+
+all_status_item:
+  type: BOOK
+  name: '&6{quest}'
+
+display_priority: 1
+
+# -------------------- Post-quest settings --------------------
+
+# -------------------- Activator settings --------------------
+activators: [cnpc631]
+
+
+# -------------------- Main Quest Object --------------------
+
+branches:
+
+  main:
+    starts_at: 1
+    objects:
+
+      1:
+        type: SERVER_ACTIONS
+        goto: QUEST_SUCCESS
+        actions:
+          - 'PERFORM_COMMAND   vb open mainbook1 {player}'
+          
+

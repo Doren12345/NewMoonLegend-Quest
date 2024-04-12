@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx300
     &f- &a經驗值&fx6400
     &f- &b物品-時裝布料&fx1
@@ -70,7 +70,7 @@ conditions_start_restriction:
       logic: '%mmocore_level% >= 3'
 
 # -------------------- Activator settings --------------------
-activators: [cnpc3]
+activators: [cnpc03]
 
 activators_dialog:
   - '&a<艾比> &f冒險者! 又有新的委託了! &d(右鍵點擊NPC來接取任務)'
@@ -127,14 +127,14 @@ branches:
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &f==============================='
-          - 'SEND_MESSAGE       &a裝修教堂'
-          - 'SEND_MESSAGE '
+          - 'SEND_MESSAGE &r      &a裝修教堂'
+          - 'SEND_MESSAGE &r'
           - 'SEND_MESSAGE &a區域: 卡坦村'
           - 'SEND_MESSAGE &b分類: 交付物品'
           - 'SEND_MESSAGE &e委託者: 羅絲'
-          - 'SEND_MESSAGE '
-          - 'SEND_MESSAGE  '
-          - 'SEND_MESSAGE '
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &r'
+          - 'SEND_MESSAGE &r'
           - 'SEND_MESSAGE &f任務內容:'
           - 'SEND_MESSAGE 最近因為宗教儀式需求'
           - 'SEND_MESSAGE 需要一些會發亮的裝飾品'
@@ -201,7 +201,7 @@ branches:
           - 'SEND_MESSAGE &a<羅絲> &f另有一說認為，教堂的名稱&a[塔爾登]&f才是第一代修女們的命名。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &a<羅絲> &f由於讀音的差異，久而久之，&a[主的教堂]與村莊的名稱逐漸走向分歧。'
+          - 'SEND_MESSAGE &a<羅絲> &f由於讀音的差異，久而久之，&a[主的教堂]&f與村莊的名稱逐漸走向分歧。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](你開始打瞌睡了)'
@@ -358,56 +358,81 @@ branches:
             text: '&d&l[故事劇情] 按我回答 >> &e[交付&a[特有資源]&e]'
             conditions:
               conditions:
-                a:
+                1:
                   type: ITEMS
                   items:
-                    goal: 10
-                    check: SameBase
-                    item:
-                      type: ghast_tear
-                      nbt:
-                        MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
-                        MMOITEMS_ITEM_ID: '煤炭'
-                b:
+                  # items needed
+                    items:
+                    # a list of item matches
+                        - item:
+                            type: ghast_tear
+                            nbt:
+                              MMOITEMS_ITEM_ID: '煤炭'
+                              MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
+                          check: SameBase
+                          goal: 10
+                    take: false
+                    count: 10
+                2:
                   type: ITEMS
                   items:
-                    goal: 5
-                    check: SameBase
-                    item:
-                      type: ghast_tear
-                      nbt:
-                        MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
-                        MMOITEMS_ITEM_ID: '鐵錠'
-                c:
+                  # items needed
+                    items:
+                    # a list of item matches
+                        - item:
+                            type: ghast_tear
+                            nbt:
+                              MMOITEMS_ITEM_ID: '鐵錠'
+                              MMOITEMS_ITEM_TYPE: RPG_ITEM_MINERAL
+                          check: SameBase
+                          goal: 5
+                    take: false
+                    count: 5
+                3:
                   type: ITEMS
                   items:
-                    goal: 20
-                    check: SameBase
-                    item:
-                      type: ghast_tear
-                      nbt:
-                        MMOITEMS_ITEM_TYPE: RPG_ITEM_TREE
-                        MMOITEMS_ITEM_ID: '橡木'
-                d:
+                  # items needed
+                    items:
+                    # a list of item matches
+                        - item:
+                            type: ghast_tear
+                            nbt:
+                              MMOITEMS_ITEM_ID: '橡木'
+                              MMOITEMS_ITEM_TYPE: RPG_ITEM_TREE
+                          check: SameBase
+                          goal: 20
+                    take: false
+                    count: 20
+                4:
                   type: ITEMS
                   items:
-                    goal: 10
-                    check: SameBase
-                    item:
-                      type: ghast_tear
-                      nbt:
-                        MMOITEMS_ITEM_TYPE: RPG_ITEM_POTION
-                        MMOITEMS_ITEM_ID: '綠色藥草'
-                e:
+                  # items needed
+                    items:
+                    # a list of item matches
+                        - item:
+                            type: ghast_tear
+                            nbt:
+                              MMOITEMS_ITEM_ID: '綠色藥草'
+                              MMOITEMS_ITEM_TYPE: RPG_ITEM_POTION
+                          check: SameBase
+                          goal: 10
+                    take: false
+                    count: 10
+                5:
                   type: ITEMS
                   items:
-                    goal: 5
-                    check: SameBase
-                    item:
-                      type: ghast_tear
-                      nbt:
-                        MMOITEMS_ITEM_TYPE: RPG_ITEM_FISH
-                        MMOITEMS_ITEM_ID: '鱈魚'
+                  # items needed
+                    items:
+                    # a list of item matches
+                        - item:
+                            type: ghast_tear
+                            nbt:
+                              MMOITEMS_ITEM_ID: '鱈魚'
+                              MMOITEMS_ITEM_TYPE: RPG_FOOD_FISH
+                          check: SameBase
+                          goal: 5
+                    take: false
+                    count: 5
             goto: OBJECT 13
           6:
             text: '&d&l[故事劇情] 按我回答 >> &c[什麼情報都不買]'
@@ -535,6 +560,8 @@ branches:
         toggle: false
       12E2:
         type: PLAYER_CITIZENS_NPC_INTERACT
+        gps:
+          enabled: false
         objective_detail: '&f與&a<嵐風#3>&f對話'
         objective_detail_verbose: 
           - '&f步驟-1 &f與&a<艾比#4>&f對話'
@@ -621,7 +648,7 @@ branches:
             item:
               type: ghast_tear
               nbt:
-                MMOITEMS_ITEM_TYPE: RPG_ITEM_FISH
+                MMOITEMS_ITEM_TYPE: RPG_FOOD_FISH
                 MMOITEMS_ITEM_ID: '鱈魚'
       15:
         type: SERVER_CAMERA_MODE_TOGGLE
@@ -688,12 +715,12 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
         goto: OBJECT 19
         position:
           type: SPHERE_INSIDE
           radius: 8
-          center: world,177,67,105
+          center: world,-61,69,-114
         start_notify:
           title: '&b任務提示'
           title_subtitle: '&b前往&a[卡坦村北方的丘陵]'
@@ -709,7 +736,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
         goto: OBJECT 20
         actions:
           - 'SEND_MESSAGE &b[故事劇情](&a[嵐風]&b說的小精靈洞穴應該是就是這裡了，帶一點粉塵回去吧)'
@@ -729,7 +756,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b{objective_progression:0}&f/&b{objective_goal:0}'
         goto: OBJECT 21
         goals:
@@ -761,7 +788,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
         goto: OBJECT 23
@@ -772,7 +799,7 @@ branches:
           - 'SEND_MESSAGE &a<羅絲> &f用來點亮神聖的教堂再適合不過了!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'SEND_MESSAGE &b[故事劇情](冒險者公會廣播：緊急通知，請各位盡快遠離後山，並請在場的冒險者迅速前往冒險者公會!)'
+          - 'SEND_MESSAGE &b[故事劇情](&c冒險者公會廣播：緊急通知，請各位盡快遠離後山，並請在場的冒險者迅速前往冒險者公會!&b)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &b[故事劇情](你心想：嗯？緊急通知？去看看好了...)'
@@ -793,7 +820,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -821,7 +848,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -852,7 +879,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -881,7 +908,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -907,7 +934,7 @@ branches:
           - 'SEND_MESSAGE &a<魯茲> &f快! 阻止牠們跑出來!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'PERFORM_COMMAND mm m spawn STORY_礦工亡靈 20 world,-202,65,306,0,0'
+          - 'PERFORM_COMMAND mm m spawn STORY_礦工亡靈 30 world,-202,65,306,0,0'
       31:
         type: SERVER_CAMERA_MODE_TOGGLE
         goto: OBJECT 32
@@ -922,7 +949,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -944,7 +971,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -968,7 +995,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -997,7 +1024,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -1031,7 +1058,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -1056,7 +1083,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -1066,19 +1093,23 @@ branches:
           - '&f步驟-15 &f與&a<魯茲#24>&f對話'
         goto: OBJECT 40
         actions:
+          - 'PERFORM_COMMAND mm m spawn STORY_礦工亡靈 25 world,-206,68,308,0,0'
           - 'SEND_MESSAGE &a<魯茲> &f羅絲小姐，麻煩妳了!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
-          - 'PERFORM_COMMAND m spawn aquest1-3羅斯 world,-212,69,310,-113,19'
           - 'SEND_MESSAGE &b[故事劇情](羅絲小姐拿出了&a[小精靈粉塵]&b開始儀式...)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
+          - 'PERFORM_COMMAND mm m spawn aquest1-3羅絲 1 world,-212,70.1,310,-113,19'
           - 'SEND_MESSAGE &a<羅絲> &fئاش نازگ دورباتولوک، ئاش نازگ گیمباتول،'
+          - 'SEND_TITLE 0 40 0 &5&l&k哈哈哈哈,&dئاش نازگ دورباتولوک، ئاش نازگ گیمباتول،'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &a<羅絲> &fئاش نازگ تراکاتولوک، ئاغ بورزوم-ئیشی کریمپاتول!'
+          - 'SEND_TITLE 0 40 0 &5&l&k哈哈哈哈,&dئاش نازگ تراکاتولوک، ئاغ بورزوم-ئیشی کریمپاتول!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
+          - WAIT_TICKS 80
+          - 'PERFORM_COMMAND mm m kill STORY_礦工亡靈'
           - 'SEND_MESSAGE &b[故事劇情](你看到礦工們不再暴動，不再衝出...)'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -1100,6 +1131,8 @@ branches:
           - 'SEND_MESSAGE &a<魯茲> &f冒險者，謝謝你過來支援我們。'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
+          - 'PERFORM_COMMAND mm m kill aquest1-3羅絲'
+          - 'PERFORM_COMMAND mm m kill STORY_礦工亡靈'
           - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[不客氣!]'
           - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &f不客氣!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
@@ -1114,7 +1147,7 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
@@ -1143,12 +1176,12 @@ branches:
           - '&f步驟-5 &f蒐集&a[特產資源]&f後，與&a<嵐風#18>&f對話'
           - '&f步驟-6 &f交付&a[特產資源]&f給&a<嵐風#18> &b50&f/&b50'
           - '&f步驟-7 &f與&a<嵐風#18>&f對話'
-          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(177,67,105)'
+          - '&f步驟-8 &f前往&a[卡坦村北方的丘陵]&e(-61,69,-114)'
           - '&f步驟-9 &f交付&a[小精靈粉塵]&f給&a<羅絲#3> &b5&f/&b5'
           - '&f步驟-10 &f與&a<羅絲#3>&f對話'
           - '&f步驟-11 &f與&a<艾比#4>&f對話'
           - '&f步驟-12 &f與&a<魯茲#24>&f對話'
-          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b{objective_progression:1}&f/&b{objective_goal:1}'
+          - '&f步驟-13 &f擊殺&a【Lv5】亡靈礦工 &b10&f/&b10'
           - '&f步驟-14 &f與&a<羅絲#3>&f對話'
           - '&f步驟-15 &f與&a<魯茲#24>&f對話'
           - '&f步驟-16 &f與&a<艾比#4>&f對話'
@@ -1181,4 +1214,4 @@ end_objects:
   cancel:
     1:
       type: SERVER_COMMANDS_PERFORM
-      commands: ['compass stop {player}']
+      commands: ['compass stop {player}', 'mm m kill STORY_礦工亡靈', 'mm m kill aquest1-3羅絲']

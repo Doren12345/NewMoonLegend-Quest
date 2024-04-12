@@ -13,7 +13,7 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx1000
     &f- &a經驗值&fx22500
     &f- &b物品-時裝布料&fx1
@@ -678,7 +678,7 @@ end_objects:
         - eco give {player} 1000
         - mmocore admin exp give {player} main 22500
         - mi give RPG_ITEM_MATERIAL 時裝布料 {player} 1
-        - lp user {player} permission set rpgbook.#書本
+        - lp user {player} permission set rpgbook.901.stage1
   cancel:
     1:
       type: SERVER_COMMANDS_PERFORM

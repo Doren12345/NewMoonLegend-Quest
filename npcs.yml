@@ -1,0 +1,472 @@
+#----------------------------------------------------------------------------------------------------
+# NPCs configuration file for GCore
+# This still exists only to maintain the currently working systems with GCore NPCs
+# A rework of NPCs is planned. Please prefer using Citizens until that rework.
+#----------------------------------------------------------------------------------------------------
+
+#npcs:
+  # Example NPC
+#  1: # This is the NPC id, must be a valid number and at least 1
+#    # Name of the NPC
+#    name: 'My NPC'
+#    # Skin data of the NPC (can be generated or obtained with https://mineskin.org/)
+#    skin_data: 'eyJ0aW1lc3RhbXAiOjE1NTYwNDc1MTM5NTUsInByb2ZpbGVJZCI6IjNmYzdmZGY5Mzk2MzRjNDE5MTE5OWJhM2Y3Y2MzZmVkIiwicHJvZmlsZU5hbWUiOiJZZWxlaGEiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzUyZTEwNmI3NGQxYTI4OTBmZjcyYzU1Y2I3NjFlYzBjMmIwMjdlYmE2NWY2YTVkYWJkM2FkZjNkMmZiMzUyOWEifX19'
+#    skin_signature: 'otbzMAfHHBYSGtObEvrtSQvrERDPgl88T0Ja47N1zBYD32OyKR3WOLre7osarmS4Eft9lFE56/87aeMvnIkK9Fj7tiBi8dgCjGstj19lVSrFqIrwd9LqKoHugOfzwR7KdSrH0dkTzuZD+m/DxKeS0VsAUmdLtemYwP/Bj8Ff8ZNL7l/ANioSkWdF+b1YOlONXfPoeY2tauCWvcG3ZFlIvc6XG4lTVtp7BrXbYJoKR880MDny/AkOEJaYnmiMcZ7y3xpnTW1uv+OiagtFVyrDCyaKwEVyskp7l5vsya1pZd4Zg6405DhMsEQv+5kGHAWGvfvqUGdoaBoWteN6rfKCx+eLozf0WGYXNlZEkmRPjbo/Ywc9iId1xMkYJo5/LLkMrRIarp6GWHbbXW3V9L/eKw+dfdAZdxX2SXfWt+yv8cQpWU+6IAzRtaOE2EHcIr/hGtRZuXZEWJQvMmEJCNAgj9kf0FbVKs763P1ktWj/9wvDj69SnyzLdDW5+HlfpzGTeQFUeoOu+qmsu2olRCrhH2tKDbievqmO3J8q3AJdQWL0C5AyJUlzZh3JA9Kcfhjq/W6KT3EMmRflNl+3ha4Fwfrzow+RCSaZa7aOgwQlLOBzKVckOsZB5ci2X1gK32rY4plihMfVl3VvydrHjEMfqM0Q1NuaKfdxUKzMCBtT5JU='
+#    # Default location
+#    location: world,0,0,0
+#    # The NPC will look at the player if he's below that distance
+#    target_distance: 5.0
+#    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+#    status: []
+#    # Inventory content
+#    held_item: # Held item
+#      type: DIAMOND_SWORD
+#    held_item_off: # Held item in off-hand (1.9+)
+#      type: SHIELD
+#    boots: # Boots
+#      type: DIAMOND_BOOTS
+#    leggings: # Leggings
+#      type: DIAMOND_LEGGINGS
+#    chestplate: # Chestplate
+#      type: DIAMOND_CHESTPLATE
+#    helmet: # Helmet
+#      type: DIAMOND_HELMET
+npcs:
+  1:
+    name: '礦工'
+    skin_data: 'eyJ0aW1lc3RhbXAiOjE1ODc4ODA0OTM0NjksInByb2ZpbGVJZCI6ImZjZGIwMDc0OTk2NzRjMDVhOTE5N2ZmM2QzNTI2MGY1IiwicHJvZmlsZU5hbWUiOiJUZWNob3llIiwic2lnbmF0dXJlUmVxdWlyZWQiOnRydWUsInRleHR1cmVzIjp7IlNLSU4iOnsidXJsIjoiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9iZTVhMzAwYzgyMDdjNzU0Yzg5YWY0YzFiNzU1YTM3OWEzNzZhZjFhNmY1YjBjYTk0YTZjOWE2NDc0MDQ2Nzg2In19fQ=='
+    skin_signature: 'fa+MiEVL4cD6z8aCnyPOAtIWd2t6xt2c+ZsWW+SDuHxRUTnnmOWHXskS3t8QHKSgUlOQpOJszk6ZDariLKgZJV0XAxTSLt+EyNiZ0NThzzamM0drhDfnoAsfcF6PskyhAba6y1CXhvIdfVVzISGXnqDRflWAJIR28gJ2ecxkCy+uvYf8X7N63kUWykbroFhOcIUpsIk0a33qNxp5dqBvLfg9YN3kl5XgVMtFFixpKmWaWdCPi1cDIepari4QE5jYid1ReScElQKT77sUoepTeymcHiJv48GMHBaDKqiEdWloAwJZQ2H4nLBXpv1ayho/7SwyGY66Iqz+tiR4e2XYvRWymvIeCQx5Hi4iShE9hsY3atlYbASBDKNkvIgp1dnVYZIBE3WxeJcC0qWGOnoSaMIuXOfjo3t532+LwFWCw9NOLdmbOsQDyf7N4wsyG8p28BUfSqiAanCqWWE6LWVIDYJ85msOEXtP9pb4ARqgpBvHj0KnB/vvQw9CQyfewOOHNXgqfc6kqAV1UlBg7te2FKv/2zTRkLK/LWMl7j4+n+BtuazDjFYuh0GrHqGMCYuORpgZtQjp7yycV7T2Myy630/MsErWvCGvKXsTMuhT5SNRD5c6egcJ5pmliWD48IfBn0FvHd1ks1wwDvynlx0MkDDASptb2/sld5ji70FTGFM='
+    # Default location
+    location: world,-2725,80,-884
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+    # Inventory content
+    held_item: # Held item
+      type: IRON_PICKAXE
+#    held_item_off: # Held item in off-hand (1.9+)
+#      type: SHIELD
+#    boots: # Boots
+#      type: DIAMOND_BOOTS
+#    leggings: # Leggings
+#      type: DIAMOND_LEGGINGS
+#    chestplate: # Chestplate
+#      type: DIAMOND_CHESTPLATE
+#    helmet: # Helmet
+#      type: DIAMOND_HELMET
+  2:
+    name: '礦工 雷恩'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMTIxOTgxNDg5NiwKICAicHJvZmlsZUlkIiA6ICJmZDMxNjFmYWI5YmI0YzRiYTczOGMwMWIzMTQ0MjEzMCIsCiAgInByb2ZpbGVOYW1lIiA6ICJhbGVuNTAwMyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yMTRmZTJhNjBlY2NiOTMwMmM0ZWRiMThjNjVjZjFjOGU3YTIwMjUyNzJmNDAwOTg3NDZhYzRiY2MxNmUyNWYyIgogICAgfQogIH0KfQ=='
+    skin_signature: 'm4BLnbw/fPc/QDDBHk9ben0wOdm8CWK3ry6rJa6WXPU8j/ZV5ivdfw43Eux9XUbnEtYYBaQDTPU+sWRcdD7bG2enojqrE1GeGMQkhnvnI2NRq2MbuPu01hhz9opcDSAxnSwSEKOeCees8dH6qPIRCj7RL6yyJJQhy5RdbY91vyfUDQwaporfUstfXA3qEMWjWBRhrMbGIKrCs34gDElbppT1frtiEfJmfWDzrC4t8BaSMiBufO85o8/bt6+HgzreuMDxF72VaJ+UjpSMuikrPNnE34dTrTaMIVTvywCPSFjL7x3/PKI7Yn5Y3+e5/vIF17dZM5TRBUAIGU+Yb3O9yVwAJe6U2BqcDHea1FjjRTnu2KKsZQlBBgooWablqTwTjMSYX6BrpKDvnrdUWcWfSbblnl4kRvclHsZJ1d634ig42rmcaDGC1tLP2B7KyvyY4bQ3n8rOO5zQGinluC2pWJzSjei8U6lAK7eV6+lukLJ+NyQk5lz0QygPH9BcWGjlINfyFmSUxzVa/VWBYOjdG5d16/Rq3KKSvmTbQMm+SjNoPdZsZA7+LHy8mytfKk6jIp3t8sDk01OILBouXddk98Q1yBnxCIPMs7rq6YESSvN1qyvcCBFdvC1CmosCzFKkhs5EWtKHLPoXXJIlunbJ8QaApYbxiXP1WOunRSshbE8='
+    # Default location
+    location: world,-2761,12,-999
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+    # Inventory content
+    held_item: # Held item
+      type: IRON_PICKAXE
+    held_item_off: # Held item in off-hand (1.9+)
+      type: CHEST
+#    boots: # Boots
+#      type: DIAMOND_BOOTS
+#    leggings: # Leggings
+#      type: DIAMOND_LEGGINGS
+#    chestplate: # Chestplate
+#      type: DIAMOND_CHESTPLATE
+#    helmet: # Helmet
+#      type: DIAMOND_HELMET
+  3:
+    name: '受重傷的皇家禁衛軍'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxNDQ3NDQzODU3OCwKICAicHJvZmlsZUlkIiA6ICJjMWE3ZjlkZjgyYTU0NjZmOGQ2YjdkYTk3OTA4NGY0OSIsCiAgInByb2ZpbGVOYW1lIiA6ICJueGdlciIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80YWVhYzRjMzFiZTc4MDI0MWI3OTYzMTZkYTljZGJkYTI4YzczNzA3NGMwMjJhMGJlZDU0MDQyYTAyNGM1NjkyIgogICAgfQogIH0KfQ=='
+    skin_signature: 'lCjIkgmsjLe4CQzoTG/sXQ8Lm9R59aEM2x9q5pU/M2+8lKV2NSQpj+ltOdZ9FyHeKKKN/R0ISR/DhLuCWWwWdBey/NXKoYaMeGm1qchEz3n+h0Q3nN+lapGwMSCg1rjgaHTuuFmT27xr1+9nSJ/GMDUFYPaJVNAPdwlrxT2xxY6g9QkSnfZbUaLmdq5t6BKmS4XbfXTXlBBG2lvAxsoj5f89e3PLe1kLC99RwRifvFcYO6lGkHniH38F6wA81sdA0/sI4fH0FmY1labXTQCDpAq/EALFneRlA7/eZs81+xDn4IxQBOOXhMQYo+nvtYExEqDi76Ya6JYWD2o8fA25BuMBqORkFvGYMcvtrOUqS1Xg17UhYrmWS+8JgrDripTiaGuvrojt6Y7hwSr9nFTY9UJpEKI08G65ap8+wVgzGE4clsgUq5rcf8qjYBQU5OFVLmBBUmd4EilDf21BcGW5hy+zkUkSNytLx+ZceCl8+TPQWL5evflYi9UjtOgDgASPFbiKwJVW0ha7DYFagnxYEqJ8LE9uIvYzv7wg/jZ2NukFQRlHrsHnUbfFMfSRGbxHRCG0sgJXbT0zvDVPBpzAEdF87RKxt4GeSX/uLjt476gCh4nPdHzx0MtL5/hMDXXg+7gDJO1yHVQtow8mOvXqzDIaZMxDVmsVipYlwB9I9UY='
+    # Default location
+    location: world,-3329,35,-2043
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    held_item: # Held item
+      type: STONE_SWORD
+  4:
+    name: '黑暗軍團'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NTAxNDcyNCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ODJmNTA3MzU5OTAzZGJlMTFjNjE1MDQ1OWQxMTliNjI4MjFjZTg1MTcxNjUyODcxM2I5ZWZiZTE1NDg1MzlmIgogICAgfQogIH0KfQ=='
+    skin_signature: 'c74JKq8ZUVr95Np+eG2MPx+edwSr+f4a+96D1aQDdYi2BOrjapERTtiVRKRW4pgCwLfHo/twRiKYc1SlcCkm/qvvwAFFCjibMqUYbf48gmFnmnmnr18lujMe8dd8qRqVqEjzzS7VzWpSfqhvMmGLs4u6fACq/6uSkBsltX3j2PbMWTiJC44Qvv7qRiCYgSlYR1w3NOpkXL47jMSFw/j7O2jwzU7Juk2pNZORqb1L78i2ihp/TAebCQLmUWSPWinnp9sPpfTCsiTk6WzZhLB6icvzuaOlikQnmstm/vVoF8pZuuQQBU4+bfCVod2puIz/6f4Srre41Ku93GKQHcfl17nAsb1s3JcfS5QgSPo4wn827D0A97tgVLQ5T6b8p4BfypRxMOzMnPpE0FOgOYCa8m9FPi9lB3qI824EC3DcplJkrKr4sa0WZXmDc9X9Lr/fqGpHrA93JyCWYPY9uqpt8P05rogx7I6Cvtw/q0MRzVm7II6khFPFBVOcnLwr3y9S7mtKvDUsZLlmOQcnv2ArDFZ1BO8UmlFT91Dlodje0dVGWDvhCTGERTgpKT6VgF4AuNCG6uv/6EfeYhc5hhciEHad5B+2laIXSrbfdx/YBVo+ROjgJk582oVQIgrr4oYXplWRhXp30QWbUFyOOIbKIhUX8M4YHMKv5DtmtXD47Pg='
+    # Default location
+    location: world,-3131,65,-2387
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    held_item: # Held item
+      type: STONE_SWORD
+  5:
+    name: '湯馬士'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzYzODQ4ODg2MiwKICAicHJvZmlsZUlkIiA6ICIzZjM4YmViZGYwMWQ0MjNkYWI4MjczZjUwNGFiNGEyNyIsCiAgInByb2ZpbGVOYW1lIiA6ICJjazM0Nzk0MjM1NzUzNzMxIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzVjYWZjZmZkYTRiNjRlNDliMTgwZWMxZmFiZWQ1OTVhMmMyMzlkMWMzOGUzYmI5ZmM2YzAxMGUxNTRiNDgwMTQiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'uF/rYFBFe6uQhZ1jg/0nOCFItkK8+XlKaEkvtv2F32gqyqPQ5W+29bX/iA/l0Ob1MgkJWKmHItwmAv9f1zL/MB+OuP9lbh1jvsUgl4c4583xLy2c+SN+wS8GAY1FuwLlzsBpKuFJkaC3sa4gbLXCabeWj4L+SojrJTmBCl0tIFEbERraNYE0s0tPaOsUmXa01HwzJ7h5r/UY7Et7PHrQ+37/FD6h/70GDnzOYYfuhkvilKSBdwt8WUzN3GcO6qQ8lf/5VIQqT6HZ/YAHsxKl/2Q8AS56B65vayqVzlArAVe1aQA5lf9EJEWHl/gEUciHoSWKwSvZy+wBGdTpJ1YrOXPQQSullhVWET+LMYWHJoFw022AV3My3jYLNgdJH0Ja4CTdxS2aXUoABCsy9E6rsMGpeVPVE6QnUGRZ4IGlbpFoOxTfQ294GGO/GAApHm6DRx49TDoMAHVaf/76aFDD/eZhVaEtIDYwEtsF+il9v3f+IKOKWhqJw5CRqcg3juQDWJ/cQhqKpoF5CaPzj2R4ZXMySS/z7EDyjXaCXiq1yLCneYeTxeJHxlua+rVs2n6rs+QWB/8hAodax5vtMLXvKPrHkmo4UunNjiqyxwvyLpETkl7uJn4aXFRInuOy6x0/egbgo3ZDLkq5TYWXEPVXXuEMoQYH90fU50ds+UvnMA8='
+    # Default location
+    location: world,-3422,83,-363
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+  6:
+    name: '黑暗軍團'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NTAxNDcyNCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ODJmNTA3MzU5OTAzZGJlMTFjNjE1MDQ1OWQxMTliNjI4MjFjZTg1MTcxNjUyODcxM2I5ZWZiZTE1NDg1MzlmIgogICAgfQogIH0KfQ=='
+    skin_signature: 'c74JKq8ZUVr95Np+eG2MPx+edwSr+f4a+96D1aQDdYi2BOrjapERTtiVRKRW4pgCwLfHo/twRiKYc1SlcCkm/qvvwAFFCjibMqUYbf48gmFnmnmnr18lujMe8dd8qRqVqEjzzS7VzWpSfqhvMmGLs4u6fACq/6uSkBsltX3j2PbMWTiJC44Qvv7qRiCYgSlYR1w3NOpkXL47jMSFw/j7O2jwzU7Juk2pNZORqb1L78i2ihp/TAebCQLmUWSPWinnp9sPpfTCsiTk6WzZhLB6icvzuaOlikQnmstm/vVoF8pZuuQQBU4+bfCVod2puIz/6f4Srre41Ku93GKQHcfl17nAsb1s3JcfS5QgSPo4wn827D0A97tgVLQ5T6b8p4BfypRxMOzMnPpE0FOgOYCa8m9FPi9lB3qI824EC3DcplJkrKr4sa0WZXmDc9X9Lr/fqGpHrA93JyCWYPY9uqpt8P05rogx7I6Cvtw/q0MRzVm7II6khFPFBVOcnLwr3y9S7mtKvDUsZLlmOQcnv2ArDFZ1BO8UmlFT91Dlodje0dVGWDvhCTGERTgpKT6VgF4AuNCG6uv/6EfeYhc5hhciEHad5B+2laIXSrbfdx/YBVo+ROjgJk582oVQIgrr4oYXplWRhXp30QWbUFyOOIbKIhUX8M4YHMKv5DtmtXD47Pg='
+    # Default location
+    location: world,-3237,30,-250
+    # The NPC will look at the player if he's below that distance
+    target_distance: 0.0
+    held_item: # Held item
+      type: STONE_SWORD
+  7:
+    name: '黑暗軍團'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NTAxNDcyNCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ODJmNTA3MzU5OTAzZGJlMTFjNjE1MDQ1OWQxMTliNjI4MjFjZTg1MTcxNjUyODcxM2I5ZWZiZTE1NDg1MzlmIgogICAgfQogIH0KfQ=='
+    skin_signature: 'c74JKq8ZUVr95Np+eG2MPx+edwSr+f4a+96D1aQDdYi2BOrjapERTtiVRKRW4pgCwLfHo/twRiKYc1SlcCkm/qvvwAFFCjibMqUYbf48gmFnmnmnr18lujMe8dd8qRqVqEjzzS7VzWpSfqhvMmGLs4u6fACq/6uSkBsltX3j2PbMWTiJC44Qvv7qRiCYgSlYR1w3NOpkXL47jMSFw/j7O2jwzU7Juk2pNZORqb1L78i2ihp/TAebCQLmUWSPWinnp9sPpfTCsiTk6WzZhLB6icvzuaOlikQnmstm/vVoF8pZuuQQBU4+bfCVod2puIz/6f4Srre41Ku93GKQHcfl17nAsb1s3JcfS5QgSPo4wn827D0A97tgVLQ5T6b8p4BfypRxMOzMnPpE0FOgOYCa8m9FPi9lB3qI824EC3DcplJkrKr4sa0WZXmDc9X9Lr/fqGpHrA93JyCWYPY9uqpt8P05rogx7I6Cvtw/q0MRzVm7II6khFPFBVOcnLwr3y9S7mtKvDUsZLlmOQcnv2ArDFZ1BO8UmlFT91Dlodje0dVGWDvhCTGERTgpKT6VgF4AuNCG6uv/6EfeYhc5hhciEHad5B+2laIXSrbfdx/YBVo+ROjgJk582oVQIgrr4oYXplWRhXp30QWbUFyOOIbKIhUX8M4YHMKv5DtmtXD47Pg='
+    # Default location
+    location: world,-3237,30,-250
+    target_distance: 0.0
+    held_item: # Held item
+      type: STONE_SWORD
+  8:
+    name: '卡雷德'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NzIzMjA2NywKICAicHJvZmlsZUlkIiA6ICJlZDUzZGQ4MTRmOWQ0YTNjYjRlYjY1MWRjYmE3N2U2NiIsCiAgInByb2ZpbGVOYW1lIiA6ICI0MTQxNDE0MWgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTVjNmYwZDdlZGE3YWExMDk4MmI4NDE4YWM5NmNiY2JkOTVhMjk4ZDg3ZDljYWRjYWM5ODYwYjRlNGJlYjZlYSIKICAgIH0KICB9Cn0='
+    skin_signature: 'Fjpa4OtyBHz7B2MAkXr+6vszTF2FRdNw9DUawlzxcLr6gIVsGO8GDdzDObi9PgHP3rO5/uZHK1ptCCv5014i106f5Xej/HArAnmHKMsHBkdIKzeSR5TA1QK+DEGNrknioSZkPbUPT4rdul8vBY/hSBnVaQS/lW+whpVNcQBnG0cinvPuBj/9mistncENGkU9QKnTdyGzpjZ5SNCRvTFaA6WlRAgFFQPnx8DQ6+sqXEb9SLDyiUH21wcYX5mv2QY45kqwflr69tCGAq/JuXf28Ss0tRCZDbkULXRryWyZpFJl5ZUUYY+/VYGL9c5s2Y7jlfx4Jz4B8h/wCVSoF9/TawhKoaqC4shFRiyD9G8nVxyXZIdASqVBizVz01g0qcFU7FDvulZlDiStjcrmX/QEXR7+VmNS6lL58OIT3XUThEJF1/SA0xq3rvSn3u2wb/7mqdM6TdCZHQZZ2AwnGSOcBqMaE7ztOV6EIvEaQnfQoYYAdYlziptpxIMfWFx27m86eHrUW/omufqdbv252fXajwsQRSnlNDzIkLz/+hZorx+K9LA8y7p8aZcIOXUDBhDiz7mNtxwVIv7Kh3iw0tVi9mKIbbXnObhJw/QvpDDnLqjHBqNsVJCGQ/U1OoZpo0Vx6lLbmqz403XvRGQ8UW8diU78D9sB6YgQU7AUhc3nFLA='
+    # Default location
+    location: world,-3237,30,-250
+    # The NPC will look at the player if he's below that distance
+    target_distance: 0.0
+    held_item: # Held item
+      type: STONE_SWORD
+  9:
+    name: '蘭'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzgyMDUxNDAxOCwKICAicHJvZmlsZUlkIiA6ICJlYjIwYWVkYTRiYTM0NzVmOTczZGNmZjkzNTE2OGZhYSIsCiAgInByb2ZpbGVOYW1lIiA6ICJTa3lGYWxsZWVlIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlL2NlNmNlMzkyZmRlYzYxYjc0N2Y2YjExYWVkNWQ5NDllZTM0Mzk3NGEwYTY2YTNlOWY1NDAxMjQ1NGY0NDdlMSIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9'
+    skin_signature: 'sfcg2Hpfjq/bfRDMLn2JevJVPg/vlp1k3wNKckgQ5EnPXs9uGO61s5riUnNTBYFmj7tQkqsXpRS+26+Ms4hnvtjHWOvKcNgo46hmguxfzYvTqScOp5TKNHIVmbTbpqp3QZ4l2JoiGEIcROJlztXm/8Kck8CZDBa2DRZHXhtlWOVHLuQcFu7rHw6oGEZtfnS1iO4mzqUbqivcPJTQdEhlFtqEgQrYry32GLJx93Yyxcfu6FuV7SHZ0d1sbylAA4ITDOE53FzAiG8z/eG49drKCcJj3hS0xJtjGN0ifCtoBm4NNbnuRhIf5potA6jqJSHNil9VDPXuSYJK+EekBGERmt9jvmYqGz2vIJi7DmqcD0cu9uqKfMu6mchH7QwKMDgpLZDjnZl6+WD0LxDv4Dvq4J6qw5yZ2wOtD3Ucd9EwXPZ8PwSpOsHQAfudH2MkbqIoE9tFklKNYN6AFebKSDh89dyRwF0207anSACoMyyMenc54w1lz1Zjxhj/j9ZmXOd/JXB3ZHjfgm7BIT7T6ffgNCIcacIbBPoLLZcJlqR2XlHJAnIrrpT+1YD5xt9yb+7PAGEQz3VexHVcP3bjK+GS5A985Stu9/gXOgCCn+kzZiBYyb4AjGonNcPQj/newaPmCC86bKTnfE5Q82XH4z6yidn3yHJQKSyaqxfPloghgAY='
+    # Default location
+    location: world,-3442,27,905
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+  10:
+    name: '皇家禁衛軍隊長 威廉'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxNDQ3NTI0Mzk1NiwKICAicHJvZmlsZUlkIiA6ICI3NTE0NDQ4MTkxZTY0NTQ2OGM5NzM5YTZlMzk1N2JlYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGFua3NNb2phbmciLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkxZDdkZWRiMTg4MjNiNzYxNjE1NjgzNDVhNDg0OThiYWU1ZjQ0ZTIzYWNkNmViNTRkMjU5OWJhOTFhOGM2NyIKICAgIH0KICB9Cn0='
+    skin_signature: 'pM+VsVk+giifid6nppXJoz8CZnMaETNJxkILIGqMEu16/eZoipCpdhI1NMY0l/R994Tb72UJ2Un9agz8uM/LKDQQnzBrJCaLO4ifTQBNewiFw0VlDPDrJsAyJjSqeG9O9ACz6+iXaxjSPtxIQ/wfpUpXYJdXW6UfikgUxvra74PnTlsHwAfiVUC1rDdVLn2hhTThjXQzON3uCmOciyth4sFdar3Ci4O1VjcjaQDVb4eS+YXBywiGyLLao18IGpibGbDsZUTXGwAH2UtMqMvPlGIf8lAKCheKUaiV71Jo3z39pxA+d+Cd0WbVGffjqkbsDR1GjVYqBZlMIlXRAwfpveBcC8KGIwx8cCP9lBHRh+V7riZOV6BNimMme28KZVGOpY3nBRGNtYunRA4e6wOOZyWlOGqx0PIcAiMICrBSJEoEhrGMQDYgpLxdHSJC3IprTt8I2nW7sDp1TdFelwy93pnJotLFoF1afignHq2NQKKqmM+mlhcMor9Ir3ofZrZoWY/wBHqzXltRpILI1va42QgrNSkgxyWmLk1qkXg8WEDd4w3SHcOIZLdpmQwTjn9Mh4+sC/lARbOrSrpY9GOhl/2+eZ9kSVkNv24aQG0tlTfm8gPpnoSvN6d3tscLEdtHAzrW+HPAPefw+0xLOMIFfXaqezRS/nfX7FHgONkuilY='
+    # Default location
+    location: world,-3442,27,905
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+  11:
+    name: '辛西亞'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzg5Mzc1NjAxNCwKICAicHJvZmlsZUlkIiA6ICJhOGExZGY5MGE3YjU0NTdjYTEwYjM5ZGQ0N2NmMjM5MCIsCiAgInByb2ZpbGVOYW1lIiA6ICJrZW5ueWtjb21haW4iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjk1MDViOTA3NmM0YjkzZmMzZmM0NzI4OTQwZTE1NGQ2MmRlZGY4MGZhNWIxYWQ3NjBjOWJiMjYwNWJhYTFiYiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9'
+    skin_signature: 'OPOuMN3/oIRLULFFBA4HUfwFpheI/FCq8e5kKqqyNxtc9Cc/zf0wnJ9SBLUh/4T/hxUTK8/ff1g4O9l3y/P+RopRfzBMO02u12/m1oNZdlAqQgriPk+TMxmenYae4srKV0S1yAbWyCFnc1QbrOQWkK5lRqwcNDfHiZQxtHWX7wXvhWASVAV+Nxd6Qx3RJOA8Aoz9Yf/8mSQGKCLpzbRGfnf+F8qVEwqRwslg6HvypEJdyNQ2Yu96f4zGCTDL27bwE+OccKK+1wk7TSabhCiTs3c/SrpHJiu/UjswDcqMSZAG2MsJySwoNatbU1K0rrrO+1b+XYeFo+jmjiG7h1qmsyb6F/nuIaarBYtbQPJQ6OFHm1RFaJZKwzTODf1niXMu2OQVlc7aRUr0FLKmUrc8/31e7DmZ8CYn0bW9SU4U+cvMm1T0aqmmE/0s3Aor/JooSE45glN0ThhQa+Y1ZACMyUUZpRkW51J3McI9tFTQzy3eKFAed9BRfNeAX8mz9UXxc2Fj1JgM7mLT1CGKJU7mt3JHltb5nTnQyWO69p23XKAx7EP3POZEuvuJdGpDgon4OAVV2DfG1h6dbgzG92+PXIb2qPQMY6cueEnBj10YX02qh3ooJPThv4U85G6onWIdnkJy+tBRar1X2q2FsdNg++MuYq/XtTHdf1XabfWag2k='
+    # Default location
+    location: world,-3442,27,905
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+  12:
+    name: '蓓拉'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzg5Mzg1NTQ5NywKICAicHJvZmlsZUlkIiA6ICJkZTE0MGFmM2NmMjM0ZmM0OTJiZTE3M2Y2NjA3MzViYiIsCiAgInByb2ZpbGVOYW1lIiA6ICJTUlRlYW0iLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGM2ZWI1ODQ4MDZmMjM1MzJhMmFjYTlhNDFhMTIyYzkxMGJlODg4YmYxZjdjYjVjYTE1MjIyMTdmYzczNDA3ZiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9'
+    skin_signature: 'eU9/tV2UayhP2r9KIvxWCstMABPw0Ful6AMjRZWesqaNSrl7eXvmgmtIUBWOt9eoAhoFB2/1KHvVbM94QbUjYGE5QsQNAopyMcLij6lHyFU0U/p+jL4xWNy/y+AVB1gmrqonJG77KTmm1j4pf7hacz7DFwpnil/62WcV16wQUb8U80H5sRmqdt/N+nLVfEad6gyRToXEVzArmUJo2YcpnVTl4tVWw5E1DiIHHsP1VE43H89dl3QvU02bsm+6wCvaxLaTEGQ3jROOYFd/tnNWKxGWQF4bqOqQdJ/mYjG1noEUhHj5xi4FFK9NEsJs3tuoqfuyb1+QnA/hfjW6/NmjqVq3lh+OsFXHlNzADPtZowHH7Tia2IHrwzAEPLJLFimNCrA4m3Rq76RIlHJmfX7UubK+fVcm3nsOwu5C0Hp1b3rxFKZAnOJeYDFXYTwKE4B+BGYOvh0XtXucgFlcSVb17j5CVnoGLfn2jHVXeqITr1Lgy1c0WQbp05z+WxxnUc75OtbIhs6RjMxEBWZis5onx/Z/WVaTRvD1xvJKjwDRPukwvrhTIj0oi0YiTYKE9pfsUFUhPGmufZAuPuNd5F0GCAywXHfV1L08zwZ5nOMtIcXMuj07Cvlk+/gq9zAqNe2kJYxq6OmzeIrWHde1nrcg9Yv7p7bgx6m10bxTFGB4+0g='
+    # Default location
+    location: world,-3442,27,905
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+  13:
+    name: '黑暗軍團'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NTAxNDcyNCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ODJmNTA3MzU5OTAzZGJlMTFjNjE1MDQ1OWQxMTliNjI4MjFjZTg1MTcxNjUyODcxM2I5ZWZiZTE1NDg1MzlmIgogICAgfQogIH0KfQ=='
+    skin_signature: 'c74JKq8ZUVr95Np+eG2MPx+edwSr+f4a+96D1aQDdYi2BOrjapERTtiVRKRW4pgCwLfHo/twRiKYc1SlcCkm/qvvwAFFCjibMqUYbf48gmFnmnmnr18lujMe8dd8qRqVqEjzzS7VzWpSfqhvMmGLs4u6fACq/6uSkBsltX3j2PbMWTiJC44Qvv7qRiCYgSlYR1w3NOpkXL47jMSFw/j7O2jwzU7Juk2pNZORqb1L78i2ihp/TAebCQLmUWSPWinnp9sPpfTCsiTk6WzZhLB6icvzuaOlikQnmstm/vVoF8pZuuQQBU4+bfCVod2puIz/6f4Srre41Ku93GKQHcfl17nAsb1s3JcfS5QgSPo4wn827D0A97tgVLQ5T6b8p4BfypRxMOzMnPpE0FOgOYCa8m9FPi9lB3qI824EC3DcplJkrKr4sa0WZXmDc9X9Lr/fqGpHrA93JyCWYPY9uqpt8P05rogx7I6Cvtw/q0MRzVm7II6khFPFBVOcnLwr3y9S7mtKvDUsZLlmOQcnv2ArDFZ1BO8UmlFT91Dlodje0dVGWDvhCTGERTgpKT6VgF4AuNCG6uv/6EfeYhc5hhciEHad5B+2laIXSrbfdx/YBVo+ROjgJk582oVQIgrr4oYXplWRhXp30QWbUFyOOIbKIhUX8M4YHMKv5DtmtXD47Pg='
+    # Default location
+    location: world,-3440,27,901
+    target_distance: 0.0
+    held_item: # Held item
+      type: STONE_SWORD
+  14:
+    name: '黑暗軍團'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NTAxNDcyNCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ODJmNTA3MzU5OTAzZGJlMTFjNjE1MDQ1OWQxMTliNjI4MjFjZTg1MTcxNjUyODcxM2I5ZWZiZTE1NDg1MzlmIgogICAgfQogIH0KfQ=='
+    skin_signature: 'c74JKq8ZUVr95Np+eG2MPx+edwSr+f4a+96D1aQDdYi2BOrjapERTtiVRKRW4pgCwLfHo/twRiKYc1SlcCkm/qvvwAFFCjibMqUYbf48gmFnmnmnr18lujMe8dd8qRqVqEjzzS7VzWpSfqhvMmGLs4u6fACq/6uSkBsltX3j2PbMWTiJC44Qvv7qRiCYgSlYR1w3NOpkXL47jMSFw/j7O2jwzU7Juk2pNZORqb1L78i2ihp/TAebCQLmUWSPWinnp9sPpfTCsiTk6WzZhLB6icvzuaOlikQnmstm/vVoF8pZuuQQBU4+bfCVod2puIz/6f4Srre41Ku93GKQHcfl17nAsb1s3JcfS5QgSPo4wn827D0A97tgVLQ5T6b8p4BfypRxMOzMnPpE0FOgOYCa8m9FPi9lB3qI824EC3DcplJkrKr4sa0WZXmDc9X9Lr/fqGpHrA93JyCWYPY9uqpt8P05rogx7I6Cvtw/q0MRzVm7II6khFPFBVOcnLwr3y9S7mtKvDUsZLlmOQcnv2ArDFZ1BO8UmlFT91Dlodje0dVGWDvhCTGERTgpKT6VgF4AuNCG6uv/6EfeYhc5hhciEHad5B+2laIXSrbfdx/YBVo+ROjgJk582oVQIgrr4oYXplWRhXp30QWbUFyOOIbKIhUX8M4YHMKv5DtmtXD47Pg='
+    # Default location
+    location: world,-3440,27,901
+    target_distance: 0.0
+    held_item: # Held item
+      type: STONE_SWORD
+  15:
+    name: '黑暗軍團'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NTAxNDcyNCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ODJmNTA3MzU5OTAzZGJlMTFjNjE1MDQ1OWQxMTliNjI4MjFjZTg1MTcxNjUyODcxM2I5ZWZiZTE1NDg1MzlmIgogICAgfQogIH0KfQ=='
+    skin_signature: 'c74JKq8ZUVr95Np+eG2MPx+edwSr+f4a+96D1aQDdYi2BOrjapERTtiVRKRW4pgCwLfHo/twRiKYc1SlcCkm/qvvwAFFCjibMqUYbf48gmFnmnmnr18lujMe8dd8qRqVqEjzzS7VzWpSfqhvMmGLs4u6fACq/6uSkBsltX3j2PbMWTiJC44Qvv7qRiCYgSlYR1w3NOpkXL47jMSFw/j7O2jwzU7Juk2pNZORqb1L78i2ihp/TAebCQLmUWSPWinnp9sPpfTCsiTk6WzZhLB6icvzuaOlikQnmstm/vVoF8pZuuQQBU4+bfCVod2puIz/6f4Srre41Ku93GKQHcfl17nAsb1s3JcfS5QgSPo4wn827D0A97tgVLQ5T6b8p4BfypRxMOzMnPpE0FOgOYCa8m9FPi9lB3qI824EC3DcplJkrKr4sa0WZXmDc9X9Lr/fqGpHrA93JyCWYPY9uqpt8P05rogx7I6Cvtw/q0MRzVm7II6khFPFBVOcnLwr3y9S7mtKvDUsZLlmOQcnv2ArDFZ1BO8UmlFT91Dlodje0dVGWDvhCTGERTgpKT6VgF4AuNCG6uv/6EfeYhc5hhciEHad5B+2laIXSrbfdx/YBVo+ROjgJk582oVQIgrr4oYXplWRhXp30QWbUFyOOIbKIhUX8M4YHMKv5DtmtXD47Pg='
+    # Default location
+    location: world,-3440,27,901
+    target_distance: 0.0
+    held_item: # Held item
+      type: STONE_SWORD
+  16:
+    name: '黑暗軍團'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NTAxNDcyNCwKICAicHJvZmlsZUlkIiA6ICI1NjY3NWIyMjMyZjA0ZWUwODkxNzllOWM5MjA2Y2ZlOCIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVJbmRyYSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS80ODJmNTA3MzU5OTAzZGJlMTFjNjE1MDQ1OWQxMTliNjI4MjFjZTg1MTcxNjUyODcxM2I5ZWZiZTE1NDg1MzlmIgogICAgfQogIH0KfQ=='
+    skin_signature: 'c74JKq8ZUVr95Np+eG2MPx+edwSr+f4a+96D1aQDdYi2BOrjapERTtiVRKRW4pgCwLfHo/twRiKYc1SlcCkm/qvvwAFFCjibMqUYbf48gmFnmnmnr18lujMe8dd8qRqVqEjzzS7VzWpSfqhvMmGLs4u6fACq/6uSkBsltX3j2PbMWTiJC44Qvv7qRiCYgSlYR1w3NOpkXL47jMSFw/j7O2jwzU7Juk2pNZORqb1L78i2ihp/TAebCQLmUWSPWinnp9sPpfTCsiTk6WzZhLB6icvzuaOlikQnmstm/vVoF8pZuuQQBU4+bfCVod2puIz/6f4Srre41Ku93GKQHcfl17nAsb1s3JcfS5QgSPo4wn827D0A97tgVLQ5T6b8p4BfypRxMOzMnPpE0FOgOYCa8m9FPi9lB3qI824EC3DcplJkrKr4sa0WZXmDc9X9Lr/fqGpHrA93JyCWYPY9uqpt8P05rogx7I6Cvtw/q0MRzVm7II6khFPFBVOcnLwr3y9S7mtKvDUsZLlmOQcnv2ArDFZ1BO8UmlFT91Dlodje0dVGWDvhCTGERTgpKT6VgF4AuNCG6uv/6EfeYhc5hhciEHad5B+2laIXSrbfdx/YBVo+ROjgJk582oVQIgrr4oYXplWRhXp30QWbUFyOOIbKIhUX8M4YHMKv5DtmtXD47Pg='
+    # Default location
+    location: world,-3440,27,901
+    target_distance: 0.0
+    held_item: # Held item
+      type: STONE_SWORD
+  17:
+    name: '船夫 達哥'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY0OTAyMTM5NDU3MywKICAicHJvZmlsZUlkIiA6ICI3MzY0ODFkZmY2ZGY0NWUwOTA0ODg0ZjNiMWExMjY1NSIsCiAgInByb2ZpbGVOYW1lIiA6ICJUd2lsaWdodFFBUSIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS82ZDIxN2E0M2NlODE0OGY1NGFkYjRjM2Y2YWQ2YmZhMzc5MjU5NzZjM2JjOWFkYzEyZDkxNTRkYjRkYzkwOTQ5IgogICAgfQogIH0KfQ=='
+    skin_signature: 'caGHuW3wLdTnC2nkyKFEjHixB7WHNO2EcOf5KRgdW1RxynZDKLpGH1utrsQfezaAOQTaYy+WnKwkGuIcb0y+k6xwuuNg5bXrUuOpmpWxhTBJOHBMpwZVqYFybKti/U65rqqXgVScCfrs2vTrfhwlIY2Yln1weJwC/i3lje0sYk/npLPxxdn7K+HeWxyyVRfBIBlLN+6T7M8zyvl4L69Mo0Mtlu+9VV7JELQWQeKDlJKO0J07vA78cnJO0E5S8tXqPWxlHSBqvs/bdg5I2Gpjc+q6GzkfRf6R9XcC9a6wN6yGRvD9pDrmn6xahMULt+VY2AgomAzXYxMqV6nSNGnOUh+xYRE4v1N1V6C2m+sRqFPHXN9Fa/yswQswy7Y2hn8eIFdFHhnyyrG/5IHB/6DQPbWF+DTT2yAEmpnkVGyKRWqzcvfxD3PCOjUFhrIraY7Nt0dVfzydh2/0cSk718YcixbhctG+EYUHUVoWLyS+GElwjrSLyEWeuJ7aackXTlr0NJb3iNIF35ev6b0/J+IJOPo+qz2oYty0O7l/0Ln1lOOQ89oqVCtkBJc6JMISmZK67pCTsl6xtD7Z4wvOaCK7ajVliC/8jSn3XLTjKh6bvN3W7MwbTqTlLJ/1c+Z8CfSZShOfp/l2kPg62QRIiR/qr9/G+f2HwE8fWVA92KP2e3o='
+    # Default location
+    location: world,-448.5,64,305
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  18:
+    name: '族長 陳'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYwNzg2NzcwODU2OSwKICAicHJvZmlsZUlkIiA6ICIzM2ViZDMyYmIzMzk0YWQ5YWM2NzBjOTZjNTQ5YmE3ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJEYW5ub0JhbmFubm9YRCIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8xZTFmYTJiODA1Njg4NzcwNzRiMGE0YzEzNjUwYjJkMzU2ZTBmYmRkYjU5YzRiNzcyOGIzZDQzZDU5ZWExZjYzIgogICAgfQogIH0KfQ=='
+    skin_signature: 'tp9y6NCJ5FCMV1WkgSu0TG0REiNd9sDclYYF0rpsiGSR0RXaoDyJgOnfLSSsf8cb8Iz8vLokMUfS2d4UvLOkNsJxWWDVql+CFByDkk00rdKvloRts9C0bzV1FyvVuqbfv/mhKfHohGwigYV7SKW8t1iBemsZPvaydCnEdkmC0uBk8YUBMSiG02Qgm7zSNI8Uylk9SLagrl0Pv9iw64aMmaHkk8uc3b1TKK+oophD3EcBLrY4GgApegOZ2jniSocc/gPnpCPgArLHZVrjdXdf//Mong9bsAAjEcXX3oH4xJJ6XkbdRTfVMnkE+7MxNe0X5Fm2GxO6GPNLjW7/qwuUcHHWdKmMiUcvBGc699prjUMfv7FxHCBemZLQ2eIB2EDZXAYgzf0WilW19+KDlSzu3q/XaSk4/POoMBhDvncvBiEIzxVlc0D8mCpT8CE7iWmVWsRPANIZL23NKGCpHAyZArRyteqD1x7bVfnkiV/qzU5pYOVSSFwoux53lpRgnCfAUeqS+HhK+HB0XeguKyx9AS+k9MTnyXTR3TJxEttwUyzGHtWaaIT7y0DSSm5Sbz4zz4yZnc0w1VAqzy6mjgZE+VVAGbvcfZhQkK9fmXRWo6GvtdL1bDKORe5cehdx6fqHo5ZUjc7usOncffY0IYvbUa4py034ibLV+vWvVrbJ9jg='
+    # Default location
+    location: world,84,95,-581
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  19:
+    name: '女巫'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY0NDA5MDYwODI4NiwKICAicHJvZmlsZUlkIiA6ICIzNDkxZjJiOTdjMDE0MWE2OTM2YjFjMjJhMmEwMGZiNyIsCiAgInByb2ZpbGVOYW1lIiA6ICJKZXNzc3N1aGgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTRiZTQ3MDc0MGU4ZmZkYzE4MDJhOGY5OTc5NzVkNDdmMDExOTc0MTJmNTU1YTQwODc3ODgxM2FmYzViYzQzZSIKICAgIH0KICB9Cn0='
+    skin_signature: 'A/VFDGJjwphHw3x4SyXcAd3rmMwm+/DWfVcM/vXljtR9xlCcH1cJqfbmS+PyLrNDbtpuVNMTM9h/e/bwfSp4EavoGGz+tUKP9A8O67MC+ZO4CLXSyH/q6H9f6FZ/ymgnga7nStGbs2uh+8K1YmQHMWQVFM7xA2WhY83DojQuZlopTAQNG46w4L3gxbloSKezmW4t6ehWv6DvryY2kGFdrv/AzwVl0DD8kZkkKI1+7ssRyzdLQd/4C6LftpiG1t7lw6fXIEWJ3TCiIZOjS+SaBpKkYOK+YeIscPtawzqKFz9BjFaomf25ivtQbV6zyJeW9YSNU7kmPrDf2YZm0brqCC5tOHn02++7W/KfJA8pX2+o640H0i0cgBXMJK89Ggu0tQN24mrauBHs4qoHMJ766IUT+/gJMdMLnLFbJEoG9Q7IvRMdvVKDS1+8R5t1qvMrmke5C66H8Vrc3ADYEjrTtKXPPPgPo44JdsQxPT8lBg413M87skGTHNNBIlNahSVz7YY3vcvLeupXvDVjGuu7rN2eQ68Y/dHxhN17XcgIf/g4DR0/9iSE4YZZ5pfe9Vd2KfjTfhzu6Uj4hXHUb2VVdQ2JErrOGpoZZqBJT0D7AnJBMl7AhuHoKReJpu8kzbmlXd229Z/r5cK8XXbtjP14niDXKycb9lCV49VykdxRtZk='
+    # Default location
+    location: world,81,38,-583
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  20:
+    name: '部落族民'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY4NTQ1MzcxMDg1NywKICAicHJvZmlsZUlkIiA6ICJiMDQ1N2Y0YWNlMTI0NzM1ODAyOGY2OWI5ODA3OGVlNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDb2xsaW4zNyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mZDVkYmRkMWI4YThjNzk3MDNjZWEyYWNjYjY0ZDRhZTIzMGE4NzUzZjgzMTQ1YzE5ZGIyNzFiODIwMDQ3NGE5IgogICAgfQogIH0KfQ=='
+    skin_signature: 'Mv2XFizUnHvrbOuXJmE147IkFEP9w3e1LlaL5nzmTG+RVbELTlFxzsKmDIumh2BK0y+SiyBw40tkxJ8RyLYyMwKC9yHSknUeh82TXGzo0wXgafQfZmEKroer6Q0ynvmttvQyNbQhoB5oNMcIC3W8/wMBLTkpZ001Ip/02yBZFeumGNf74lNMS8aE8/RqnesZxBEgo7F4RJ8OLHFV0s33oV4QdsgBvGRgOJwCLZV5dK344wdBF2UIsTdcEtx3RVRGM14EiWeGJAZ4L7z6un8rEFhVlvuX1nUqDDlrFRtvT2XFksqXqwSptPgrSGQdJHcPFczpCJ2p3CDdC5g8KgCmAnLhCfwRejJnclFrBE3FFDun3QS36rs0znDE67PADLUp3LOvkB+WlsOHGaTIWW5B51x0AU7igwPVrK1jGfpTNrg2uFUMTxqMRpQyTJcBkdyVMrfZQ/Bh2DVJ+LnkcZudxZUNRqMEn7NkgCHhIsbYIwttQXaRXcgMtcnxuHWcgP1n8pj2fkETnKK76FFvi0U6WSvOKKBErvXh3aEVon5kAzDWWal8u5yS10rKISvIggK+scqov0tufG/KQ1SS0P7C5HaQ4h4rtN3LTbHxnzqMgUperCLVmLz1fVMGdLkaW8ssifiwSaGV1MQDUhViFqpdwSvpEjWrC/+XNuFITuC7WhY='
+    # Default location
+    location: world,93,95,-589
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  21:
+    name: '部落族民'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY4NTQ1MzcxMDg1NywKICAicHJvZmlsZUlkIiA6ICJiMDQ1N2Y0YWNlMTI0NzM1ODAyOGY2OWI5ODA3OGVlNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDb2xsaW4zNyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mZDVkYmRkMWI4YThjNzk3MDNjZWEyYWNjYjY0ZDRhZTIzMGE4NzUzZjgzMTQ1YzE5ZGIyNzFiODIwMDQ3NGE5IgogICAgfQogIH0KfQ=='
+    skin_signature: 'Mv2XFizUnHvrbOuXJmE147IkFEP9w3e1LlaL5nzmTG+RVbELTlFxzsKmDIumh2BK0y+SiyBw40tkxJ8RyLYyMwKC9yHSknUeh82TXGzo0wXgafQfZmEKroer6Q0ynvmttvQyNbQhoB5oNMcIC3W8/wMBLTkpZ001Ip/02yBZFeumGNf74lNMS8aE8/RqnesZxBEgo7F4RJ8OLHFV0s33oV4QdsgBvGRgOJwCLZV5dK344wdBF2UIsTdcEtx3RVRGM14EiWeGJAZ4L7z6un8rEFhVlvuX1nUqDDlrFRtvT2XFksqXqwSptPgrSGQdJHcPFczpCJ2p3CDdC5g8KgCmAnLhCfwRejJnclFrBE3FFDun3QS36rs0znDE67PADLUp3LOvkB+WlsOHGaTIWW5B51x0AU7igwPVrK1jGfpTNrg2uFUMTxqMRpQyTJcBkdyVMrfZQ/Bh2DVJ+LnkcZudxZUNRqMEn7NkgCHhIsbYIwttQXaRXcgMtcnxuHWcgP1n8pj2fkETnKK76FFvi0U6WSvOKKBErvXh3aEVon5kAzDWWal8u5yS10rKISvIggK+scqov0tufG/KQ1SS0P7C5HaQ4h4rtN3LTbHxnzqMgUperCLVmLz1fVMGdLkaW8ssifiwSaGV1MQDUhViFqpdwSvpEjWrC/+XNuFITuC7WhY='
+    # Default location
+    location: world,67,101,-584
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  22:
+    name: '部落族民'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY4NTQ1MzcxMDg1NywKICAicHJvZmlsZUlkIiA6ICJiMDQ1N2Y0YWNlMTI0NzM1ODAyOGY2OWI5ODA3OGVlNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDb2xsaW4zNyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mZDVkYmRkMWI4YThjNzk3MDNjZWEyYWNjYjY0ZDRhZTIzMGE4NzUzZjgzMTQ1YzE5ZGIyNzFiODIwMDQ3NGE5IgogICAgfQogIH0KfQ=='
+    skin_signature: 'Mv2XFizUnHvrbOuXJmE147IkFEP9w3e1LlaL5nzmTG+RVbELTlFxzsKmDIumh2BK0y+SiyBw40tkxJ8RyLYyMwKC9yHSknUeh82TXGzo0wXgafQfZmEKroer6Q0ynvmttvQyNbQhoB5oNMcIC3W8/wMBLTkpZ001Ip/02yBZFeumGNf74lNMS8aE8/RqnesZxBEgo7F4RJ8OLHFV0s33oV4QdsgBvGRgOJwCLZV5dK344wdBF2UIsTdcEtx3RVRGM14EiWeGJAZ4L7z6un8rEFhVlvuX1nUqDDlrFRtvT2XFksqXqwSptPgrSGQdJHcPFczpCJ2p3CDdC5g8KgCmAnLhCfwRejJnclFrBE3FFDun3QS36rs0znDE67PADLUp3LOvkB+WlsOHGaTIWW5B51x0AU7igwPVrK1jGfpTNrg2uFUMTxqMRpQyTJcBkdyVMrfZQ/Bh2DVJ+LnkcZudxZUNRqMEn7NkgCHhIsbYIwttQXaRXcgMtcnxuHWcgP1n8pj2fkETnKK76FFvi0U6WSvOKKBErvXh3aEVon5kAzDWWal8u5yS10rKISvIggK+scqov0tufG/KQ1SS0P7C5HaQ4h4rtN3LTbHxnzqMgUperCLVmLz1fVMGdLkaW8ssifiwSaGV1MQDUhViFqpdwSvpEjWrC/+XNuFITuC7WhY='
+    # Default location
+    location: world,73,93,-561
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  23:
+    name: '部落族民'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY4NTQ1MzcxMDg1NywKICAicHJvZmlsZUlkIiA6ICJiMDQ1N2Y0YWNlMTI0NzM1ODAyOGY2OWI5ODA3OGVlNCIsCiAgInByb2ZpbGVOYW1lIiA6ICJDb2xsaW4zNyIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS9mZDVkYmRkMWI4YThjNzk3MDNjZWEyYWNjYjY0ZDRhZTIzMGE4NzUzZjgzMTQ1YzE5ZGIyNzFiODIwMDQ3NGE5IgogICAgfQogIH0KfQ=='
+    skin_signature: 'Mv2XFizUnHvrbOuXJmE147IkFEP9w3e1LlaL5nzmTG+RVbELTlFxzsKmDIumh2BK0y+SiyBw40tkxJ8RyLYyMwKC9yHSknUeh82TXGzo0wXgafQfZmEKroer6Q0ynvmttvQyNbQhoB5oNMcIC3W8/wMBLTkpZ001Ip/02yBZFeumGNf74lNMS8aE8/RqnesZxBEgo7F4RJ8OLHFV0s33oV4QdsgBvGRgOJwCLZV5dK344wdBF2UIsTdcEtx3RVRGM14EiWeGJAZ4L7z6un8rEFhVlvuX1nUqDDlrFRtvT2XFksqXqwSptPgrSGQdJHcPFczpCJ2p3CDdC5g8KgCmAnLhCfwRejJnclFrBE3FFDun3QS36rs0znDE67PADLUp3LOvkB+WlsOHGaTIWW5B51x0AU7igwPVrK1jGfpTNrg2uFUMTxqMRpQyTJcBkdyVMrfZQ/Bh2DVJ+LnkcZudxZUNRqMEn7NkgCHhIsbYIwttQXaRXcgMtcnxuHWcgP1n8pj2fkETnKK76FFvi0U6WSvOKKBErvXh3aEVon5kAzDWWal8u5yS10rKISvIggK+scqov0tufG/KQ1SS0P7C5HaQ4h4rtN3LTbHxnzqMgUperCLVmLz1fVMGdLkaW8ssifiwSaGV1MQDUhViFqpdwSvpEjWrC/+XNuFITuC7WhY='
+    # Default location
+#    location: world,158.5,65,-647.5
+    location: world,61,92,-558
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  24:
+    name: '黑衣男'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYxMzY0NzIzMjA2NywKICAicHJvZmlsZUlkIiA6ICJlZDUzZGQ4MTRmOWQ0YTNjYjRlYjY1MWRjYmE3N2U2NiIsCiAgInByb2ZpbGVOYW1lIiA6ICI0MTQxNDE0MWgiLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTVjNmYwZDdlZGE3YWExMDk4MmI4NDE4YWM5NmNiY2JkOTVhMjk4ZDg3ZDljYWRjYWM5ODYwYjRlNGJlYjZlYSIKICAgIH0KICB9Cn0='
+    skin_signature: 'Fjpa4OtyBHz7B2MAkXr+6vszTF2FRdNw9DUawlzxcLr6gIVsGO8GDdzDObi9PgHP3rO5/uZHK1ptCCv5014i106f5Xej/HArAnmHKMsHBkdIKzeSR5TA1QK+DEGNrknioSZkPbUPT4rdul8vBY/hSBnVaQS/lW+whpVNcQBnG0cinvPuBj/9mistncENGkU9QKnTdyGzpjZ5SNCRvTFaA6WlRAgFFQPnx8DQ6+sqXEb9SLDyiUH21wcYX5mv2QY45kqwflr69tCGAq/JuXf28Ss0tRCZDbkULXRryWyZpFJl5ZUUYY+/VYGL9c5s2Y7jlfx4Jz4B8h/wCVSoF9/TawhKoaqC4shFRiyD9G8nVxyXZIdASqVBizVz01g0qcFU7FDvulZlDiStjcrmX/QEXR7+VmNS6lL58OIT3XUThEJF1/SA0xq3rvSn3u2wb/7mqdM6TdCZHQZZ2AwnGSOcBqMaE7ztOV6EIvEaQnfQoYYAdYlziptpxIMfWFx27m86eHrUW/omufqdbv252fXajwsQRSnlNDzIkLz/+hZorx+K9LA8y7p8aZcIOXUDBhDiz7mNtxwVIv7Kh3iw0tVi9mKIbbXnObhJw/QvpDDnLqjHBqNsVJCGQ/U1OoZpo0Vx6lLbmqz403XvRGQ8UW8diU78D9sB6YgQU7AUhc3nFLA='
+    # Default location
+#    location: world,158.5,65,-647.5
+    location: world,-574,14,695
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  25:
+    name: '黑衣女'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY4MDYyNTE0ODc0NywKICAicHJvZmlsZUlkIiA6ICIxMzAyMWNlNmEzNGU0ODI3ODhkNTczNTY5MWJmYzU1MSIsCiAgInByb2ZpbGVOYW1lIiA6ICJ2aWJlYm95IiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzU1NzY3NzZkNTQyYTJjMjhiMmE5ZDI2ZjRiMDI4MGM2NTRiYzIxMTEyNGZkZmZlOTFkZWY0YjgzZGFjZjZkZTIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'UnCYBkYiCMYbwG2prcv7/6vREBpnmoUeU9euYOF9LxJI9JMCYoXd3jmGZq22dvy41+cRhOec4Q1ghYOD2d1iNrw69jSo6ZUVQQTgtX05HwTeKbuXBDsMTciRVcsP7PGEcj0v0gQB1mo7k877pAg5WgoeQ8X6hJJIkuw16nlkCPfQIX+sXVDR01Jo+LXpf94RJlKv91ZvmvCmi/FrPRp2oZIT06nE1bURONbiL/PGSCQW/vAOHqI2Zlq3L3xX/WxonL9tiE0rp0+4jTxH5YX62Vlu+ibsFMMYqMMu6j/Rzh0aQnD7nRSiGM2qjKkYAVU2obl37RY1xmqYyd+o2HyEq0/lDBLZA0YhWfFBttJkn/kqEM4Q03zfKqpl46lU0rDJvrUPrgcLht0gFyCzqC3JH9jFMz5z4qltSUm3D0cPv+pgGP2dxGcJOnCrhtnVz3a7xsok0iJFU21X89Wryq5a+6TQW7/jNaVFLp7l7zUsmI+3qMMhz70NfKTe6DIUF7Q37hUvRPrK3U4sc6+kFD2PGd/wUcApaabQTjC/JTRHZVbWSxoa8lElJd1d6aVOKdENx7qWl0AG6qafAdy2pgBRyIT7x614Qf1OxbNIeWsjQ4H9dXvK4jlu/Mwp7LMJ29ThPNXjG3UOihO0W0ngDBM4ofbLwd6p8dY2JsDHFJ/dYeo='
+    # Default location
+#    location: world,158.5,65,-647.5
+    location: world,-573,14,695
+    # The NPC will look at the player if he's below that distance
+    target_distance: 5.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  26:
+    name: '受傷的皇家禁衛軍'
+    skin_data: 'eyJ0aW1lc3RhbXAiOjE1NzkzNzIzODEzNjksInByb2ZpbGVJZCI6ImMxYWYxODI5MDYwZTQ0OGRhNjYwOWRmZGM2OGEzOWE4IiwicHJvZmlsZU5hbWUiOiJCQVJLeDQiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzUxMzE3NDEyNzU4MjE0YmY2YjNhNzE4NWI3ZWZiODBmMzE2ZDc5YzcxMzhjMzgwZmVmY2M5ZDRjNjg5MGI5OGQifX19'
+    skin_signature: 'bCmE0AnRBerIlynsU3yNsQYe66cudKpGQpobT6ypkq+tNUZXC2lsGr5qqy74cjGW3kWVK1aRpmNjazJLNnADg3MTjmgwwvW2RDwQPTmfvdH6IZZUoTKFab14iCXgHPqUu3C4ey+XrkfsN4VvEcsT/DPtixCTmHltX+BaNqzy9Nk8/uy16rTnuTY7iJwR/9pEiyrRkamqqExmlGlE2BbvzZ+BlFGEF0p0uK7N6GIhFQNbVr6ps+hSN5Z4OOSf7J3zm326lkUuzWTzZQA91cVT8UE8S1Q/udGkvLHkGnucOet2xNoCZTqwwQZWNCns4vxwD9Qzq5HPP/gp6LYH+zOay3zVnk8woC7o0WSvVbci4ZgCyg8bISUtFRt1KHsW/2q6NixPaI22+lwClDnXvjEfY/x9D+5tM39NFYdyjJmMKtFY9ddLJaPRh5t5P5tKkOAsbonuvA6XjIXTU7ea24hL6H8ZcTXJESzu50jE+U0Svz2kB3uPRyEBvlDzmmQfO9wWXa5cEOxmPVL29lc5S9yMDgmO46JI0h/xt0SiaR+A/fRopwiOwWJJK5nlHBQsr0nKKBSHmKQPpjlySpyUUY/4pS8/5lJmZIMrE+K/FRwIIz9cpxaAc076mqb6Y2510Qp8vZv1ceS0x9CR0+FRB0DzbOi4xbxJgRkD/PrIGECPY90='
+    # Default location
+#    location: world,158.5,65,-647.5
+    location: world,-1143,16,-540
+    # The NPC will look at the player if he's below that distance
+    target_distance: 0.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: ELYTRA
+  27:
+    name: '皇家禁衛軍'
+    skin_data: 'eyJ0aW1lc3RhbXAiOjE1NzkzNzIzODEzNjksInByb2ZpbGVJZCI6ImMxYWYxODI5MDYwZTQ0OGRhNjYwOWRmZGM2OGEzOWE4IiwicHJvZmlsZU5hbWUiOiJCQVJLeDQiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzUxMzE3NDEyNzU4MjE0YmY2YjNhNzE4NWI3ZWZiODBmMzE2ZDc5YzcxMzhjMzgwZmVmY2M5ZDRjNjg5MGI5OGQifX19'
+    skin_signature: 'bCmE0AnRBerIlynsU3yNsQYe66cudKpGQpobT6ypkq+tNUZXC2lsGr5qqy74cjGW3kWVK1aRpmNjazJLNnADg3MTjmgwwvW2RDwQPTmfvdH6IZZUoTKFab14iCXgHPqUu3C4ey+XrkfsN4VvEcsT/DPtixCTmHltX+BaNqzy9Nk8/uy16rTnuTY7iJwR/9pEiyrRkamqqExmlGlE2BbvzZ+BlFGEF0p0uK7N6GIhFQNbVr6ps+hSN5Z4OOSf7J3zm326lkUuzWTzZQA91cVT8UE8S1Q/udGkvLHkGnucOet2xNoCZTqwwQZWNCns4vxwD9Qzq5HPP/gp6LYH+zOay3zVnk8woC7o0WSvVbci4ZgCyg8bISUtFRt1KHsW/2q6NixPaI22+lwClDnXvjEfY/x9D+5tM39NFYdyjJmMKtFY9ddLJaPRh5t5P5tKkOAsbonuvA6XjIXTU7ea24hL6H8ZcTXJESzu50jE+U0Svz2kB3uPRyEBvlDzmmQfO9wWXa5cEOxmPVL29lc5S9yMDgmO46JI0h/xt0SiaR+A/fRopwiOwWJJK5nlHBQsr0nKKBSHmKQPpjlySpyUUY/4pS8/5lJmZIMrE+K/FRwIIz9cpxaAc076mqb6Y2510Qp8vZv1ceS0x9CR0+FRB0DzbOi4xbxJgRkD/PrIGECPY90='
+    # Default location
+#    location: world,158.5,65,-647.5
+    location: world,-1143,16,-540
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  28:
+    name: '&a村長的弟弟 安索尼'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY5NzIwMTM2OTQ3MCwKICAicHJvZmlsZUlkIiA6ICJkOTcwYzEzZTM4YWI0NzlhOTY1OGM1ZDQ1MjZkMTM0YiIsCiAgInByb2ZpbGVOYW1lIiA6ICJDcmltcHlMYWNlODUxMjciLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTkzODZkM2YwZjc5ZWI0NDMyMTNhZTBhNjkyZmE1MmRiZjU2ZTI1ODNjOWQ4NTI2Y2NiYWMwM2FmMDliNTI0YiIsCiAgICAgICJtZXRhZGF0YSIgOiB7CiAgICAgICAgIm1vZGVsIiA6ICJzbGltIgogICAgICB9CiAgICB9CiAgfQp9'
+    skin_signature: 'ZdHqzo+k49YD+Qg65zKj5iHsEuUnrRtULSiGJ5Bfea4eCkCXYyD7owfMN6zT10WdjdNPBYSIqKN0xC6RuK/B3E0kEFAFuMC0tXVfnEssWAjvJYbzTS9k3OXtydp2qF+NEZCwL3F5XK0hPfaFfnWnwQgYxC57WA19Yp8uGEM1Dj/ep12lIdhiKeLdw6M54ewPlihNBHbxPMrSp9ovjfMoAs6QxtZ+LACnqUa+Mnnmj6Gx8pXJhurriRdLq1cbX03QQD/qoZuiTpXrKcWmK0kXwfgJilNF5auCqGYDOgkVDTftRxzehtKnXeCT4EttLtEZ7QldYTbBWZ9RyalgFsbbYjA9AK4bu6Rqu+dutdRiVUN8f4gvxTinG+hwc/LLwMNNkw5zgOJtRCNfCKzDAvYw4x7mRmhQ2nKf/75HS8oK1cIjmSA40kadrDrjYPWAuZ0VQy/4AaTelXMZm+LvE4aiEC1jxxXtEYeGzA9DbXv6/Q5qG9yaZmQsQexPsBRC8ksStrs/1u7+0X94NKRmLfHh4E932d+G9nAzBirmocIPi9wYpNGanVDwstJBoTaI0yLeKliNhas3rvvn7NkfnKMUt8jQhkD0O9i4r5Zy94/U6IFDTVx28/7TSI+slRJPDvnqDFDQYyHQFUSze1k0sbMFu7meTg02BB1Wd1cOG7TOa78='
+    # Default location
+    location: world,-2038.5,30,-1615.5
+####    location: world,-2039,90,-1617
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  29:
+    name: '&a村長的父親 塞納斯'
+    skin_data: 'ewogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJpZCIgOiAiYjYyNzA5OTc4YmE5NDg3OTkyZGVjNTkyN2E0MjJjOWMiLAogICAgICAidHlwZSIgOiAiU0tJTiIsCiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTY1YTBlMDNmZDZjZWMwNDEyY2ViNzk3ZWY3Y2Y2ZmZlN2UxNjdjYTAzYWE2ODJjNDRjMzJiOTUwMmNmNGMyMSIsCiAgICAgICJwcm9maWxlSWQiIDogIjkxZjA0ZmU5MGYzNjQzYjU4ZjIwZTMzNzVmODZkMzllIiwKICAgICAgInRleHR1cmVJZCIgOiAiMTY1YTBlMDNmZDZjZWMwNDEyY2ViNzk3ZWY3Y2Y2ZmZlN2UxNjdjYTAzYWE2ODJjNDRjMzJiOTUwMmNmNGMyMSIKICAgIH0KICB9LAogICJza2luIiA6IHsKICAgICJpZCIgOiAiYjYyNzA5OTc4YmE5NDg3OTkyZGVjNTkyN2E0MjJjOWMiLAogICAgInR5cGUiIDogIlNLSU4iLAogICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8xNjVhMGUwM2ZkNmNlYzA0MTJjZWI3OTdlZjdjZjZmZmU3ZTE2N2NhMDNhYTY4MmM0NGMzMmI5NTAyY2Y0YzIxIiwKICAgICJwcm9maWxlSWQiIDogIjkxZjA0ZmU5MGYzNjQzYjU4ZjIwZTMzNzVmODZkMzllIiwKICAgICJ0ZXh0dXJlSWQiIDogIjE2NWEwZTAzZmQ2Y2VjMDQxMmNlYjc5N2VmN2NmNmZmZTdlMTY3Y2EwM2FhNjgyYzQ0YzMyYjk1MDJjZjRjMjEiCiAgfSwKICAiY2FwZSIgOiBudWxsCn0='
+    skin_signature: 'r05bS4LKL+cvhF8LAEd6kkAFVChxn5FE31Fv6PhncblBHW8IFCUoI1nNFltQGDjBLjBFnW3jT7mbGBDEBrbj33yNb7+CGpm2d+kaOJLxxv9VRU8/ZSOVQjdg4Sjvf+ZvP7z6GRuYe2gdM05WGJqeXAbb81maKgfem+Vm9k56LDrq7yE0uAHlSAwlHJF+2keV2bGFkKuv1zl5Ot6ILljWhbk/bVKEAdmpL6JnKMuG7DiPhkJhGiQaQoZTcips3dvuypNXC4zXQfN6PhBcWeAwEEFbBIouB5QK6WYt0hSqCn8/n5Z8clPJ/lUncK4n4kBuuqd+uXe6T21QcnFPjqK9paY9k4hyo4ZujGK+GQX1MTqziJWk0GSSbvQm7AnmUeubcDFrz0Ukc5f9rSFit3Eqek/FSX2yzx9yFE4YQrYfQPs8UgCQBGAYCZ92zqYTp8f4iggWE22f2VodNxJl6KmFFNBsIzwaNDAGt0AMjeDy2vS+h24d5X9XR7IXKe5OcDqn0+ST/WFoUhEzAKbmwyUByTHOaW+URaFK2BpF+KQWUEixvdMZwtG+tSmekiohS2BgbziCak3sE/lCiCrsElZ1py3dxQKe/VOo8a3MsRTP3jxAHtWCxOV479h1TSCsGwcl+yfpjw0L1YA8Xakr4zKx3pFbT7j4V2PFA8c01Ozbovw='
+    # Default location
+    location: world,-2035.5,30,-1613.5
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  30:
+    name: '&a春雨貿易隊第二分部隊長 娜雅'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY5Njg3ODMxNTQ0NCwKICAicHJvZmlsZUlkIiA6ICIwZWQ2MDFlMDhjZTM0YjRkYWUxZmI4MDljZmEwNTM5NiIsCiAgInByb2ZpbGVOYW1lIiA6ICJOZWVkTW9yZUFjY291bnRzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM5YzIwYmQ4NzRkNTkzNzU0NmZmZTBlZWU4YmU1ZmY0MzFhYWQ4NDUzYTM1OThlYWNhNjdiYTJjNjlkMjBjMDMiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'gUBWbUVzxsu74DuZeBriG0THlzrVppfS8u2qnJ9za2DgutPtCZakXEnvKA3MtH49lXJSas1k3rcAaghLtYz5VhnRQSsKTXm79utkhFD18tljR+YG8QZGPizHDSsN3TwIP62dn9LxryOgjja6bXlC5b5nxIZ9uPB9VK+ShfBc3hhJFSikIQXjeXmGimcEMTKTkZQCf5AQvelrMaZNmr0D42FY7vDx0KCLRajm5mrYO/+jE+w5NB/6VHtmRqV18jUv88j+PXSWTdiIR8cJ2v4+Qw99G4EdqC+8pz65+WPru1hAtx6gUHdIPan7zp5cUGSrPqkx3SBhtA7hLW7ZUmbfxKPPEboDuaPpNiUhgy96JKqPCvsPZh7x6l7hAd0EwYz4rRR95XVZih4Q3EGiE4otdZNzrc20onQNC6nLdB2Idoc1LhEhKVhlsO/mNVEJz/al5oaWfkHVSg9cAtwMdtygXIEW+G9SS6+oSKgk1rP+O7brf2wUNx/8OC+nClzEUfpXsHk/t2vlD1Sq3sYn2IKFl0P2RLFER+jr6scM1mk1zi+mtQak2WUVqqaDdZk2RxbzrC65s6BjbewcCMErVtlM9XLfBpdDQ1YvLMTK1GUPjJm9Aq+Ttpcd3HRtfHCSiQNmmRwgo21MDHA+uGjHuT1edQy4mfLIIM6eJ9OzLArDScI='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  31:
+    name: '&a第二分部漁獲部成員'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTU5MDE4OTQzNzc1OCwKICAicHJvZmlsZUlkIiA6ICIyOWM4YjdlZTBjODg0ZTkwYmY3N2NjZWNlZTU2MWY2ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJJdHpCcmVpeiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yZGE0N2VmM2ViOWYyYWY5NjM2YjZjOGQ2YTRjMGVkODM0ZTI0YTAyYWRhOTkyMzUzMmMyMzQzNDFhMDA3MmIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'aEfKa6n8msaN5Wkn2E8NdZw8jbYBVyHKe7PabwL7M4ciRI2pvg1ejkjcghUrgpuySEakB+f1i2vjWNv4Eea4F0T8jCfwKLLJqlS+DefNL3Foe2YIEn7BZvLbg7CcY8SMdIt7c2YPLdP8VuoWQAhZzMQ2LE55AWHbqffccnULmePrOFEk+2m5iAznC9brwWtjxHM3kv1oZWvzmghEQadAAtLmMhP5mBUH+rL+i4igTkMNC0OwuHr+Nk5eYkOPtFX56SNYb4c2Bm30aR5+ZbJDohlsgy/hVULKxLbTAxB7ucaH13o+TU1Q6gu6Xb98jCAcwmD+mryMQroktbT4ORkEsLjzgPqrejJ8om6NkOzRCJuGY185Zdtd2OjsRTz5WK9GfMUdhRb0EcaYaqPGfBOyaKlXUwTtdx8TC5Jxq3unLknBZmQ7eKL1A4RmsspC5HaaroCQGjRS8FbX3du9w7SX8gvpmqDQzKaBsyGimJZYeXJNmkCezJX4aaTrp8s3BfS02oDEbUZ5BR6Nliog2CKlbHcZygFWpBasXxugHsxVSo9cPtY6p6gcPVLeG9OV2tESZw+bTyMKHBC2kcGl473mlTqLLnMMrkul981CTOpb3H8oqz+UcBv2pt57AQAK2lj0whmsP3F4cnuiZvhC0QhtDGhMZq/fAnaWVWJ3Oijcht8='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  32:
+    name: '&f第二分部成員'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTU5MDE4OTQzNzc1OCwKICAicHJvZmlsZUlkIiA6ICIyOWM4YjdlZTBjODg0ZTkwYmY3N2NjZWNlZTU2MWY2ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJJdHpCcmVpeiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yZGE0N2VmM2ViOWYyYWY5NjM2YjZjOGQ2YTRjMGVkODM0ZTI0YTAyYWRhOTkyMzUzMmMyMzQzNDFhMDA3MmIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'aEfKa6n8msaN5Wkn2E8NdZw8jbYBVyHKe7PabwL7M4ciRI2pvg1ejkjcghUrgpuySEakB+f1i2vjWNv4Eea4F0T8jCfwKLLJqlS+DefNL3Foe2YIEn7BZvLbg7CcY8SMdIt7c2YPLdP8VuoWQAhZzMQ2LE55AWHbqffccnULmePrOFEk+2m5iAznC9brwWtjxHM3kv1oZWvzmghEQadAAtLmMhP5mBUH+rL+i4igTkMNC0OwuHr+Nk5eYkOPtFX56SNYb4c2Bm30aR5+ZbJDohlsgy/hVULKxLbTAxB7ucaH13o+TU1Q6gu6Xb98jCAcwmD+mryMQroktbT4ORkEsLjzgPqrejJ8om6NkOzRCJuGY185Zdtd2OjsRTz5WK9GfMUdhRb0EcaYaqPGfBOyaKlXUwTtdx8TC5Jxq3unLknBZmQ7eKL1A4RmsspC5HaaroCQGjRS8FbX3du9w7SX8gvpmqDQzKaBsyGimJZYeXJNmkCezJX4aaTrp8s3BfS02oDEbUZ5BR6Nliog2CKlbHcZygFWpBasXxugHsxVSo9cPtY6p6gcPVLeG9OV2tESZw+bTyMKHBC2kcGl473mlTqLLnMMrkul981CTOpb3H8oqz+UcBv2pt57AQAK2lj0whmsP3F4cnuiZvhC0QhtDGhMZq/fAnaWVWJ3Oijcht8='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  33:
+    name: '&f第二分部成員'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTU5MDE4OTQzNzc1OCwKICAicHJvZmlsZUlkIiA6ICIyOWM4YjdlZTBjODg0ZTkwYmY3N2NjZWNlZTU2MWY2ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJJdHpCcmVpeiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yZGE0N2VmM2ViOWYyYWY5NjM2YjZjOGQ2YTRjMGVkODM0ZTI0YTAyYWRhOTkyMzUzMmMyMzQzNDFhMDA3MmIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'aEfKa6n8msaN5Wkn2E8NdZw8jbYBVyHKe7PabwL7M4ciRI2pvg1ejkjcghUrgpuySEakB+f1i2vjWNv4Eea4F0T8jCfwKLLJqlS+DefNL3Foe2YIEn7BZvLbg7CcY8SMdIt7c2YPLdP8VuoWQAhZzMQ2LE55AWHbqffccnULmePrOFEk+2m5iAznC9brwWtjxHM3kv1oZWvzmghEQadAAtLmMhP5mBUH+rL+i4igTkMNC0OwuHr+Nk5eYkOPtFX56SNYb4c2Bm30aR5+ZbJDohlsgy/hVULKxLbTAxB7ucaH13o+TU1Q6gu6Xb98jCAcwmD+mryMQroktbT4ORkEsLjzgPqrejJ8om6NkOzRCJuGY185Zdtd2OjsRTz5WK9GfMUdhRb0EcaYaqPGfBOyaKlXUwTtdx8TC5Jxq3unLknBZmQ7eKL1A4RmsspC5HaaroCQGjRS8FbX3du9w7SX8gvpmqDQzKaBsyGimJZYeXJNmkCezJX4aaTrp8s3BfS02oDEbUZ5BR6Nliog2CKlbHcZygFWpBasXxugHsxVSo9cPtY6p6gcPVLeG9OV2tESZw+bTyMKHBC2kcGl473mlTqLLnMMrkul981CTOpb3H8oqz+UcBv2pt57AQAK2lj0whmsP3F4cnuiZvhC0QhtDGhMZq/fAnaWVWJ3Oijcht8='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  34:
+    name: '&f第二分部成員'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTU5MDE4OTQzNzc1OCwKICAicHJvZmlsZUlkIiA6ICIyOWM4YjdlZTBjODg0ZTkwYmY3N2NjZWNlZTU2MWY2ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJJdHpCcmVpeiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yZGE0N2VmM2ViOWYyYWY5NjM2YjZjOGQ2YTRjMGVkODM0ZTI0YTAyYWRhOTkyMzUzMmMyMzQzNDFhMDA3MmIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'aEfKa6n8msaN5Wkn2E8NdZw8jbYBVyHKe7PabwL7M4ciRI2pvg1ejkjcghUrgpuySEakB+f1i2vjWNv4Eea4F0T8jCfwKLLJqlS+DefNL3Foe2YIEn7BZvLbg7CcY8SMdIt7c2YPLdP8VuoWQAhZzMQ2LE55AWHbqffccnULmePrOFEk+2m5iAznC9brwWtjxHM3kv1oZWvzmghEQadAAtLmMhP5mBUH+rL+i4igTkMNC0OwuHr+Nk5eYkOPtFX56SNYb4c2Bm30aR5+ZbJDohlsgy/hVULKxLbTAxB7ucaH13o+TU1Q6gu6Xb98jCAcwmD+mryMQroktbT4ORkEsLjzgPqrejJ8om6NkOzRCJuGY185Zdtd2OjsRTz5WK9GfMUdhRb0EcaYaqPGfBOyaKlXUwTtdx8TC5Jxq3unLknBZmQ7eKL1A4RmsspC5HaaroCQGjRS8FbX3du9w7SX8gvpmqDQzKaBsyGimJZYeXJNmkCezJX4aaTrp8s3BfS02oDEbUZ5BR6Nliog2CKlbHcZygFWpBasXxugHsxVSo9cPtY6p6gcPVLeG9OV2tESZw+bTyMKHBC2kcGl473mlTqLLnMMrkul981CTOpb3H8oqz+UcBv2pt57AQAK2lj0whmsP3F4cnuiZvhC0QhtDGhMZq/fAnaWVWJ3Oijcht8='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  35:
+    name: '&a第二分部廚師部成員'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTU5MDE4OTQzNzc1OCwKICAicHJvZmlsZUlkIiA6ICIyOWM4YjdlZTBjODg0ZTkwYmY3N2NjZWNlZTU2MWY2ZSIsCiAgInByb2ZpbGVOYW1lIiA6ICJJdHpCcmVpeiIsCiAgInNpZ25hdHVyZVJlcXVpcmVkIiA6IHRydWUsCiAgInRleHR1cmVzIiA6IHsKICAgICJTS0lOIiA6IHsKICAgICAgInVybCIgOiAiaHR0cDovL3RleHR1cmVzLm1pbmVjcmFmdC5uZXQvdGV4dHVyZS8yZGE0N2VmM2ViOWYyYWY5NjM2YjZjOGQ2YTRjMGVkODM0ZTI0YTAyYWRhOTkyMzUzMmMyMzQzNDFhMDA3MmIiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'aEfKa6n8msaN5Wkn2E8NdZw8jbYBVyHKe7PabwL7M4ciRI2pvg1ejkjcghUrgpuySEakB+f1i2vjWNv4Eea4F0T8jCfwKLLJqlS+DefNL3Foe2YIEn7BZvLbg7CcY8SMdIt7c2YPLdP8VuoWQAhZzMQ2LE55AWHbqffccnULmePrOFEk+2m5iAznC9brwWtjxHM3kv1oZWvzmghEQadAAtLmMhP5mBUH+rL+i4igTkMNC0OwuHr+Nk5eYkOPtFX56SNYb4c2Bm30aR5+ZbJDohlsgy/hVULKxLbTAxB7ucaH13o+TU1Q6gu6Xb98jCAcwmD+mryMQroktbT4ORkEsLjzgPqrejJ8om6NkOzRCJuGY185Zdtd2OjsRTz5WK9GfMUdhRb0EcaYaqPGfBOyaKlXUwTtdx8TC5Jxq3unLknBZmQ7eKL1A4RmsspC5HaaroCQGjRS8FbX3du9w7SX8gvpmqDQzKaBsyGimJZYeXJNmkCezJX4aaTrp8s3BfS02oDEbUZ5BR6Nliog2CKlbHcZygFWpBasXxugHsxVSo9cPtY6p6gcPVLeG9OV2tESZw+bTyMKHBC2kcGl473mlTqLLnMMrkul981CTOpb3H8oqz+UcBv2pt57AQAK2lj0whmsP3F4cnuiZvhC0QhtDGhMZq/fAnaWVWJ3Oijcht8='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  36:
+    name: '&a第二分部廚師長 野原肆郎'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYyODcwNzM1MTA0OCwKICAicHJvZmlsZUlkIiA6ICJmMjM1Njk3MzZkOTI0OTM1YWZlYjRkMDVlMjI1Njk3NiIsCiAgInByb2ZpbGVOYW1lIiA6ICJGb3h5VHViYmkxIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI2ZWUzNzI5Y2YzMTc4YmVjNGQ0MGNiZDdlMjAwZTNlZTc1Y2FhNDcyYjIxM2ZlMzhlYTgzZDhkN2U1OGI1YTciLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'AIkUlIvQ540vJc45zUzo2D1/jN4G0prEEb+yIAedHatG69DH2HdbLGItpTPWQUXnfwNjzTU2sRcaQ1xbHuBfC/ikmn94Og5WhZ/Oy+Br23G7f4Q6PEnfXKwz7OQi/oD1D3CmLCw7dDSz4lpY/a92FhOYZ6DirWRmhnbPrmqKNlYfCIVrSLqj4GwIdb3LDTwYylnkwEt7md2l2tFIL5e8jsWZIpZep40QK85S7RKGIrRez3u1B5zFkGESaCkoqxN/hxYe/wYhvK8lDXEnemAtYt+8+7aJZznKKFl7gRzVXHvKJK4k4EVYV2cw9esQms8/NUH1+J/zBt0McFIllDv9rwSsCuJAOzXqUKWgh8A1qmAyC8DGpTGVyDIkTooQZjCWo5fXfBaY7W2fnY29FAyH98JT8Sz8Tgdvosr9Tz9UTOUOmlEE5jkqd/4Dw+5sTOYJCEr8RUKvKnlgCzYN/hws31phaRvx6GpgdIPGGYMv69IE5Rlgw2Ugqt4uR3SSKoZojhxWukRFytJfby4crEePtj6bKknQrTAKZXG0lrc4SQZ+Qa4jrSnL4JgIUgEkk0slrKx/lTMEAOG4hRkenvmqlCkl3/R6rcpeizSOTaKO0t9LdaRP0HzNbAUsm7kR93YsS/dBXwwssZpyXYH+G/Mi9/MVXFyl2xDRgh0q1AWdI68='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  37:
+    name: '&a第二分部廚師部成員'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYyODcwNzM1MTA0OCwKICAicHJvZmlsZUlkIiA6ICJmMjM1Njk3MzZkOTI0OTM1YWZlYjRkMDVlMjI1Njk3NiIsCiAgInByb2ZpbGVOYW1lIiA6ICJGb3h5VHViYmkxIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzI2ZWUzNzI5Y2YzMTc4YmVjNGQ0MGNiZDdlMjAwZTNlZTc1Y2FhNDcyYjIxM2ZlMzhlYTgzZDhkN2U1OGI1YTciLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+    skin_signature: 'AIkUlIvQ540vJc45zUzo2D1/jN4G0prEEb+yIAedHatG69DH2HdbLGItpTPWQUXnfwNjzTU2sRcaQ1xbHuBfC/ikmn94Og5WhZ/Oy+Br23G7f4Q6PEnfXKwz7OQi/oD1D3CmLCw7dDSz4lpY/a92FhOYZ6DirWRmhnbPrmqKNlYfCIVrSLqj4GwIdb3LDTwYylnkwEt7md2l2tFIL5e8jsWZIpZep40QK85S7RKGIrRez3u1B5zFkGESaCkoqxN/hxYe/wYhvK8lDXEnemAtYt+8+7aJZznKKFl7gRzVXHvKJK4k4EVYV2cw9esQms8/NUH1+J/zBt0McFIllDv9rwSsCuJAOzXqUKWgh8A1qmAyC8DGpTGVyDIkTooQZjCWo5fXfBaY7W2fnY29FAyH98JT8Sz8Tgdvosr9Tz9UTOUOmlEE5jkqd/4Dw+5sTOYJCEr8RUKvKnlgCzYN/hws31phaRvx6GpgdIPGGYMv69IE5Rlgw2Ugqt4uR3SSKoZojhxWukRFytJfby4crEePtj6bKknQrTAKZXG0lrc4SQZ+Qa4jrSnL4JgIUgEkk0slrKx/lTMEAOG4hRkenvmqlCkl3/R6rcpeizSOTaKO0t9LdaRP0HzNbAUsm7kR93YsS/dBXwwssZpyXYH+G/Mi9/MVXFyl2xDRgh0q1AWdI68='
+    # Default location
+    location: world,-2101,-25,-1587
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  38:
+    name: '&a發明家 傑斯'
+    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTYwMTY2MjM2NTU2MSwKICAicHJvZmlsZUlkIiA6ICJhNzFjNTQ5MmQwNTE0ZDg3OGFiOTEwZmRmZmRmYzgyZiIsCiAgInByb2ZpbGVOYW1lIiA6ICJBcHBsZTU0NDciLAogICJzaWduYXR1cmVSZXF1aXJlZCIgOiB0cnVlLAogICJ0ZXh0dXJlcyIgOiB7CiAgICAiU0tJTiIgOiB7CiAgICAgICJ1cmwiIDogImh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzcyNDI0Yzg1OWI1ZjQ4NTJjMjAyNTAxOWYzMjc2ZjdjYTUxOWIwMDQ0OGMwNzAyYTg3ZWE0NTkwYmU2MmEzMiIKICAgIH0KICB9Cn0='
+    skin_signature: 'Xoto99PuwAnfq7RgbfA9l2LiVXew1AFbFNSLmIx8EwjLz/ZPAHA6qqN7lSOnVE7yQE/0eGlRnFtZfoBzW+Bh1e/ksa7kDSczKi23KjBvGTXIJdChYAgiK2IhrVJBkQYwYFdcO5JSdFdn8I5lzq20weblGr59I5TooHeuzctZCnYw+X1Zt6ofbDaeVygdr3ImRCgRbhi3PQXn+dYk9W28qIQ7xY7g9nGyrh8mWivy8JLrARMywktyvl2BgaRbTmRa9q6qNiQQZ51IregpmeNP/CyfJsMb2EVfCsV1cusXlLRBrn0H9qCAIPn/PcaNJ8gXxNmt8aUUHM6kSu5teEVL6ZMmwo01tXBLvu2F15wj4ewy6DY56QyOKGr9sPK++pZnHXcPXdBE2b/1ce8vopVEQxpLPGhlhCLYZf1QhJ2v4WtmMf6tqGSF2zhv5Ho7mOm/z16GJUGYy3+2tbFWn/Yq6PqkVPGHf60qB8LDiavpdtm46XkAUMa80EOFlO23+3QnNOGrDQW7wLrYXEREj0GhT49LDNbDJV+CvlcoVp2IWvjnRPqid9x+kUv6HBOA8juiZt5YiZyhddfs6xZVal5jq1M0mSflkIiJZZeeb/05RgKu02QjJwjDMNxlc1hR0Lvm67IcC2Kzxwd2N/KRzivaWtA0WbVH3Ek66MifBYNBPmM='
+    # Default location
+    location: world,3213,107,453
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+  39:
+    name: '&6斧之勇者 巴羅'
+    skin_data: 'eyJ0aW1lc3RhbXAiOjE1ODgwOTQ2NjYyMzYsInByb2ZpbGVJZCI6Ijc2YmFjNGY0ZmJlNzQ4ZjZhNTkxODc1ZmU3NTZjMmVkIiwicHJvZmlsZU5hbWUiOiJCSU5EQVJFRSIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjAwYTkyYmZhNzBkNDIyMTFiM2ZmNTQ3OTUxMTAwYWIzYjcwZGFjZjk2ZmRhOGRkZmVlMzlhMDgzM2FiMGE5YyJ9fX0='
+    skin_signature: 'mqD4xLXhDvSVrtEqixwi9XAdZRxagPXESgzcL0fiiHH4r/FnOPR9rJXLWave1CZwuFTAmbaxltmuQGvmmyygvQEdJY5LLgJN09NWbRYyvZbgqK9xrskut3SFSk85AJuq0okg4dlfin7mIOx/v9IOaQ0hMuGCH/l8Y/ajfHdC3UAuzw1QMArwvjOmUXxhpJWRi5f9ZfoUgWrPdRA5Eumnj5PpJV4nnf6ukkz/MRyy7SFBPtHBASX654ZXO2ReyXIFtONhz3PIzoeRU48LAHJAryf8rHMQQUzkTpY5OQyhvUtjAyZpricb6wWU+2z8ZmovWDwt0bOKOOJZM9+r6gAdG1CFAJeHV1MLrnxDrwl39UEPlDeGM2uaxIIxfTWKzijCR+cEsFfM1ttlt0EJbuwPxN7zomFKyv8ROOfWcHi/GzoUfDbZt/NoJqQ7sttzQQ3gcuAS4U58ZPwsEWsf9Tll8pj4XpCgCQAGb+tK2XuPGqu944/o4vmV1uqYMaR3I9OCe7uVpHqZv16/t4sQpXs9torRPDgXa7NZwgrgRIg186edlQm8JPgGUKn56/QwCeoPd8MLnvGywdMMFwBymjYPUEq4cNV9IluOarIlW52CakKwAfv7hYhQCjK46TcyrHmV1TbLtPOB6BQL9v6gNmJlernXT4AqrB1sI/I+/Coi16A='
+    # Default location
+    location: world,3205,76,452
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []
+#  40:
+#    name: '&a冒險者教官 娜娜明'
+#    skin_data: 'ewogICJ0aW1lc3RhbXAiIDogMTY5ODI0MTUwNzA0NSwKICAicHJvZmlsZUlkIiA6ICI1ZjEyNWRmYTZjMzE0OGVjOTJiY2IwNmJlNmZhYWMxNiIsCiAgInByb2ZpbGVOYW1lIiA6ICJUaGVQSmhheWVzIiwKICAic2lnbmF0dXJlUmVxdWlyZWQiIDogdHJ1ZSwKICAidGV4dHVyZXMiIDogewogICAgIlNLSU4iIDogewogICAgICAidXJsIiA6ICJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzg0ZTUzZDZhMDJiYzkxMzlhN2M1YjM5MmNiZTZjNzc1ZDNjNTU5MWZjMGMwZWM2YzA3MDRmZGJkZTIwZjlkN2YiLAogICAgICAibWV0YWRhdGEiIDogewogICAgICAgICJtb2RlbCIgOiAic2xpbSIKICAgICAgfQogICAgfQogIH0KfQ=='
+#    skin_signature: 'cFLn2WF3wbvrRcJsRKYC19YoM3IqclR9VfMiRw7urTKI2nr+wmP5TSUj+d3FhKMH4kKbbHOjdqNLqKNiaHESDK6wqzx/mGDcKpuHxEokxWPnai+mCyD2Q2AZTdSmDdw5qA5gblNa0EaJalDPYowbR9uBdGgzSW91DvQoVbH0MAF6HJdogR3ObjD7hLN8j2Vck7YThuOhabz7t+JeOra+YQUYb0X90d7fglS41okV9G08eDzB1ijCP83ApJ51savaH41poQnunfZT+m3IehwP3Wgm+oiOBZebtXxAZ2/YwX8LHUebBThviHrqPLF30AbNUQssJ70oVv/IBJ7qzj1lIqvAa0NnoMLHIj2zMsFEl5FG5ukBafT5tFN/fzx3uUblRokBdAz/lJ+t4ztPXuLfqvzfMNAtYhYCHxfOFeenOXwU5DBFBbSzWpBvgCkNtvbXPI4gdMDMxjDrloMWxXUf+eeQL42qjsxhYUa0dREqV+9G7uNW1G8o37K7PjmILk8USRyURJ2iYvGsdPrTaj6RDhHmuuZTH/VkqZhZRt/RkXZWApf7iy9prg80r9ZK+rppGcekcO4mHPiuOJUG1R9GF4NwrVbW9NKwXhPc/H6w2EnyAFrDE8JA9QWGOpGZrxdfKIfpOkKYYBHHKMXfrpQRnOVMGvh9BFhdzjDPxJQXQP4='
+    # Default location
+#    location: world_tw,57,64,215
+#    target_distance: 3.0
+#    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+#    status: []
+  41:
+    name: '&6斧之勇者 巴羅'
+    skin_data: 'eyJ0aW1lc3RhbXAiOjE1ODgwOTQ2NjYyMzYsInByb2ZpbGVJZCI6Ijc2YmFjNGY0ZmJlNzQ4ZjZhNTkxODc1ZmU3NTZjMmVkIiwicHJvZmlsZU5hbWUiOiJCSU5EQVJFRSIsInNpZ25hdHVyZVJlcXVpcmVkIjp0cnVlLCJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjAwYTkyYmZhNzBkNDIyMTFiM2ZmNTQ3OTUxMTAwYWIzYjcwZGFjZjk2ZmRhOGRkZmVlMzlhMDgzM2FiMGE5YyJ9fX0='
+    skin_signature: 'mqD4xLXhDvSVrtEqixwi9XAdZRxagPXESgzcL0fiiHH4r/FnOPR9rJXLWave1CZwuFTAmbaxltmuQGvmmyygvQEdJY5LLgJN09NWbRYyvZbgqK9xrskut3SFSk85AJuq0okg4dlfin7mIOx/v9IOaQ0hMuGCH/l8Y/ajfHdC3UAuzw1QMArwvjOmUXxhpJWRi5f9ZfoUgWrPdRA5Eumnj5PpJV4nnf6ukkz/MRyy7SFBPtHBASX654ZXO2ReyXIFtONhz3PIzoeRU48LAHJAryf8rHMQQUzkTpY5OQyhvUtjAyZpricb6wWU+2z8ZmovWDwt0bOKOOJZM9+r6gAdG1CFAJeHV1MLrnxDrwl39UEPlDeGM2uaxIIxfTWKzijCR+cEsFfM1ttlt0EJbuwPxN7zomFKyv8ROOfWcHi/GzoUfDbZt/NoJqQ7sttzQQ3gcuAS4U58ZPwsEWsf9Tll8pj4XpCgCQAGb+tK2XuPGqu944/o4vmV1uqYMaR3I9OCe7uVpHqZv16/t4sQpXs9torRPDgXa7NZwgrgRIg186edlQm8JPgGUKn56/QwCeoPd8MLnvGywdMMFwBymjYPUEq4cNV9IluOarIlW52CakKwAfv7hYhQCjK46TcyrHmV1TbLtPOB6BQL9v6gNmJlernXT4AqrB1sI/I+/Coi16A='
+    # Default location
+    location: world,3205,76,452
+######    location: world,-2036,90,-1613
+    # The NPC will look at the player if he's below that distance
+    target_distance: 2.0
+    # List of status ; can be ON_FIRE, CROUCHED, SPRINTING, INTERACT, INVISIBLE, GLOWING, ELYTRA
+    status: []

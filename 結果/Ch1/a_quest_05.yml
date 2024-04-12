@@ -14,13 +14,13 @@ all_status_item:
   type: END_CRYSTAL
   name: '&6{quest}'
   lore: |-
-    &#32027d&m           &r&7［任務報酬］&#32027d&m           
+    &#32027d&m           &r&7［任務報酬］&#32027d&m           &r
     &f- &e金幣&fx500
     &f- &a經驗值&fx10000
     &f- &b物品-時裝布料&fx1
     &#32027d&m           &r&7［任務進度］&#32027d&m           {detailed_progression}
     &#32027d&m                                   
-    &r&f{controls}}
+    &r&f{controls}
 
 display_priority: 1
 
@@ -71,7 +71,7 @@ conditions_start_restriction:
       logic: '%mmocore_level% >= 5'
 
 # -------------------- Activator settings --------------------
-activators: [cnpc1]
+activators: [cnpc01]
 
 activators_dialog:
   - '&a<艾比> &f冒險者，你看起來有問題要問我？ &d(右鍵點擊NPC來接取任務)'
@@ -303,16 +303,12 @@ branches:
           - '&f步驟-2 &f與&a<夏佐#7>&f對話'
           - '&f步驟-3 &f交付&a[蜂蜜]&f給&a<夏佐#7> &b15&f/&b15'
           - '&f步驟-4 &f與&a<夏佐#7>&f對話'
-        goto: OBJECT 9
+        goto: OBJECT 13
         actions: 
           - 'SEND_MESSAGE &a<夏佐> &fCommon!(普通!)，我要的蜂蜜不是這種!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
           - 'SEND_MESSAGE &a<夏佐> &f你有聽說過&6[女王蜂蜂蜜]&f嗎？'
-          - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
-          - 'PROMPT_NEXT &d&l[故事劇情] 按我選擇 >> &f[&6[女王蜂蜂蜜]&f？ 沒聽說過...]'
-          - 'SEND_MESSAGE &f<%luckperms_prefix%{player}%luckperms_suffix%&f> &6[女王蜂蜂蜜]&f？ 沒聽說過...'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
       13:
@@ -368,13 +364,13 @@ branches:
         actions: 
           - 'SEND_MESSAGE &a<夏佐> &f卡坦村有些流傳已久的傳說，除了豐饒神話以外，更廣為人知的莫過於&6[女王蜂的傳說]&f了!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
+          - WAIT_TICKS 50
           - 'SEND_MESSAGE &a<夏佐> &f統治整座阿姆斯草原的女王蜂，女王蜂的蜂蜜是最甜蜜的調味料，而據說那也是獲得女王蜂認可的象徵!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
+          - WAIT_TICKS 50
           - 'SEND_MESSAGE &a<夏佐> &f每隔數百年就會誕生一隻新的女王蜂接任前代女王的王座，女王蜂是守護整座阿姆斯草原的神祕生物!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
-          - WAIT_TICKS 40
+          - WAIT_TICKS 50
           - 'SEND_MESSAGE &a<夏佐> &f我這裡有一塊現成的! 非常Perfect(完美)!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -398,6 +394,7 @@ branches:
           - 'SEND_MESSAGE &a<夏佐> &f我也不知道，這是村莊內口耳相傳的傳說，不如冒險者去問問看村莊裡的一些村民吧!'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
+          - 'PERFORM_COMMAND questcreator start a_quest_05_step5_flag {player} -s'
       16:
         type: SERVER_CAMERA_MODE_TOGGLE
         goto: OBJECT 17
@@ -418,8 +415,8 @@ branches:
         goto: OBJECT 18
         start_notify:
           title: '&b任務提示'
-          title_subtitle: '&b交付&a[蜂蜜]&b給&a<夏佐#7>'
-          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&a[蜂蜜]&f給&a<夏佐#7>'
+          title_subtitle: '&b交付&6[女王蜂蜂蜜]&b給&a<夏佐#7>'
+          message: '&#cff7fa&l[&#75f5ff&l任&#42f1ff&l務&#42f1ff&l系&#75f5ff&l統&#cff7fa&l] &f交付&6[女王蜂蜂蜜]&f給&a<夏佐#7>'
         goals:
           0:
             goal: 1
@@ -447,6 +444,7 @@ branches:
           - '&f步驟-7 &f與&a<夏佐#7>&f對話'
         goto: OBJECT 20
         actions: 
+          - 'PERFORM_COMMAND questcreator reset a_quest_05_step5_flag {player}'
           - 'SEND_MESSAGE &a<夏佐> &f你回來啦! 你身上怎麼都是aiguillon d'abeille(蜂螫)?'
           - SEND_SOUND ENTITY_VILLAGER_AMBIENT
           - WAIT_TICKS 40
@@ -596,4 +594,4 @@ end_objects:
   cancel:
     1:
       type: SERVER_COMMANDS_PERFORM
-      commands: ['compass stop {player}']
+      commands: ['compass stop {player}', 'questcreator reset a_quest_05_step5_flag {player} -s']

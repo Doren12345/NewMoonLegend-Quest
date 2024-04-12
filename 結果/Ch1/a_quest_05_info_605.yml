@@ -36,6 +36,13 @@ completion:
 # -------------------- Post-quest settings --------------------
 activators: [cnpc605]
 
+conditions_start_restriction:
+  match_amount: 1
+  conditions:
+    0:
+      type: QUEST_COMPLETED
+      model: a_quest_05_step5_flag
+
 display_priority: 1
 
 branches:
